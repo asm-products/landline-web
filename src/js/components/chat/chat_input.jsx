@@ -19,7 +19,7 @@ const ChatInput = React.createClass({
     if (user.get('username')) {
       return (
         <input type="text"
-            className="block full-width field-light"
+            className="full-width field-light"
             onKeyPress={this.submitMessage}
             onChange={this.updateBody}
             value={body}
@@ -29,7 +29,7 @@ const ChatInput = React.createClass({
 
     return (
       <input type="text"
-          className="block full-width field-light"
+          className="full-width field-light"
           onKeyPress={this.submitTempUsername}
           onChange={this.updateTempUsername}
           value={tempUsername}
