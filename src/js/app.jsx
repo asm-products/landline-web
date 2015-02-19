@@ -4,9 +4,9 @@ if (typeof __TEST__ === 'undefined') {
   require('basscss/css/basscss.min.css');
 }
 
-const React = require('react/addons');
 const AppActions = require('./actions/app_actions');
 const AppStore = require('./stores/app_store');
+const React = require('react/addons');
 
 const App = React.createClass({
   componentDidMount() {

@@ -37,8 +37,8 @@ const ChatMessages = React.createClass({
   },
 
   renderMessages() {
-    return this.state.messages.map((message) => {
-      return <ChatMessage message={message.toJS()} />
+    return this.state.messages.map((message, i) => {
+      return <ChatMessage message={message.toJS()} key={`message-${i}`} />
     }).toJS();
   },
 

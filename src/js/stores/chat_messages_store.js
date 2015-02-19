@@ -2,10 +2,10 @@
 
 const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
-const Immutable = require('immutable');
+const { List } = require('immutable');
 const Store = require('./store');
 
-let messages = Immutable.List();
+let messages = List();
 
 class ChatMessagesStore extends Store {
   constructor() {

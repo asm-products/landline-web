@@ -12,7 +12,7 @@ describe('ChatInput', () => {
   beforeEach(() => {
     ChatActions = require('../../../actions/chat_actions');
     ChatInput = require('../chat_input.jsx');
-    chatInput = TestUtils.renderIntoDocument(<ChatInput foo="bar" />);
+    chatInput = TestUtils.renderIntoDocument(<ChatInput />);
   });
 
   describe('getInitialState()', () => {
