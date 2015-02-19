@@ -1,20 +1,10 @@
-const ActionTypes = require('../constants').ActionTypes;
-const Dispatcher = require('../dispatcher');
-const Error = require('../components/errors/error.jsx');
-const Home = require('../components/home/home.jsx');
-const NProgress = require('nprogress');
+'use strict';
+
+const HomeHandlers = require('./handlers/home_handlers.js');
 const Wegen = require('wegen');
 
 const ROUTES = [
-  ['/', _showHome]
+  ['/', HomeHandlers.showHome]
 ];
 
 module.exports = new Wegen(ROUTES);
-
-function _showHome(err, data, context) {
-  Dispatcher.dispatch({
-    actionType: ActionTypes.ROUTE_CHANGED,
-    component: err ? Error : Home,
-    context: context
-  });
-}

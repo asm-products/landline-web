@@ -1,4 +1,8 @@
-require('basscss/css/basscss.min.css');
+'use strict';
+
+if (typeof __TEST__ === 'undefined') {
+  require('basscss/css/basscss.min.css');
+}
 
 const React = require('react/addons');
 const AppActions = require('./actions/app_actions');
@@ -26,22 +30,18 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-      component: null
+      component: <div />
     }
   },
 
   render() {
-    return (
-      <div>
-        {this.state.component}
-      </div>
-    );
+    return this.state.component;
   }
 });
 
 module.exports = App;
 
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && typeof __TEST__ === 'undefined') {
   React.render(
     <App />,
     document.getElementById('main')

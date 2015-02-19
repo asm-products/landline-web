@@ -1,3 +1,5 @@
+'use strict';
+
 const React = require('react/addons');
 
 const Error = React.createClass({

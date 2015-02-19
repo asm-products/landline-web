@@ -1,3 +1,5 @@
+'use strict';
+
 const ChatChannelsStore = require('../../stores/chat_channels_store');
 const React = require('react/addons');
 

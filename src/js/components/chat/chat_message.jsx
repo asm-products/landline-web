@@ -1,12 +1,14 @@
+'use strict';
+
 const React = require('react/addons');
 
 const ChatMessage = React.createClass({
   propTypes: {
     message: React.PropTypes.shape({
+      body: React.PropTypes.string.isRequired,
       user: React.PropTypes.shape({
         username: React.PropTypes.string.isRequired
-      }).isRequired,
-      body: React.PropTypes.string.isRequired
+      }).isRequired
     }).isRequired
   },
 

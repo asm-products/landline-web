@@ -1,3 +1,5 @@
+'use strict';
+
 const ChatInput = require('./chat_input.jsx');
 const ChatMessage = require('./chat_message.jsx');
 const ChatMessagesStore = require('../../stores/chat_messages_store');

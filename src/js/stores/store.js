@@ -1,3 +1,5 @@
+'use strict';
+
 const EventEmitter = require('events').EventEmitter
 const CHANGE_EVENT = require('../constants').CHANGE_EVENT
 

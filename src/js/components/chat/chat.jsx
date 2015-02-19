@@ -1,4 +1,8 @@
-require('basscss/node_modules/flex-object/css/flex-object.min.css');
+'use strict';
+
+if (typeof __TEST__ === 'undefined') {
+  require('basscss/node_modules/flex-object/css/flex-object.min.css');
+}
 
 const ChatChannels = require('./chat_channels.jsx');
 const ChatMessages = require('./chat_messages.jsx');

@@ -1,3 +1,5 @@
+'use strict';
+
 const ChatActions = require('../../actions/chat_actions');
 const { Map } = require('immutable');
 const React = require('react/addons');
@@ -14,7 +16,11 @@ const ChatInput = React.createClass({
   },
 
   render() {
-    let { body, user, tempUsername } = this.state;
+    let {
+      body,
+      user,
+      tempUsername
+    } = this.state;
 
     if (user.get('username')) {
       return (
