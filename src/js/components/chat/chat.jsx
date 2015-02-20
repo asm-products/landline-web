@@ -12,11 +12,7 @@ const Chat = React.createClass({
   render() {
     let style = {
       chat: {
-        right: 0,
-        bottom: 0,
-        left: 0,
-        height: '100%',
-        width: '100%'
+        height: '100%'
       },
 
       chatChannels: {
@@ -24,11 +20,6 @@ const Chat = React.createClass({
         minWidth: 220,
         overflowX: 'hidden',
         overflowY: 'auto'
-      },
-
-      chatMessages: {
-        position: 'absolute',
-        bottom: 0
       },
 
       chatWrapper: {
@@ -43,8 +34,8 @@ const Chat = React.createClass({
 
     return (
       <div style={style.chatWrapper}>
-        <div className="flex flex-stretch" style={{height: '100%'}}>
-          <div className="sm-show md-show lg-show bg-dark-gray white">
+        <div className="flex flex-stretch" style={style.chat}>
+          <div className="sm-show md-show lg-show bg-dark-gray white" style={style.chatChannels}>
             <ChatChannels />
           </div>
 

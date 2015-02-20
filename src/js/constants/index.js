@@ -7,7 +7,8 @@ module.exports = {
     CHAT_CHANNELS_RECEIVE: null,
     CHANGE_EVENT: null,
     CHAT_MESSAGE_SUBMITTED: null,
-    ROUTE_CHANGED: null
+    ROUTE_CHANGED: null,
+    USER_RECEIVE: null
   }),
 
   PayloadSources: keyMirror({

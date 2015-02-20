@@ -25,8 +25,14 @@ const ChatMessages = React.createClass({
   },
 
   render() {
+    let style = {
+      chatMessages: {
+        height: '100%'
+      }
+    };
+
     return (
-      <div className="flex flex-stretch flex-column" style={{height: '100%'}}>
+      <div className="flex flex-stretch flex-column" style={style.chatMessages}>
         <div className="flex-auto">
           {this.renderMessages()}
         </div>
