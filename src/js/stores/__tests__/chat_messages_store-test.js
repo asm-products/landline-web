@@ -16,10 +16,10 @@ describe('ChatMessagesStore', () => {
     callback = Dispatcher.register.mock.calls[0][0];
   });
 
-  describe('CHAT_MESSAGE_SUBMITTED', () => {
+  describe('CHAT_MESSAGE_RECEIVED', () => {
     beforeEach(() => {
       callback({
-        actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
+        actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
         message: {
           body: `Their very physical passing becomes rumor with a thousand faces
            before breath is out of them, lest paradoxical truth outrage itself.`,
@@ -34,7 +34,7 @@ describe('ChatMessagesStore', () => {
       expect(ChatMessagesStore.getMessages().size).toEqual(1);
 
       callback({
-        actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
+        actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
         message: {
           body: `Nothing travels faster than the speed of light with the
             possible exception of bad news, which obeys its own special laws`,

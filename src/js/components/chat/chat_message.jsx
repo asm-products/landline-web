@@ -20,8 +20,8 @@ const ChatMessage = React.createClass({
 
     return (
       <div className="clearfix">
-        <div className="left mb2">
-          <div className="bold mr2">{username}</div>
+        <div className="left px2">
+          <div className="bold">{username}</div>
           {body}
         </div>
       </div>

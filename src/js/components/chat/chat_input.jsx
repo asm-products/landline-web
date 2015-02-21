@@ -1,6 +1,7 @@
 'use strict';
 
 const ChatActions = require('../../actions/chat_actions');
+const CurrentUserStore = require('../../stores/current_user_store');
 const { Map } = require('immutable');
 const React = require('react/addons');
 
@@ -10,16 +11,14 @@ const ChatInput = React.createClass({
   getInitialState() {
     return {
       body: '',
-      tempUsername: '',
-      user: Map()
+      user: CurrentUserStore.getUser()
     };
   },
 
   render() {
     let {
       body,
-      user,
-      tempUsername
+      user
     } = this.state;
 
     if (user.get('username')) {
@@ -32,15 +31,6 @@ const ChatInput = React.createClass({
             placeholder="Enter your message" />
       );
     }
-
-    return (
-      <input type="text"
-          className="full-width field-light"
-          onKeyPress={this.submitTempUsername}
-          onChange={this.updateTempUsername}
-          value={tempUsername}
-          placeholder="Enter a username" />
-    );
   },
 
   submitMessage(e) {
@@ -60,28 +50,9 @@ const ChatInput = React.createClass({
     }
   },
 
-  submitTempUsername(e) {
-    if (e.which === ENTER_KEY) {
-      e.stopPropagation();
-
-      let user = this.state.user;
-
-      this.setState({
-        user: user.set('username', this.state.tempUsername),
-        tempUsername: ''
-      });
-    }
-  },
-
   updateBody(e) {
     this.setState({
       body: e.target.value
-    });
-  },
-
-  updateTempUsername(e) {
-    this.setState({
-      tempUsername: e.target.value
     });
   }
 });

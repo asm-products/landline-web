@@ -20,6 +20,7 @@
   "dependencies": {
     "basscss": "^4.2.4",
     "express": "^4.11.2",
+    "firebase": "^2.2.0",
     "flux": "^2.0.1",
     "immutable": "^3.6.2",
     "nprogress": "^0.1.6",

@@ -16,10 +16,10 @@ describe('ChatChannelsStore', () => {
     callback = Dispatcher.register.mock.calls[0][0];
   });
 
-  describe('CHAT_CHANNELS_RECEIVE', () => {
+  describe('CHAT_CHANNELS_RECEIVED', () => {
     beforeEach(() => {
       callback({
-        actionType: ActionTypes.CHAT_CHANNELS_RECEIVE,
+        actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
         channels: [
           { url: '/test', label: 'test' }
         ]

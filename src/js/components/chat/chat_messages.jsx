@@ -27,13 +27,15 @@ const ChatMessages = React.createClass({
   render() {
     let style = {
       chatMessages: {
-        height: '100%'
+        height: '100%',
+        minHeight: 1,
+        overflowY: 'scroll'
       }
     };
 
     return (
       <div className="flex flex-stretch flex-column" style={style.chatMessages}>
-        <div className="flex-auto">
+        <div className="flex-auto" style={style.chatMessages}>
           {this.renderMessages()}
         </div>
 
@@ -44,7 +46,8 @@ const ChatMessages = React.createClass({
 
   renderMessages() {
     return this.state.messages.map((message, i) => {
-      return <ChatMessage message={message.toJS()} key={`message-${i}`} />
+      return <ChatMessage message={message.toJS ? message.toJS() : message}
+          key={`message-${i}`} />
     }).toJS();
   },
 

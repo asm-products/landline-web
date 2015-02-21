@@ -2,20 +2,27 @@
 
 jest.dontMock('../chat_channels.jsx');
 
-const { List } = require('immutable');
+const { List, Map } = require('immutable');
 const React = require('react/addons');
 const TestUtils = React.addons.TestUtils;
 
 describe('ChatChannels', () => {
-  let channels, ChatChannels, chatChannels, ChatChannelsStore;
+  let channels, ChatChannels, chatChannels, ChatChannelsStore, users, UsersStore;
 
   beforeEach(() => {
     channels = List([
       { label: 'test', url: '/test' }
     ]);
+    users = Map({
+      user: {
+        username: 'Larry'
+      }
+    });
     ChatChannelsStore = require('../../../stores/chat_channels_store');
     ChatChannelsStore.getChannels.mockReturnValue(channels);
     ChatChannels = require('../chat_channels.jsx');
+    UsersStore = require('../../../stores/users_store');
+    UsersStore.getUsers.mockReturnValue(users);
     chatChannels = TestUtils.renderIntoDocument(<ChatChannels />);
   });
 
@@ -32,22 +39,6 @@ describe('ChatChannels', () => {
 
       expect(ChatChannelsStore.removeChangeListener).
         toBeCalledWith(chatChannels.updateChannels);
-    });
-  });
-
-  describe('getChannels()', () => {
-    it('returns the channels', () => {
-      expect(chatChannels.getChannels()).toEqual({
-        channels: channels
-      });
-    });
-  });
-
-  describe('getInitialState()', () => {
-    it('returns the channels', () => {
-      expect(chatChannels.getChannels()).toEqual({
-        channels: channels
-      });
     });
   });
 

@@ -5,6 +5,7 @@ const Dispatcher = require('../dispatcher');
 const { Map } = require('immutable');
 const Store = require('./store');
 
+let token = null;
 let currentUser = Map();
 
 class CurrentUserStore extends Store {
@@ -13,8 +14,12 @@ class CurrentUserStore extends Store {
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
-        case ActionTypes.USER_RECEIVE:
+        case ActionTypes.CURRENT_USER_RECEIVEDD:
           currentUser = Map(action.user);
+          token = action.token;
+          break;
+        case ActionTypes.TOKEN_RECEIVED:
+          token = action.token;
           break;
         default:
           return;
@@ -26,6 +31,10 @@ class CurrentUserStore extends Store {
 
   getUser() {
     return currentUser;
+  }
+
+  isUserAuthenticated() {
+    return !!token;
   }
 }
 

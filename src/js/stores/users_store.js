@@ -2,22 +2,24 @@
 
 const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
-const { List } = require('immutable');
+const { Map } = require('immutable');
 const Store = require('./store');
 
-let channels = List([
-  { url: '/foo', label: 'bar' },
-  { url: '/fizz', label: 'bar' }
-]);
+const ONE_HOUR = 60 * 60 * 1000;
 
-class ChatChannelsStore extends Store {
+let users = Map();
+
+class UsersStore extends Store {
   constructor() {
     super();
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
-        case ActionTypes.CHAT_CHANNELS_RECEIVED:
-          channels = List(action.channels);
+        case ActionTypes.USERS_RECEIVED:
+          users = Map(action.users);
+          break;
+        case ActionTypes.USER_RECEIVED:
+          users = users.merge(action.user);
           break;
         default:
           return;
@@ -27,9 +29,9 @@ class ChatChannelsStore extends Store {
     });
   }
 
-  getChannels() {
-    return channels;
+  getUsers() {
+    return users;
   }
-};
+}
 
-module.exports = new ChatChannelsStore();
+module.exports = new UsersStore();
