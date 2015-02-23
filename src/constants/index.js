@@ -10,8 +10,7 @@ module.exports = {
     CHAT_MESSAGE_SUBMITTED: null,
     CHAT_MESSAGES_RECEIVED: null,
     CURRENT_USER_RECEIVED: null,
-    ROUTE_CHANGED: null,
-    TOKEN_RECEIVED: null,
+    LOGIN_FAILED: null,
     USER_RECEIVED: null,
     USERS_RECEIVED: null
   }),

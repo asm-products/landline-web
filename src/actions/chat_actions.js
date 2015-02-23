@@ -13,9 +13,10 @@ class ChatActions {
       ActionTypes.CHAT_MESSAGE_RECEIVED,
       'message'
     );
+  }
 
+  fetchRecentMessages() {
     this.persistence.query().once('value', (snapshot) => {
-      console.log('called in chatactions');
       Dispatcher.dispatch({
         actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
         messages: snapshot.val()
@@ -26,10 +27,11 @@ class ChatActions {
   submitMessage(message) {
     message.set('createdAt', +Date.now());
 
+    this.persistence.query().push(message.toJS())
+
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
       message: message,
-      key: this.persistence.push(message.toJS()).key()
     });
   }
 };

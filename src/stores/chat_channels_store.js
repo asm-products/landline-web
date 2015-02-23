@@ -15,6 +15,10 @@ class ChatChannelsStore extends Store {
     super();
 
     this.dispatchToken = Dispatcher.register((action) => {
+      if (action.actionType === undefined) {
+        debugger;
+      }
+
       switch (action.actionType) {
         case ActionTypes.CHAT_CHANNELS_RECEIVED:
           channels = List(action.channels);

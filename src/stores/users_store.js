@@ -1,6 +1,7 @@
 'use strict';
 
 const ActionTypes = require('../constants').ActionTypes;
+const ChatMessagesStore = require('./chat_messages_store');
 const Dispatcher = require('../dispatcher');
 const { Map } = require('immutable');
 const Store = require('./store');

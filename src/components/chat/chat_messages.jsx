@@ -1,13 +1,15 @@
 'use strict';
 
+const ChatActions = require('../../actions/chat_actions');
 const ChatInput = require('./chat_input.jsx');
 const ChatMessage = require('./chat_message.jsx');
 const ChatMessagesStore = require('../../stores/chat_messages_store');
 const React = require('react/addons');
 
-const ChatMessages = React.createClass({  
+const ChatMessages = React.createClass({
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
+    // ChatActions.fetchRecentMessages();
   },
 
   componentWillUnmount() {
@@ -45,6 +47,7 @@ const ChatMessages = React.createClass({
   },
 
   renderMessages() {
+    console.log(this.state.messages);
     return this.state.messages.map((message, i) => {
       return <ChatMessage message={message.toJS ? message.toJS() : message}
           key={`message-${i}`} />

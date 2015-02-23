@@ -13,10 +13,11 @@ class UserActions {
       ActionTypes.USER_RECEIVED,
       'user'
     );
+  }
 
+  fetchRecentUsers() {
     this.persistence.query().orderByChild('lastOnline').startAt(+Date.now() - ONE_HOUR).
     once('value', (snapshot) => {
-      console.log('called');
       let users = snapshot.val();
 
       Dispatcher.dispatch({
@@ -41,7 +42,7 @@ class UserActions {
       data.username = username;
 
       Dispatcher.dispatch({
-        actionType: ActionTypes.CURRENT_USER_RECEIVEDD,
+        actionType: ActionTypes.CURRENT_USER_RECEIVED,
         user: data,
         token: token
       });
@@ -54,4 +55,4 @@ class UserActions {
   }
 };
 
-module.exports = UserActions;
+module.exports = new UserActions();

@@ -14,7 +14,7 @@ class CurrentUserStore extends Store {
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
-        case ActionTypes.CURRENT_USER_RECEIVEDD:
+        case ActionTypes.CURRENT_USER_RECEIVED:
           currentUser = Map(action.user);
           token = action.token;
           break;
