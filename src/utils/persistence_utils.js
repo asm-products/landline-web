@@ -7,6 +7,7 @@ const FIREBASE_URL = 'https://pletcher.firebaseio.com/landline';
 
 class PersistenceUtils {
   constructor(ref, actionType, key) {
+    this.base = new Firebase(FIREBASE_URL);
     this.ref = new Firebase(FIREBASE_URL + ref);
 
     this.ref.on('child_added', (snapshot) => {
@@ -22,7 +23,7 @@ class PersistenceUtils {
   }
 
   base() {
-    return new Firebase(FIREBASE_URL);
+    return this.base;
   }
 
   push(obj) {

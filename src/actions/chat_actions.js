@@ -13,6 +13,7 @@ class ChatActions {
       ActionTypes.CHAT_MESSAGE_RECEIVED,
       'message'
     );
+    console.log(this.persistence);
   }
 
   submitMessage(message) {

@@ -5,7 +5,7 @@ const ChatMessage = require('./chat_message.jsx');
 const ChatMessagesStore = require('../../stores/chat_messages_store');
 const React = require('react/addons');
 
-const ChatMessages = React.createClass({
+const ChatMessages = React.createClass({  
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
   },

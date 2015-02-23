@@ -4,9 +4,9 @@
   "description": "ASM chat, without the ASM (hosted chat for anyone)",
   "main": "src/index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node_modules/.bin/nodemon --harmony",
+    "dev": "NODE_ENV=development webpack-dev-server --hot --colors",
     "start": "node --harmony src",
-    "test": "node_modules/.bin/jest"
+    "test": "jest"
   },
   "repository": "git@github.com:asm-products/landline-web.git",
   "keywords": [

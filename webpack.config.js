@@ -3,18 +3,18 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://0.0.0.0:8080',
     'webpack/hot/dev-server',
-    './src/js/app.jsx'
+    './src/app.jsx'
   ],
 
   output: {
-    path: __dirname + '/dist/js',
+    path: __dirname + '/dist',
     filename: 'app.js',
+    library: 'Landline',
+    target: 'umd'
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
 
