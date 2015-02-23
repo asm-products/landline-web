@@ -6,6 +6,7 @@ const React = require('react/addons');
 const Login = React.createClass({
   getInitialState() {
     return {
+      actionCreator: new UserActions(),
       loggingIn: false,
       username: ''
     };
@@ -23,7 +24,7 @@ const Login = React.createClass({
     let username = this.state.username;
 
     if (username.length >= 2) {
-      UserActions.logIn(username);
+      this.state.actionCreator.logIn(username);
       this.setState({
         loggingIn: true
       });

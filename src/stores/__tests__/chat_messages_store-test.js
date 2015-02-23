@@ -26,7 +26,8 @@ describe('ChatMessagesStore', () => {
           user: {
             username: 'Faulkner'
           }
-        }
+        },
+        key: 1111
       });
     });
 
@@ -41,7 +42,8 @@ describe('ChatMessagesStore', () => {
           user: {
             username: 'Douglas Adams'
           }
-        }
+        },
+        key: 2222
       });
 
       expect(ChatMessagesStore.getMessages().size).toEqual(2);
@@ -62,7 +64,8 @@ describe('ChatMessagesStore', () => {
           user: {
             username: 'Faulkner'
           }
-        }
+        },
+        key: 1111
       });
     });
 

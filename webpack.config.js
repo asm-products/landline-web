@@ -1,3 +1,4 @@
+var config = require('./config');
 var webpack = require('webpack');
 
 module.exports = {
@@ -15,7 +16,10 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      FIREBASE_URL: JSON.stringify(config.FIREBASE_URL)
+    })
   ],
 
   resolve: {

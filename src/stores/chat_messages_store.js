@@ -2,21 +2,21 @@
 
 const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
-const { List } = require('immutable');
+const { List, Map } = require('immutable');
 const Store = require('./store');
 
 let unconfirmedMessages = List();
-let messages = List();
+let messages = Map();
 
 class ChatMessagesStore extends Store {
   constructor() {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.CHAT_MESSAGES_RECEIVED:
-          messages = List(action.messages);
+          messages = Map(action.messages);
           break;
         case ActionTypes.CHAT_MESSAGE_RECEIVED:
-          messages = messages.push(action.message);
+          messages = messages.set(action.key, action.message);
           unconfirmedMessages = unconfirmedMessages.clear();
           break;
         case ActionTypes.CHAT_MESSAGE_SUBMITTED:

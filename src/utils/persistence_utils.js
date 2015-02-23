@@ -3,12 +3,10 @@
 const Dispatcher = require('../dispatcher');
 const Firebase = require('firebase');
 
-const FIREBASE_URL = 'https://pletcher.firebaseio.com/landline';
-
 class PersistenceUtils {
   constructor(ref, actionType, key) {
     this.base = new Firebase(FIREBASE_URL);
-    this.ref = new Firebase(FIREBASE_URL + ref);
+    this.ref = this.base.child(ref);
 
     this.ref.on('child_added', (snapshot) => {
       let obj = snapshot.val();
@@ -20,10 +18,6 @@ class PersistenceUtils {
 
       Dispatcher.dispatch(action);
     });
-  }
-
-  base() {
-    return this.base;
   }
 
   push(obj) {

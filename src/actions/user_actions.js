@@ -9,13 +9,14 @@ const ONE_HOUR = 60 * 60 * 1000;
 class UserActions {
   constructor() {
     this.persistence = new PersistenceUtils(
-      '/users',
+      'users',
       ActionTypes.USER_RECEIVED,
       'user'
     );
 
     this.persistence.query().orderByChild('lastOnline').startAt(+Date.now() - ONE_HOUR).
-    on('value', (snapshot) => {
+    once('value', (snapshot) => {
+      console.log('called');
       let users = snapshot.val();
 
       Dispatcher.dispatch({
@@ -26,7 +27,7 @@ class UserActions {
   }
 
   logIn(username) {
-    this.persistence.base().authAnonymously((err, data) => {
+    this.persistence.base.authAnonymously((err, data) => {
       if (err) {
         return Dispatcher.dispatch({
           actionType: ActionTypes.LOGIN_FAILED
@@ -53,4 +54,4 @@ class UserActions {
   }
 };
 
-module.exports = new UserActions();
+module.exports = UserActions;
