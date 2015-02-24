@@ -1,11 +1,12 @@
 {
-  "name": "landline-web",
+  "name": "landline",
   "version": "0.1.0",
   "description": "ASM chat, without the ASM (hosted chat for anyone)",
-  "main": "src/index.js",
+  "main": "dist/landline.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server --hot --colors",
-    "start": "node --harmony src",
+    "dev": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.dev.js",
+    "prepublish": "webpack",
+    "start": "npm run dev",
     "test": "jest"
   },
   "repository": "git@github.com:asm-products/landline-web.git",

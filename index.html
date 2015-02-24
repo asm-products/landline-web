@@ -4,10 +4,18 @@
     <title>Landline</title>
   </head>
   <body>
-    <div id="main"></div>
-    <script src="app.js"></script>
+    <div id="main">
+      <input type="email" id="login" placeholder="Email address" />
+    </div>
+    <script src="landline.dev.js"></script>
     <script>
-      Landline('main');
+      document.getElementById('login').addEventListener('keydown', handleInput);
+
+      function handleInput(e) {
+        if (e.which === 13 && e.target.value.length > 2) {
+          Landline(e.target.value, document.getElementById('main'));
+        }
+      }
     </script>
   </body>
 </html>

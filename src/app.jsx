@@ -6,6 +6,7 @@ if (typeof __TEST__ === 'undefined') {
 
 const Home = require('./components/home/home.jsx')
 const React = require('react/addons');
+const UserActions = require('./actions/user_actions');
 
 const App = React.createClass({
   render() {
@@ -13,10 +14,12 @@ const App = React.createClass({
   }
 });
 
-var Landline = (id) => {
+var Landline = (user, element) => {
+  UserActions.logIn(user);
+
   React.render(
     <App />,
-    document.getElementById(id)
+    element
   );
 }
 

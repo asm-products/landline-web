@@ -6,7 +6,9 @@ const mockQuery = function() {
     once: function() {
 
     },
+    push: function() {
 
+    },
     orderByChild: function() {
       return {
         startAt: function() {

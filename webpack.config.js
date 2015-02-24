@@ -4,13 +4,12 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    'webpack/hot/dev-server',
     './src/app.jsx'
   ],
 
   output: {
     path: __dirname + '/dist',
-    filename: 'app.js',
+    filename: 'landline.js',
     library: 'Landline',
     target: 'umd'
   },
@@ -28,7 +27,7 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.jsx$/, loaders: ['babel', 'react-hot', 'jsx?harmony'], exclude: /node_modules/ },
+      { test: /\.jsx$/, loaders: ['babel', 'jsx?harmony'], exclude: /node_modules/ },
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
       { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]
