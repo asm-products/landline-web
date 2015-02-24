@@ -24,7 +24,7 @@ const ChatInput = React.createClass({
     if (user.get('username')) {
       return (
         <input type="text"
-            className="full-width field-light"
+            className="full-width field-light mb0"
             onKeyPress={this.submitMessage}
             onChange={this.updateBody}
             value={body}

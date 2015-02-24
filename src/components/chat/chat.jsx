@@ -39,7 +39,7 @@ const Chat = React.createClass({
             <ChatChannels />
           </div>
 
-          <div className="flex-auto">
+          <div className="flex-auto" ref="messages">
             <ChatMessages />
           </div>
         </div>
