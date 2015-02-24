@@ -15,13 +15,8 @@ class ChatActions {
     );
   }
 
-  fetchRecentMessages() {
-    this.persistence.query().once('value', (snapshot) => {
-      Dispatcher.dispatch({
-        actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
-        messages: snapshot.val()
-      });
-    });
+  init() {
+    this.persistence.init()
   }
 
   submitMessage(message) {

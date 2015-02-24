@@ -1,13 +1,15 @@
 'use strict';
 
 const ChatChannelsStore = require('../../stores/chat_channels_store');
-const UsersStore = require('../../stores/users_store');
 const React = require('react/addons');
+const UserActions = require('../../actions/user_actions');
+const UsersStore = require('../../stores/users_store');
 
 const ChatChannels = React.createClass({
   componentDidMount() {
     ChatChannelsStore.addChangeListener(this.updateChannels);
     UsersStore.addChangeListener(this.updateUsers);
+    UserActions.init();
   },
 
   componentWillUnmount() {
@@ -50,13 +52,13 @@ const ChatChannels = React.createClass({
   },
 
   renderUsers() {
-    return this.state.users.map((user) => {
+    return this.state.users.map((user, i) => {
       let {
         username
       } = user;
 
       return (
-        <a className="block clearfix white" href={username} key={username}>
+        <a className="block clearfix white" href={username} key={`${username}-${i}`}>
           {username}
         </a>
       );

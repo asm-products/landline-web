@@ -15,16 +15,16 @@ class UserActions {
     );
   }
 
-  fetchRecentUsers() {
-    this.persistence.query().orderByChild('lastOnline').startAt(+Date.now() - ONE_HOUR).
-    once('value', (snapshot) => {
-      let users = snapshot.val();
+  init() {
+    // this.persistence.query().orderByChild('lastOnline').startAt(+Date.now() - ONE_HOUR).
+    // once('value', (snapshot) => {
+    //   Dispatcher.dispatch({
+    //     actionType: ActionTypes.USERS_RECEIVED,
+    //     users:  snapshot.val()
+    //   });
+    // });
 
-      Dispatcher.dispatch({
-        actionType: ActionTypes.USERS_RECEIVED,
-        users: users
-      });
-    });
+    this.persistence.init();
   }
 
   logIn(username) {

@@ -9,7 +9,7 @@ const React = require('react/addons');
 const ChatMessages = React.createClass({
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
-    // ChatActions.fetchRecentMessages();
+    ChatActions.init();
   },
 
   componentWillUnmount() {
@@ -47,7 +47,6 @@ const ChatMessages = React.createClass({
   },
 
   renderMessages() {
-    console.log(this.state.messages);
     return this.state.messages.map((message, i) => {
       return <ChatMessage message={message.toJS ? message.toJS() : message}
           key={`message-${i}`} />
