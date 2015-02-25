@@ -26,14 +26,16 @@ const ChatInput = React.createClass({
     }
 
     if (user.get('username')) {
-      return (<div className="full-width shadow px3 py1" style={style}>
-        <input type="text"
-            className="full-width field-light mb0"
-            onKeyPress={this.submitMessage}
-            onChange={this.updateBody}
-            value={body}
-            placeholder="What do you want to say?" />
-      </div>);
+      return (
+        <div className="full-width shadow px3 py1" style={style}>
+          <input type="text"
+              className="full-width field-light mb0"
+              onKeyPress={this.submitMessage}
+              onChange={this.updateBody}
+              value={body}
+              placeholder="What do you want to say?" />
+        </div>
+      );
     }
   },
 
