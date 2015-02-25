@@ -31,27 +31,13 @@ const Login = React.createClass({
   },
 
   render() {
-    let style = {
-      margin: 'auto',
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      width: '50%',
-      height: 200,
-    };
-
-    let styleInner = {
-      position: 'relative',
-      top: '40%'
-    };
-
     return (
-      <div className="border bg-white center" style={style}>
-        <div style={styleInner}>
+      <div className="bg-white rounded shadow center mx-auto p2 mt2 sm-col-11 md-col-6">
+        <h1 className="dark-gray regular">Landline</h1>
+        <h2 className="mt1 py1 mid-gray regular">Enter a username to get started:</h2>
+        <div className="mb2">
           <input type="text"
-              className="field-light mb0"
+              className="field-light mb0 mr2"
               onChange={this.handleInputChange}
               placeholder="Username"
               value={this.state.username} />
@@ -63,7 +49,7 @@ const Login = React.createClass({
 
   renderButton() {
     if (this.state.loggingIn) {
-      return <a className="button button-gray disabled">Logging in</a>;
+      return <a className="button disabled">Logging in</a>;
     }
 
     return <a className="button button-red" onClick={this.handleLogIn}>Log in</a>;

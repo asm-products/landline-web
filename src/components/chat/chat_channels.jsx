@@ -26,11 +26,12 @@ const ChatChannels = React.createClass({
 
   render() {
     return (
-      <div className="p3">
-        <h5 className="mt0 mb2">Channels</h5>
+      <div className="p3 white">
+        <h1 className="mt0 regular">Landline</h1>
+        <h5 className="mt0 mb1 caps light-gray">Channels</h5>
         {this.renderChannels()}
 
-        <h5 className="py2">Users</h5>
+        <h5 className="mt2 mb1 caps light-gray">Users</h5>
         {this.renderUsers()}
       </div>
     );
@@ -44,9 +45,7 @@ const ChatChannels = React.createClass({
       } = channel;
 
       return (
-        <a className="block clearfix white" key={url}>
-          #{label}
-        </a>
+        <a className="block white" key={url}>#{label}</a>
       );
     }).toJS();
   },
