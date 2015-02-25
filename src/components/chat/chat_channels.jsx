@@ -28,8 +28,8 @@ const ChatChannels = React.createClass({
     return (
       <div className="p3 white">
         <h1 className="mt0 regular">Landline</h1>
-        <h5 className="mt0 mb1 caps light-gray">Channels</h5>
-        {this.renderChannels()}
+        {/*<h5 className="mt0 mb1 caps light-gray">Channels</h5>
+        {this.renderChannels()}*/}
 
         <h5 className="mt2 mb1 caps light-gray">Users</h5>
         {this.renderUsers()}

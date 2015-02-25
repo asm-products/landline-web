@@ -17,7 +17,8 @@ module.exports = {
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      FIREBASE_URL: JSON.stringify(config.FIREBASE_URL)
+      FIREBASE_URL: JSON.stringify(config.FIREBASE_URL),
+      LANDLINE_URL: JSON.stringify(config.LANDLINE_URL)
     })
   ],
 

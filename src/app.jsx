@@ -20,11 +20,11 @@ let Landline = (loc, element) => {
   let parsedUrl = url.parse(loc, true);
   let team = parsedUrl.query.team;
 
-  $.get(`http://localhost:3000/sessions/new?team=${team}`, (result) => {
+  $.get(`${LANDLINE_URL}/sessions/new?team=${team}`, (result) => {
     let token = result.token;
 
     $.ajax({
-      url: 'http://localhost:3000/users/find',
+      url: `${LANDLINE_URL}/users/find`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
@@ -32,7 +32,7 @@ let Landline = (loc, element) => {
       success(userObj) {
         let user = userObj.user;
 
-        console.log(user);
+        UserActions.logIn(user, token);
       },
       error(err) {}
     })

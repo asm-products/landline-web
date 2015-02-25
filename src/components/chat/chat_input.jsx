@@ -25,7 +25,7 @@ const ChatInput = React.createClass({
       boxShadow: '-4px 0 15px rgba(0,0,0,.15)'
     }
 
-    if (user.get('username')) {
+    if (user.get('Username')) {
       return (
         <div className="full-width shadow px3 py1" style={style}>
           <input type="text"
@@ -37,6 +37,8 @@ const ChatInput = React.createClass({
         </div>
       );
     }
+
+    return null;
   },
 
   submitMessage(e) {

@@ -19,33 +19,29 @@ class UserActions {
     this.persistence.init();
   }
 
-  logIn(token, user) {
+  logIn(user, token) {
     Dispatcher.dispatch({
       actionType: ActionTypes.CURRENT_USER_RECEIVED,
       user: user,
       token: token
     });
 
-    // this.persistence.base.authAnonymously((err, data) => {
-    //   if (err) {
-    //     return Dispatcher.dispatch({
-    //       actionType: ActionTypes.LOGIN_FAILED
-    //     });
-    //   }
-    //
-    //   let firebaseToken = data.token;
-    //
-    //   delete data.token;
-    //
-    //   data.username = username;
-    //
-    //
-    //
-    //   this.persistence.push({
-    //     username: username,
-    //     lastOnline: +Date.now()
-    //   });
-    // });
+    this.persistence.base.authAnonymously((err, data) => {
+      if (err) {
+        return Dispatcher.dispatch({
+          actionType: ActionTypes.LOGIN_FAILED
+        });
+      }
+
+      let firebaseToken = data.token;
+
+      delete data.token;
+
+      this.persistence.push({
+        username: user.Username,
+        lastOnline: +Date.now()
+      });
+    });
   }
 };
 

@@ -7,14 +7,15 @@ const ChatMessage = React.createClass({
     message: React.PropTypes.shape({
       body: React.PropTypes.string.isRequired,
       user: React.PropTypes.shape({
-        username: React.PropTypes.string.isRequired
+        username: React.PropTypes.string,
+        Username: React.PropTypes.string
       }).isRequired
     }).isRequired
   },
 
   render() {
     let {
-      user: { username },
+      user: { Username: username },
       body
     } = this.props.message;
 

@@ -25,7 +25,7 @@ const ChatMessages = React.createClass({
     // After scrolling, it seems like the scroll value is sometimes off by one;
     // the ||-check makes sure we catch that.
     this.shouldScrollToBottom = node.scrollTop + node.offsetHeight === node.scrollHeight ||
-      node.scrollHeight - node.scrollTop + node.offsetHeight === 1;
+      node.scrollHeight - (node.scrollTop + node.offsetHeight) === 1;
   },
 
   componentWillUnmount() {

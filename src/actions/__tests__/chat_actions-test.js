@@ -16,7 +16,7 @@ describe('ChatActions', () => {
 
     it('dispatches the message', () => {
       let message = Map({
-        user: { username: 'Bob' },
+        user: { Username: 'Bob' },
         body: 'Yo!'
       });
 
