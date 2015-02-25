@@ -25,7 +25,7 @@ const Home = React.createClass({
   },
 
   setLoggedIn() {
-    this.setState({
+    this.replaceState({
       isLoggedIn: CurrentUserStore.isUserAuthenticated()
     });
   }

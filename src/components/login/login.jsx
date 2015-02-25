@@ -3,6 +3,10 @@
 const UserActions = require('../../actions/user_actions');
 const React = require('react/addons');
 
+if (typeof __TEST__ === 'undefined') {
+  require('../../styles/spinner.css');
+}
+
 const Login = React.createClass({
   getInitialState() {
     return {
@@ -42,20 +46,14 @@ const Login = React.createClass({
       height: 200,
     };
 
-    let styleInner = {
-      position: 'relative',
-      top: '40%'
-    };
-
     return (
-      <div className="border bg-white center" style={style}>
-        <div style={styleInner}>
-          <input type="text"
-              className="field-light mb0"
-              onChange={this.handleInputChange}
-              placeholder="Username"
-              value={this.state.username} />
-          {this.renderButton()}
+      <div className="bg-white center" style={style}>
+        <div className="spinner-rects">
+          <div className="rect1"></div>
+          <div className="rect2"></div>
+          <div className="rect3"></div>
+          <div className="rect4"></div>
+          <div className="rect5"></div>
         </div>
       </div>
     );
