@@ -61,7 +61,7 @@ const Login = React.createClass({
 
   renderButton() {
     if (this.state.loggingIn) {
-      return <a className="button button-gray disabled">Logging in</a>;
+      return <a className="button disabled">Logging in</a>;
     }
 
     return <a className="button button-red" onClick={this.handleLogIn}>Log in</a>;

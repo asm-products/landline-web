@@ -19,11 +19,9 @@ const ChatMessage = React.createClass({
     } = this.props.message;
 
     return (
-      <div className="clearfix">
-        <div className="left px2">
-          <div className="bold">{username}</div>
-          {body}
-        </div>
+      <div className="mb1">
+        <span className="bold block">{username}</span>
+        <span className="block">{body}</span>
       </div>
     );
   }
