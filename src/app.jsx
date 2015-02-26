@@ -16,15 +16,15 @@ const App = React.createClass({
   }
 });
 
-let Landline = (loc, element) => {
+let Landline = (loc, apiUrl, element) => {
   let parsedUrl = url.parse(loc, true);
   let team = parsedUrl.query.team;
 
-  $.get(`${LANDLINE_URL}/sessions/new?team=${team}`, (result) => {
+  $.get(`${apiUrl}/sessions/new?team=${team}`, (result) => {
     let token = result.token;
 
     $.ajax({
-      url: `${LANDLINE_URL}/users/find`,
+      url: `${apiUrl}/users/find`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
