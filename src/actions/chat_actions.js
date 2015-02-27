@@ -22,7 +22,6 @@ let getMessages = (url, token) => {
         });
       },
       err() {
-        console.log(arguments);
       }
     });
   };
@@ -57,8 +56,7 @@ class ChatActions {
           message: message
         });
       },
-      error(jqXhr) {
-        console.log(arguments);
+      error() {
       }
     });
 

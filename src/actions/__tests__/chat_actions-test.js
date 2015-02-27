@@ -20,7 +20,7 @@ describe('ChatActions', () => {
         body: 'Yo!'
       });
 
-      ChatActions.submitMessage(message);
+      ChatActions.submitMessage(null, null, message);
 
       expect(Dispatcher.dispatch).toBeCalledWith({
         actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
