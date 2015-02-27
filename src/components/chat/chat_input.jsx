@@ -8,6 +8,10 @@ const React = require('react/addons');
 const ENTER_KEY = 13;
 
 const ChatInput = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+
   getInitialState() {
     return {
       body: '',
@@ -46,6 +50,8 @@ const ChatInput = React.createClass({
       e.stopPropagation();
 
       ChatActions.submitMessage(
+        `${this.props.url}/rooms/general/messages`,
+        CurrentUserStore.getToken(),
         Map({
           user: this.state.user,
           body: this.state.body

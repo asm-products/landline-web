@@ -6,6 +6,10 @@ const Login = require('../login/login.jsx');
 const React = require('react/addons');
 
 const Home = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+
   componentDidMount() {
     CurrentUserStore.addChangeListener(this.setLoggedIn);
   },
@@ -21,7 +25,7 @@ const Home = React.createClass({
   },
 
   render() {
-    return this.state.isLoggedIn ? <Chat /> : <Login />;
+    return this.state.isLoggedIn ? <Chat url={this.props.url} /> : <Login />;
   },
 
   setLoggedIn() {

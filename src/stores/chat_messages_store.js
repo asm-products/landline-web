@@ -12,6 +12,10 @@ class ChatMessagesStore extends Store {
   constructor() {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
+        case ActionTypes.CHAT_MESSAGES_RECEIVED:
+          messages = List(action.messages);
+          unconfirmedMessages = unconfirmedMessages.clear();
+          break;
         case ActionTypes.CHAT_MESSAGE_RECEIVED:
           messages = messages.push(action.message);
           unconfirmedMessages = unconfirmedMessages.clear();

@@ -9,6 +9,10 @@ const ChatMessages = require('./chat_messages.jsx');
 const React = require('react/addons');
 
 const Chat = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+
   render() {
     let style = {
       chat: {
@@ -40,7 +44,7 @@ const Chat = React.createClass({
           </div>
 
           <div className="flex-auto" ref="messages">
-            {<ChatMessages />}
+            <ChatMessages url={this.props.url} />
           </div>
         </div>
 

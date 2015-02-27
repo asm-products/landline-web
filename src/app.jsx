@@ -11,8 +11,12 @@ const UserActions = require('./actions/user_actions');
 const url = require('url');
 
 const App = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+
   render() {
-    return <Home />;
+    return <Home url={this.props.url} />;
   }
 });
 
@@ -35,13 +39,13 @@ let Landline = (loc, apiUrl, element) => {
         UserActions.logIn(user, token);
       },
       error(err) {}
-    })
+    });
   });
 
   React.render(
-    <App />,
+    <App url={apiUrl} />,
     element
   );
-}
+};
 
 module.exports = Landline;

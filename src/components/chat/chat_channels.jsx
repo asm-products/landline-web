@@ -57,7 +57,7 @@ const ChatChannels = React.createClass({
       } = user;
 
       return (
-        <a className="block clearfix white" href={username} key={`${username}-${i}`}>
+        <a className="block clearfix white" key={`${username}-${i}`}>
           {username}
         </a>
       );

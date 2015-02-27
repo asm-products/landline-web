@@ -4,12 +4,20 @@ const ChatActions = require('../../actions/chat_actions');
 const ChatInput = require('./chat_input.jsx');
 const ChatMessage = require('./chat_message.jsx');
 const ChatMessagesStore = require('../../stores/chat_messages_store');
+const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
 
 const ChatMessages = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
-    ChatActions.init();
+    ChatActions.init(
+      `${this.props.url}/rooms/general/messages`,
+      CurrentUserStore.getToken()
+    );
     this.scrollToBottom();
   },
 
@@ -29,6 +37,7 @@ const ChatMessages = React.createClass({
   },
 
   componentWillUnmount() {
+    ChatActions.destroy();
     ChatMessagesStore.removeChangeListener(this.updateMessages);
   },
 
@@ -56,7 +65,7 @@ const ChatMessages = React.createClass({
         <div className="flex-auto left-align px3" style={style.chatMessages} ref="messages">
           {this.renderMessages()}
         </div>
-        <ChatInput />
+        <ChatInput url={this.props.url} />
       </div>
     );
   },

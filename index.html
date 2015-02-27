@@ -9,14 +9,7 @@
     </div>
     <script src="landline.dev.js"></script>
     <script>
-      Landline('chuck', document.getElementById('main'));
-      // document.getElementById('login').addEventListener('keydown', handleInput);
-      //
-      // function handleInput(e) {
-      //   if (e.which === 13 && e.target.value.length > 2) {
-      //     Landline(e.target.value, document.getElementById('main'));
-      //   }
-      // }
+      Landline({ Username: 'chuck' }, 'token', document.getElementById('main'));
     </script>
   </body>
 </html>

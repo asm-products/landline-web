@@ -29,6 +29,10 @@ class CurrentUserStore extends Store {
     });
   }
 
+  getToken() {
+    return token;
+  }
+
   getUser() {
     return currentUser;
   }

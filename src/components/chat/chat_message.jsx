@@ -5,24 +5,20 @@ const React = require('react/addons');
 const ChatMessage = React.createClass({
   propTypes: {
     message: React.PropTypes.shape({
-      body: React.PropTypes.string.isRequired,
-      user: React.PropTypes.shape({
-        username: React.PropTypes.string,
-        Username: React.PropTypes.string
-      }).isRequired
+      body: React.PropTypes.string,
+      Body: React.PropTypes.string,
+      username: React.PropTypes.string,
+      Username: React.PropTypes.string
     }).isRequired
   },
 
   render() {
-    let {
-      user: { Username: username },
-      body
-    } = this.props.message;
+    let message = this.props.message;
 
     return (
       <div className="mb1">
-        <span className="bold block">{username}</span>
-        <span className="block">{body}</span>
+        <span className="bold block">{message.Username}</span>
+        <span className="block">{message.Body}</span>
       </div>
     );
   }
