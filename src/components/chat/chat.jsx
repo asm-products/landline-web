@@ -6,13 +6,10 @@ if (typeof __TEST__ === 'undefined') {
 
 const ChatChannels = require('./chat_channels.jsx');
 const ChatMessages = require('./chat_messages.jsx');
+const ChatPixel = require('./chat_pixel.jsx');
 const React = require('react/addons');
 
 const Chat = React.createClass({
-  propTypes: {
-    url: React.PropTypes.string.isRequired
-  },
-
   render() {
     let style = {
       chat: {
@@ -44,10 +41,10 @@ const Chat = React.createClass({
           </div>
 
           <div className="flex-auto" ref="messages">
-            <ChatMessages url={this.props.url} />
+            <ChatMessages />
           </div>
         </div>
-
+        <ChatPixel />\
       </div>
     );
   }

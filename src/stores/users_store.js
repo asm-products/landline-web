@@ -19,6 +19,9 @@ class UsersStore extends Store {
         case ActionTypes.USER_RECEIVED:
           users = users.push(action.user);
           break;
+        case ActionTypes.USERS_RECEIVED:
+          users = List(action.users);
+          break;
         default:
           return;
       }

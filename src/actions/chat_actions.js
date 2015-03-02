@@ -3,7 +3,6 @@
 const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
-const PersistenceUtils = require('../utils/persistence_utils');
 
 const ONE_HOUR = 60 * 60 * 1000;
 
@@ -21,8 +20,7 @@ let getMessages = (url, token) => {
           messages: data.messages
         });
       },
-      err() {
-      }
+      error() {}
     });
   };
 

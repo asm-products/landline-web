@@ -2,14 +2,10 @@
 
 const Chat = require('../chat/chat.jsx');
 const CurrentUserStore = require('../../stores/current_user_store');
-const Login = require('../login/login.jsx');
+const Spinner = require('../spinner/spinner.jsx');
 const React = require('react/addons');
 
 const Home = React.createClass({
-  propTypes: {
-    url: React.PropTypes.string.isRequired
-  },
-
   componentDidMount() {
     CurrentUserStore.addChangeListener(this.setLoggedIn);
   },
@@ -25,7 +21,7 @@ const Home = React.createClass({
   },
 
   render() {
-    return this.state.isLoggedIn ? <Chat url={this.props.url} /> : <Login />;
+    return this.state.isLoggedIn ? <Chat /> : <Spinner />;
   },
 
   setLoggedIn() {

@@ -5,23 +5,20 @@ const Dispatcher = require('../dispatcher');
 const { List } = require('immutable');
 const Store = require('./store');
 
-let channels = List([
-  { url: '/foo', label: 'bar' },
-  { url: '/fizz', label: 'bar' }
-]);
+let channels = List();
+let currentChannel = 'general';
 
 class ChatChannelsStore extends Store {
   constructor() {
     super();
 
     this.dispatchToken = Dispatcher.register((action) => {
-      if (action.actionType === undefined) {
-        debugger;
-      }
-
       switch (action.actionType) {
         case ActionTypes.CHAT_CHANNELS_RECEIVED:
           channels = List(action.channels);
+          break;
+        case ActionTypes.CHAT_CHANNEL_RECEIVED:
+          currentChannel = action.channel;
           break;
         default:
           return;
@@ -29,6 +26,10 @@ class ChatChannelsStore extends Store {
 
       this.emitChange();
     });
+  }
+
+  getCurrentChannel() {
+    return currentChannel;
   }
 
   getChannels() {

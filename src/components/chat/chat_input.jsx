@@ -1,6 +1,8 @@
 'use strict';
 
+const AppStore = require('../../stores/app_store');
 const ChatActions = require('../../actions/chat_actions');
+const CurrentChannelMixin = require('../../mixins/current_channel_mixin');
 const CurrentUserStore = require('../../stores/current_user_store');
 const { Map } = require('immutable');
 const React = require('react/addons');
@@ -8,13 +10,12 @@ const React = require('react/addons');
 const ENTER_KEY = 13;
 
 const ChatInput = React.createClass({
-  propTypes: {
-    url: React.PropTypes.string.isRequired
-  },
+  mixins: [CurrentChannelMixin],
 
   getInitialState() {
     return {
       body: '',
+      channel: CurrentChannelMixin.getChannel(),
       user: CurrentUserStore.getUser()
     };
   },
@@ -29,7 +30,7 @@ const ChatInput = React.createClass({
       boxShadow: '-4px 0 15px rgba(0,0,0,.15)'
     }
 
-    if (user.get('Username')) {
+    if (user.get('Username') || user.get('username')) {
       return (
         <div className="full-width shadow px3 py1" style={style}>
           <input type="text"
@@ -50,7 +51,7 @@ const ChatInput = React.createClass({
       e.stopPropagation();
 
       ChatActions.submitMessage(
-        `${this.props.url}/rooms/general/messages`,
+        `${AppStore.getUrl()}/rooms/${this.state.channel}/messages`,
         CurrentUserStore.getToken(),
         Map({
           user: this.state.user,

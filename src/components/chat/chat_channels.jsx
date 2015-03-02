@@ -1,6 +1,8 @@
 'use strict';
 
+const AppStore = require('../../stores/app_store');
 const ChatChannelsStore = require('../../stores/chat_channels_store');
+const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
@@ -9,7 +11,10 @@ const ChatChannels = React.createClass({
   componentDidMount() {
     ChatChannelsStore.addChangeListener(this.updateChannels);
     UsersStore.addChangeListener(this.updateUsers);
-    UserActions.init();
+    UserActions.init(
+      `${AppStore.getUrl()}/users?t=1`,
+      CurrentUserStore.getToken()
+    );
   },
 
   componentWillUnmount() {
@@ -19,6 +24,7 @@ const ChatChannels = React.createClass({
 
   getInitialState() {
     return {
+      currentChannel: ChatChannelsStore.getCurrentChannel(),
       channels: ChatChannelsStore.getChannels(),
       users: UsersStore.getUsers()
     };
@@ -66,6 +72,7 @@ const ChatChannels = React.createClass({
 
   updateChannels() {
     this.setState({
+      currentChannel: ChatChannelsStore.getCurrentChannel(),
       channels: ChatChannelsStore.getChannels()
     });
   },

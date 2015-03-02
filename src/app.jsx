@@ -5,24 +5,24 @@ if (typeof __TEST__ === 'undefined') {
 }
 
 const $ = require('jquery');
+const AppActions = require('./actions/app_actions');
+const AppStore = require('./stores/app_store');
 const Home = require('./components/home/home.jsx')
 const React = require('react/addons');
 const UserActions = require('./actions/user_actions');
 const url = require('url');
 
 const App = React.createClass({
-  propTypes: {
-    url: React.PropTypes.string.isRequired
-  },
-
   render() {
-    return <Home url={this.props.url} />;
+    return <Home />;
   }
 });
 
 let Landline = (loc, apiUrl, element) => {
   let parsedUrl = url.parse(loc, true);
   let team = parsedUrl.query.team;
+
+  AppActions.init(apiUrl);
 
   $.get(`${apiUrl}/sessions/new?team=${team}`, (result) => {
     let token = result.token;
@@ -43,7 +43,7 @@ let Landline = (loc, apiUrl, element) => {
   });
 
   React.render(
-    <App url={apiUrl} />,
+    <App />,
     element
   );
 };

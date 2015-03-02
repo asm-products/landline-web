@@ -1,22 +1,40 @@
 'use strict';
 
+const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
-const PersistenceUtils = require('../utils/persistence_utils');
 
 const ONE_HOUR = 60 * 60 * 1000;
 
+let getUsers = (url, token) => {
+  let func = () => {
+    $.ajax({
+      method: 'GET',
+      url: url,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      success(data) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.USERS_RECEIVED,
+          users: data.users
+        });
+      },
+      error() {}
+    });
+  };
+
+  return func;
+};
+
 class UserActions {
-  constructor() {
-    this.persistence = new PersistenceUtils(
-      'users',
-      ActionTypes.USER_RECEIVED,
-      'user'
-    );
+  destroy() {
+    clearInterval(this.interval);
   }
 
-  init() {
-    this.persistence.init();
+  init(url, token) {
+    getUsers(url, token)();
+    this.interval = setInterval(getUsers(url, token), 1000);
   }
 
   logIn(user, token) {
@@ -24,23 +42,6 @@ class UserActions {
       actionType: ActionTypes.CURRENT_USER_RECEIVED,
       user: user,
       token: token
-    });
-
-    this.persistence.base.authAnonymously((err, data) => {
-      if (err) {
-        return Dispatcher.dispatch({
-          actionType: ActionTypes.LOGIN_FAILED
-        });
-      }
-
-      let firebaseToken = data.token;
-
-      delete data.token;
-
-      this.persistence.push({
-        username: user.Username,
-        lastOnline: +Date.now()
-      });
     });
   }
 };

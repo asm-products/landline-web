@@ -7,33 +7,7 @@ if (typeof __TEST__ === 'undefined') {
   require('../../styles/spinner.css');
 }
 
-const Login = React.createClass({
-  getInitialState() {
-    return {
-      loggingIn: false,
-      username: ''
-    };
-  },
-
-  handleInputChange(e) {
-    this.setState({
-      username: e.target.value
-    });
-  },
-
-  handleLogIn(e) {
-    e.preventDefault();
-
-    let username = this.state.username;
-
-    if (username.length >= 2) {
-      UserActions.logIn(username);
-      this.setState({
-        loggingIn: true
-      });
-    }
-  },
-
+const Spinner = React.createClass({
   render() {
     let style = {
       margin: 'auto',
@@ -57,15 +31,7 @@ const Login = React.createClass({
         </div>
       </div>
     );
-  },
-
-  renderButton() {
-    if (this.state.loggingIn) {
-      return <a className="button disabled">Logging in</a>;
-    }
-
-    return <a className="button button-red" onClick={this.handleLogIn}>Log in</a>;
   }
 });
 
-module.exports = Login;
+module.exports = Spinner;
