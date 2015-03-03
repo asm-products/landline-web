@@ -44,7 +44,7 @@ const Chat = React.createClass({
             <ChatMessages />
           </div>
         </div>
-        <ChatPixel />\
+        <ChatPixel />
       </div>
     );
   }

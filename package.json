@@ -1,6 +1,6 @@
 {
   "name": "landline",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "ASM chat, without the ASM (hosted chat for anyone)",
   "main": "dist/landline.js",
   "scripts": {

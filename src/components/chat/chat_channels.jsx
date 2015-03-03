@@ -1,6 +1,7 @@
 'use strict';
 
 const AppStore = require('../../stores/app_store');
+const ChatActions = require('../../actions/chat_actions');
 const ChatChannelsStore = require('../../stores/chat_channels_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
@@ -13,6 +14,13 @@ const ChatChannels = React.createClass({
     UsersStore.addChangeListener(this.updateUsers);
     UserActions.init(
       `${AppStore.getUrl()}/users?t=1`,
+      CurrentUserStore.getToken()
+    );
+  },
+
+  componentDidUpdate() {
+    ChatActions.getPixel(
+      `${AppStore.getUrl()}/rooms/${this.state.currentChannel}`,
       CurrentUserStore.getToken()
     );
   },
@@ -68,6 +76,22 @@ const ChatChannels = React.createClass({
         </a>
       );
     }).toJS();
+  },
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.currentChannel !== this.state.currentChannel) {
+      ChatActions.getPixel(
+        `${AppStore.getUrl()}/rooms/${this.state.currentChannel}`,
+        CurrentUserStore.getToken()
+      );
+      return true;
+    }
+
+    if (nextState.users.size !== this.state.users.size) {
+      return true;
+    }
+
+    return false;
   },
 
   updateChannels() {

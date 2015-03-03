@@ -36,6 +36,27 @@ class ChatActions {
     this.interval = setInterval(getMessages(url, token), 500);
   }
 
+  getPixel(url, token) {
+    $.ajax({
+      url: url,
+      method: 'GET',
+      dataType: 'json',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      success(roomObj) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.CHAT_PIXEL_RECEIVED,
+          pixel: roomObj.pixel
+        });
+      },
+      error() {
+        console.log(arguments);
+      }
+    });
+  }
+
   submitMessage(url, token, message) {
     $.ajax({
       url: url,
@@ -54,8 +75,7 @@ class ChatActions {
           message: message
         });
       },
-      error() {
-      }
+      error() {}
     });
 
     Dispatcher.dispatch({
