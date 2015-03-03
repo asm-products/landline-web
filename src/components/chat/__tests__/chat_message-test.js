@@ -2,13 +2,12 @@
 
 jest.dontMock('../chat_message.jsx');
 
-const React = require('react/addons');
-const TestUtils = React.addons.TestUtils;
-
 describe('ChatMessage', () => {
-  let ChatMessage, chatMessage, message;
+  let ChatMessage, chatMessage, message, React, TestUtils;
 
   beforeEach(() => {
+    React = require('react/addons');
+    TestUtils = React.addons.TestUtils;
     message = {
       body: 'landline',
       user: {
