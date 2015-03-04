@@ -11,12 +11,12 @@ describe('ChatChannels', () => {
 
   beforeEach(() => {
     channels = List([
-      { label: 'test', url: '/test' }
+      Map({ label: 'test', url: '/test' })
     ]);
     users = Map({
-      user: {
+      user: Map({
         username: 'Larry'
-      }
+      })
     });
     ChatChannelsStore = require('../../../stores/chat_channels_store');
     ChatChannelsStore.getChannels.mockReturnValue(channels);
