@@ -3,12 +3,12 @@
 const ActionTypes = require('../constants').ActionTypes;
 const ChatMessagesStore = require('./chat_messages_store');
 const Dispatcher = require('../dispatcher');
-const { fromJS, Set } = require('immutable');
+const { fromJS, List } = require('immutable');
 const Store = require('./store');
 
 const ONE_HOUR = 60 * 60 * 1000;
 
-let users = Set();
+let users = List();
 
 class UsersStore extends Store {
   constructor() {
@@ -17,10 +17,10 @@ class UsersStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.USER_RECEIVED:
-          users = users.add(fromJS(action.user));
+          users = users.push(action.user);
           break;
         case ActionTypes.USERS_RECEIVED:
-          users = Set(fromJS(action.users));
+          users = List(action.users);
           break;
         default:
           return;

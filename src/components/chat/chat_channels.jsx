@@ -66,15 +66,15 @@ const ChatChannels = React.createClass({
 
   renderUsers() {
     return this.state.users.map((user, i) => {
-      let username = user.get('username');
+      let username = user.username;
       if (username) {
         return (
-          <span className="block clearfix white" key={`${username}-${i}`}>
+          <span className="block clearfix white" key={`${i}`}>
             {username}
           </span>
         );
       }
-    });
+    }).toJS();
   },
 
   shouldComponentUpdate(nextProps, nextState) {
