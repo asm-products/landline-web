@@ -1,4 +1,3 @@
-var config = require('./config');
 var webpack = require('webpack');
 
 module.exports = {
@@ -17,7 +16,6 @@ module.exports = {
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      FIREBASE_URL: JSON.stringify(config.FIREBASE_URL),
       __PROD__: true
     })
   ],
@@ -30,7 +28,9 @@ module.exports = {
     loaders: [
       { test: /\.jsx$/, loaders: ['babel', 'jsx?harmony'], exclude: /node_modules/ },
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader' }
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?mimetype=application/font-woff" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
     ]
   }
 };

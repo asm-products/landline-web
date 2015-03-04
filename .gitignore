@@ -31,3 +31,5 @@ node_modules
 
 config.json
 config.dev.json
+
+dist/landline.dev.js

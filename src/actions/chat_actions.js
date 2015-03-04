@@ -32,8 +32,25 @@ class ChatActions {
     clearInterval(this.interval);
   }
 
-  init(url, token) {
-    this.interval = setInterval(getMessages(url, token), 500);
+  getChannels(url, token) {
+    $.ajax({
+      url: url,
+      method: 'GET',
+      dataType: 'json',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      success(data) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
+          channels: data.rooms
+        });
+      },
+      error() {
+        console.log(arguments);
+      }
+    });
   }
 
   getPixel(url, token) {
@@ -55,6 +72,10 @@ class ChatActions {
         console.log(arguments);
       }
     });
+  }
+
+  init(url, token) {
+    this.interval = setInterval(getMessages(url, token), 500);
   }
 
   submitMessage(url, token, message) {

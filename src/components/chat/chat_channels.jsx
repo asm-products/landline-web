@@ -4,6 +4,7 @@ const AppStore = require('../../stores/app_store');
 const ChatActions = require('../../actions/chat_actions');
 const ChatChannelsStore = require('../../stores/chat_channels_store');
 const CurrentUserStore = require('../../stores/current_user_store');
+const Icon = require('../ui/icon.jsx');
 const React = require('react/addons');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
@@ -12,9 +13,17 @@ const ChatChannels = React.createClass({
   componentDidMount() {
     ChatChannelsStore.addChangeListener(this.updateChannels);
     UsersStore.addChangeListener(this.updateUsers);
+
+    let url = AppStore.getUrl();
+    let token = CurrentUserStore.getToken();
+
+    ChatActions.getChannels(
+      `${url}/rooms?r=1&t=1`,
+      token
+    );
     UserActions.init(
-      `${AppStore.getUrl()}/users?t=1`,
-      CurrentUserStore.getToken()
+      `${url}/users?t=1`,
+      token
     );
   },
 
@@ -39,13 +48,22 @@ const ChatChannels = React.createClass({
   },
 
   render() {
-    return (
-      <div className="p3 white">
-        <h1 className="mt0 regular">Landline</h1>
-        {/*<h5 className="mt0 mb1 caps light-gray">Channels</h5>
-        {this.renderChannels()}*/}
+    let style = {
+      hr: {
+        borderColor: 'rgba(0,0,0,0.1)'
+      }
+    };
 
-        <h5 className="mt2 mb1 caps light-gray">Users</h5>
+    return (
+      <div className="white">
+        <h4 className="mt3 px3 light-gray">Landline</h4>
+
+        <hr className="mt2 mb0" style={style.hr} />
+
+        <h5 className="px3 mt2 mb1 light-gray">Channels</h5>
+        {this.renderChannels()}
+
+        <h5 className="px3 mt2 mb1 light-gray">People</h5>
         {this.renderUsers()}
       </div>
     );
@@ -53,13 +71,11 @@ const ChatChannels = React.createClass({
 
   renderChannels() {
     return this.state.channels.map((channel) => {
-      let {
-        label,
-        url
-      } = channel;
+      let label = channel.slug;
+      let url = `${AppStore.getUrl()}/rooms/${label}`;
 
       return (
-        <a className="block white" key={url}>#{label}</a>
+        <a className="block white px3 h6 light-gray" href={url} key={url}>#{label}</a>
       );
     }).toJS();
   },
@@ -68,9 +84,13 @@ const ChatChannels = React.createClass({
     return this.state.users.map((user, i) => {
       let username = user.username;
       if (username) {
+        let style = {
+          lineHeight: '1.4rem'
+        };
+
         return (
-          <span className="block clearfix white" key={`${i}`}>
-            {username}
+          <span className="block clearfix light-gray h6 px3" key={`${i}`} style={style}>
+            @{username}
           </span>
         );
       }

@@ -13,7 +13,6 @@ class ChatPixelStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.CHAT_PIXEL_RECEIVED:
-          console.log(action.pixel);
           pixel = action.pixel;
           break;
         default:
