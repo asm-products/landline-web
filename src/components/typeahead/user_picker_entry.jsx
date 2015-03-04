@@ -3,6 +3,7 @@
 const Avatar = require('../ui/avatar.jsx');
 const classnames = require('classnames');
 const React = require('react/addons');
+const TypeaheadActions = require('../../actions/typeahead_actions');
 
 const UserPickerEntry = React.createClass({
   propTypes: {
@@ -40,7 +41,7 @@ const UserPickerEntry = React.createClass({
   handleUserSelected(e) {
     e.stopPropagation();
 
-    TypeaheadActions.selectUser(this.props.user);
+    TypeaheadActions.selectUser(this.props.user.username);
   }
 });
 

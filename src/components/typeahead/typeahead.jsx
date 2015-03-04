@@ -2,6 +2,7 @@
 
 const React = require('react/addons');
 const { Set } = require('immutable');
+const TypeaheadActions = require('../../actions/typeahead_actions');
 const UserPicker = require('./user_picker.jsx');
 const UsersStore = require('../../stores/users_store');
 
@@ -88,6 +89,12 @@ const Typeahead = React.createClass({
       return <UserPicker users={this.state.users}
           highlightIndex={this.state.highlightIndex} />
     }
+  },
+
+  selectCurrentUser() {
+    TypeaheadActions.selectUser(
+      this.state.users.toJS()[this.state.highlightIndex].username
+    );
   },
 
   shouldShowUserPicker() {

@@ -4,10 +4,10 @@ const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
 
 class TypeaheadActions {
-  selectUser(user) {
+  selectUser(username) {
     Dispatcher.dispatch({
-      actionType: ActionTypes.TYPEAHEAD_USER_SELECTED,
-      user: user
+      actionType: ActionTypes.TYPEAHEAD_USERNAME_SELECTED,
+      username: username
     });
   }
 };

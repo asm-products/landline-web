@@ -8,6 +8,7 @@ const CurrentUserStore = require('../../stores/current_user_store');
 const { Map } = require('immutable');
 const React = require('react/addons');
 const Typeahead = require('../typeahead/typeahead.jsx');
+const TypeaheadStore = require('../../stores/typeahead_store');
 
 const ENTER_KEY = 13;
 const USERNAME_REGEX = /(^|\s)@(\w+)$/;
@@ -17,6 +18,11 @@ const ChatInput = React.createClass({
 
   componentDidMount() {
     autosize(this.refs.textarea.getDOMNode());
+    TypeaheadStore.addChangeListener(this.replaceQueryWithUsername);
+  },
+
+  componentWillUnmount() {
+    TypeaheadStore.removeChangeListener(this.replaceQueryWithUsername);
   },
 
   getInitialState() {
@@ -26,6 +32,20 @@ const ChatInput = React.createClass({
       partialUsername: null,
       user: CurrentUserStore.getUser()
     };
+  },
+
+  handleChange(e) {
+    let partialUsername = null;
+    let matches = e.target.value.match(USERNAME_REGEX);
+
+    if (matches) {
+      partialUsername = matches.slice(-1)[0] || '';
+    }
+
+    this.setState({
+      body: e.target.value,
+      partialUsername: partialUsername
+    });
   },
 
   render() {
@@ -50,7 +70,7 @@ const ChatInput = React.createClass({
       return (
         <div className="full-width shadow px3 py1" style={style.div}>
           <Typeahead partialUsername={this.state.partialUsername}>
-            <textarea autofocus={true} 
+            <textarea autofocus={true}
                 className="full-width field-light mb0"
                 style={style.textarea}
                 onKeyPress={this.submitMessage}
@@ -64,6 +84,18 @@ const ChatInput = React.createClass({
     }
 
     return null;
+  },
+
+  replaceQueryWithUsername() {
+    let username = TypeaheadStore.getCurrentUsername();
+    let body = this.state.body;
+
+    this.setState({
+      body: body.replace(USERNAME_REGEX, (match, space) => {
+        return space + '@' + username;
+      }),
+      partialUsername: null
+    });
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -87,20 +119,6 @@ const ChatInput = React.createClass({
         body: ''
       });
     }
-  },
-
-  handleChange(e) {
-    let partialUsername = null;
-    let matches = e.target.value.match(USERNAME_REGEX);
-
-    if (matches) {
-      partialUsername = matches.slice(-1)[0] || '';
-    }
-
-    this.setState({
-      body: e.target.value,
-      partialUsername: partialUsername
-    });
   }
 });
 
