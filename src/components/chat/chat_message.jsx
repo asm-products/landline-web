@@ -6,10 +6,9 @@ const React = require('react/addons');
 const ChatMessage = React.createClass({
   propTypes: {
     message: React.PropTypes.shape({
-      body: React.PropTypes.string,
-      Body: React.PropTypes.string,
-      username: React.PropTypes.string,
-      Username: React.PropTypes.string
+      avatar_url: React.PropTypes.string.isRequired,
+      body: React.PropTypes.string.isRequired,
+      username: React.PropTypes.string.isRequired
     }).isRequired
   },
 
@@ -21,9 +20,9 @@ const ChatMessage = React.createClass({
         <div className="col col-1">
           <Avatar url={message.avatar_url} />
         </div>
-        <div className="col col-11 mxn1">
-          <span className="bold block">{message.Username}</span>
-          <span className="block">{message.Body}</span>
+        <div className="col col-11">
+          <span className="bold block h5">{message.username}</span>
+          <span className="block h5">{message.body}</span>
         </div>
       </div>
     );

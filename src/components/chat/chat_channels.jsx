@@ -63,6 +63,8 @@ const ChatChannels = React.createClass({
         <h5 className="px3 mt2 mb1 light-gray">Channels</h5>
         {this.renderChannels()}
 
+        <hr className="mt2 mb0" style={style.hr} />
+
         <h5 className="px3 mt2 mb1 light-gray">People</h5>
         {this.renderUsers()}
       </div>
@@ -75,7 +77,7 @@ const ChatChannels = React.createClass({
       let url = `${AppStore.getUrl()}/rooms/${label}`;
 
       return (
-        <a className="block white px3 h6 light-gray" href={url} key={url}>#{label}</a>
+        <a className="block white px3 h5 light-gray" href={url} key={url}>#{label}</a>
       );
     }).toJS();
   },
@@ -89,7 +91,7 @@ const ChatChannels = React.createClass({
         };
 
         return (
-          <span className="block clearfix light-gray h6 px3" key={`${i}`} style={style}>
+          <span className="block clearfix light-gray h5 px3" key={`${i}`} style={style}>
             @{username}
           </span>
         );

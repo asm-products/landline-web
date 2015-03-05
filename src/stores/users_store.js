@@ -36,7 +36,7 @@ class UsersStore extends Store {
 
   filterUsersByPartialUsername(partial) {
     return users.filter((user) => {
-      return user.get('username').toLowerCase().indexOf((partial || '').toLowerCase()) > -1;
+      return user.username.toLowerCase().indexOf((partial || '').toLowerCase()) > -1;
     }).slice(0, 10);
   }
 }

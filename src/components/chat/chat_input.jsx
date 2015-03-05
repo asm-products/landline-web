@@ -104,20 +104,22 @@ const ChatInput = React.createClass({
 
   submitMessage(e) {
     if (e.which === ENTER_KEY) {
-      e.stopPropagation();
+      e.preventDefault();
+
+      let body = this.state.body;
+
+      this.setState({
+        body: ''
+      });
 
       ChatActions.submitMessage(
         `${AppStore.getUrl()}/rooms/${this.state.channel}/messages`,
         CurrentUserStore.getToken(),
         Map({
           user: this.state.user,
-          body: this.state.body
+          body: body
         })
       );
-
-      this.setState({
-        body: ''
-      });
     }
   }
 });

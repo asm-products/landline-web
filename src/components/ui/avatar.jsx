@@ -11,8 +11,8 @@ const Avatar = React.createClass({
     let style = {
       avatar: {
         borderRadius: '50%',
-        maxHeight: 30,
-        maxWidth: 30
+        maxHeight: 24,
+        maxWidth: 24
       }
     };
 
