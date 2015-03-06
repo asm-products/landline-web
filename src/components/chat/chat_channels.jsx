@@ -5,6 +5,7 @@ const ChatActions = require('../../actions/chat_actions');
 const ChatChannelsStore = require('../../stores/chat_channels_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const Icon = require('../ui/icon.jsx');
+const { is } = require('immutable');
 const React = require('react/addons');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
@@ -17,10 +18,7 @@ const ChatChannels = React.createClass({
     let url = AppStore.getUrl();
     let token = CurrentUserStore.getToken();
 
-    ChatActions.getChannels(
-      `${url}/rooms?r=1&t=1`,
-      token
-    );
+    this.getChannels();
     UserActions.init(
       `${url}/users?t=1`,
       token
@@ -37,6 +35,16 @@ const ChatChannels = React.createClass({
   componentWillUnmount() {
     ChatChannelsStore.removeChangeListener(this.updateChannels);
     UsersStore.removeChangeListener(this.updateUsers);
+  },
+
+  getChannels() {
+    let url = AppStore.getUrl();
+    let token = CurrentUserStore.getToken();
+
+    ChatActions.getChannels(
+      `${url}/rooms?r=1&t=1`,
+      token
+    );
   },
 
   getInitialState() {
@@ -74,7 +82,7 @@ const ChatChannels = React.createClass({
   renderChannels() {
     return this.state.channels.map((channel) => {
       let label = channel.slug;
-      let url = `${AppStore.getUrl()}/rooms/${label}`;
+      let url = `/rooms/${label}`;
 
       return (
         <a className="block white px3 h5 light-gray" href={url} key={url}>#{label}</a>
@@ -105,6 +113,10 @@ const ChatChannels = React.createClass({
         `${AppStore.getUrl()}/rooms/${this.state.currentChannel}`,
         CurrentUserStore.getToken()
       );
+      return true;
+    }
+
+    if (!is(nextState.channels, this.state.channels)) {
       return true;
     }
 
