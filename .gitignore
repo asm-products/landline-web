@@ -33,3 +33,6 @@ config.json
 config.dev.json
 
 dist/landline.dev.js
+
+#ignore IntellIJ IDE files
+.idea
