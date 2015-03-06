@@ -1,4 +1,3 @@
-var config = require('./config.dev');
 var webpack = require('webpack');
 
 module.exports = exports = Object.create(require('./webpack.config'));

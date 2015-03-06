@@ -15,15 +15,18 @@
     "assembly",
     "asm"
   ],
-  "author": "chuck@assembly.com",
+  "authors": [
+    {
+      "name": "Charles Pletcher",
+      "email": "chuck@assembly.com"
+    }
+  ],
   "license": "AGPL",
   "engines": "0.10.x",
   "dependencies": {
     "autosize": "^2.0.0",
     "basscss": "^4.2.4",
     "classnames": "^1.1.4",
-    "express": "^4.11.2",
-    "firebase": "^2.2.0",
     "flux": "^2.0.1",
     "font-awesome": "^4.3.0",
     "immutable": "^3.6.2",
@@ -36,6 +39,7 @@
     "babel-core": "^4.1.1",
     "babel-loader": "^4.0.0",
     "css-loader": "^0.9.1",
+    "express": "^4.11.2",
     "file-loader": "^0.8.1",
     "jest-cli": "^0.4.0",
     "jsx-loader": "^0.12.2",
