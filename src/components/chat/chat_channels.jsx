@@ -10,6 +10,8 @@ const React = require('react/addons');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
 
+const THIRTY_MINUTES = 30 * 60 * 60 * 1000;
+
 const ChatChannels = React.createClass({
   componentDidMount() {
     ChatChannelsStore.addChangeListener(this.updateChannels);
@@ -90,6 +92,21 @@ const ChatChannels = React.createClass({
     }).toJS();
   },
 
+  renderOnlineIndicator(lastOnlineAt) {
+    if (Date.now() - new Date(lastOnlineAt) < THIRTY_MINUTES) {
+      let style = {
+        backgroundColor: '#33D6A6',
+        borderRadius: '50%',
+        display: 'inline-block'
+        height: 8,
+        lineHeight: '.5',
+        textAlign: 'center',
+        width: 8,
+      };
+      return <span style={style} />;
+    }
+  },
+
   renderUsers() {
     return this.state.users.map((user, i) => {
       let username = user.username;
@@ -100,7 +117,7 @@ const ChatChannels = React.createClass({
 
         return (
           <span className="block clearfix light-gray h5 px3" key={`${i}`} style={style}>
-            @{username}
+            @{username} {this.renderOnlineIndicator(user.last_online_at)}
           </span>
         );
       }
