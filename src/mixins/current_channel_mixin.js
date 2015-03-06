@@ -17,7 +17,7 @@ module.exports = {
 
   setChannel() {
     this.setState({
-      channel: this.getChannel()
+      currentChannel: this.getChannel()
     });
   }
 };
