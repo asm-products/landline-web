@@ -47,7 +47,7 @@ const ChatMessages = React.createClass({
 
   getMessages() {
     return {
-      channel: (this.state && this.state.currentChannel) || CurrentChannelMixin.getChannel(),
+      channel: CurrentChannelMixin.getChannel(),
       messages: ChatMessagesStore.getMessages()
     };
   },
