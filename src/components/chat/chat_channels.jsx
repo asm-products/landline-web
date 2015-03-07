@@ -97,11 +97,11 @@ const ChatChannels = React.createClass({
       let style = {
         backgroundColor: '#33D6A6',
         borderRadius: '50%',
-        display: 'inline-block'
+        display: 'inline-block',
         height: 8,
         lineHeight: '.5',
         textAlign: 'center',
-        width: 8,
+        width: 8
       };
       return <span style={style} />;
     }
