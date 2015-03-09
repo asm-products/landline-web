@@ -44,7 +44,9 @@ const ChatChannels = React.createClass({
   },
 
   componentWillReceiveProps() {
-      this.setState({currentChannel: this.getParams().roomSlug});
+      this.setState({
+          currentChannel: this.getParams().roomSlug
+      });
   },
 
   getChannels() {

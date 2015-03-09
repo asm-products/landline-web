@@ -43,7 +43,9 @@ const ChatMessages = React.createClass({
   },
 
   componentWillReceiveProps() {
-      this.setState({channel: this.getParams().roomSlug});
+      this.setState({
+          channel: this.getParams().roomSlug
+      });
   },
 
   getInitialState() {

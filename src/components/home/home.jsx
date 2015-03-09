@@ -19,7 +19,9 @@ const Home = React.createClass({
   },
 
   componentWillReceiveProps() {
-    this.setState({currentRoom: this.getParams().room});
+    this.setState({
+        currentRoom: this.getParams().room
+    });
   },
 
   getInitialState() {
