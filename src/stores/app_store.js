@@ -4,6 +4,7 @@ const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
 const Store = require('./store');
 
+let teamName = 'Landline';
 let url = '';
 
 class AppStore extends Store {
@@ -21,6 +22,10 @@ class AppStore extends Store {
 
       this.emitChange();
     });
+  }
+
+  getTeamName() {
+    return teamName;
   }
 
   getUrl() {
