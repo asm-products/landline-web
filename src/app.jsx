@@ -11,7 +11,7 @@ const DefaultRoute = Router.DefaultRoute;
 const Link = Router.Link;
 const Route = Router.Route;
 const RouteHandler = Router.RouteHandler;
-
+const Redirect = Router.Redirect;
 
 const AppActions = require('./actions/app_actions');
 const AppStore = require('./stores/app_store');
@@ -29,7 +29,8 @@ const App = React.createClass({
 
 const routes = (
     <Route name="app" path="/" handler={App}>
-        <DefaultRoute handler={Home}/>
+        <Route name="chat" path="/rooms/:roomSlug" handler={Home}/>
+        <Redirect from="/" to="chat" params={{roomSlug: "general"}} />
     </Route>
 )
 

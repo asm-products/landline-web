@@ -17,19 +17,12 @@ class ChatChannelsStore extends Store {
         case ActionTypes.CHAT_CHANNELS_RECEIVED:
           channels = List(action.channels);
           break;
-        case ActionTypes.CHAT_CHANNEL_RECEIVED:
-          currentChannel = action.channel;
-          break;
         default:
           return;
       }
 
       this.emitChange();
     });
-  }
-
-  getCurrentChannel() {
-    return currentChannel;
   }
 
   getChannels() {

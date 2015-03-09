@@ -8,8 +8,19 @@ const ChatChannels = require('./chat_channels.jsx');
 const ChatMessages = require('./chat_messages.jsx');
 const ChatPixel = require('./chat_pixel.jsx');
 const React = require('react/addons');
+const Router = require('react-router'); // or var Router = ReactRouter; in browsers
+
 
 const Chat = React.createClass({
+  mixins: [Router.State],
+  componentWillReceiveProps(props) {
+    this.setState({currentRoom: props.currentRoom});
+  },
+
+  getInitialState(){
+      return {currentRoom:this.getParams().roomSlug};
+  },
+
   render() {
     let style = {
       chat: {
@@ -37,11 +48,11 @@ const Chat = React.createClass({
       <div style={style.chatWrapper}>
         <div className="flex flex-stretch" style={style.chat}>
           <div className="sm-show md-show lg-show bg-dark-gray white" style={style.chatChannels}>
-            <ChatChannels />
+            <ChatChannels currentRoom={this.state.currentRoom} />
           </div>
 
           <div className="flex-auto" ref="messages">
-            <ChatMessages />
+            <ChatMessages currentRoom={this.state.currentRoom} />
           </div>
         </div>
         <ChatPixel />

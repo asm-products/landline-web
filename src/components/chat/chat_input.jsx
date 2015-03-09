@@ -3,10 +3,10 @@
 const AppStore = require('../../stores/app_store');
 const autosize = require('autosize/src/autosize');
 const ChatActions = require('../../actions/chat_actions');
-const CurrentChannelMixin = require('../../mixins/current_channel_mixin');
 const CurrentUserStore = require('../../stores/current_user_store');
 const { Map } = require('immutable');
 const React = require('react/addons');
+const Router = require('react-router'); // or var Router = ReactRouter; in browsers
 const Typeahead = require('../typeahead/typeahead.jsx');
 const TypeaheadStore = require('../../stores/typeahead_store');
 
@@ -14,7 +14,7 @@ const ENTER_KEY = 13;
 const USERNAME_REGEX = /(^|\s)@(\w+)$/;
 
 const ChatInput = React.createClass({
-  mixins: [CurrentChannelMixin],
+  mixins: [Router.State],
 
   componentDidMount() {
     autosize(this.refs.textarea.getDOMNode());
@@ -28,10 +28,14 @@ const ChatInput = React.createClass({
   getInitialState() {
     return {
       body: '',
-      channel: CurrentChannelMixin.getChannel(),
+      channel: this.getParams().roomSlug,
       partialUsername: null,
       user: CurrentUserStore.getUser()
     };
+  },
+
+  componentWillReceiveProps(props) {
+      this.setState({channel: props.currentRoom})
   },
 
   handleChange(e) {

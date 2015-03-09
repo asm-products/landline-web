@@ -10,9 +10,13 @@ const React = require('react/addons');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
 
+const Router = require('react-router'); // or var Router = ReactRouter; in browsers
+const Link = Router.Link
+
 const THIRTY_MINUTES = 30 * 60 * 60 * 1000;
 
 const ChatChannels = React.createClass({
+  mixins: [Router.State],
   componentDidMount() {
     ChatChannelsStore.addChangeListener(this.updateChannels);
     UsersStore.addChangeListener(this.updateUsers);
@@ -39,6 +43,10 @@ const ChatChannels = React.createClass({
     UsersStore.removeChangeListener(this.updateUsers);
   },
 
+  componentWillReceiveProps(props) {
+      this.setState({currentChannel: props.currentRoom});
+  },
+
   getChannels() {
     let url = AppStore.getUrl();
     let token = CurrentUserStore.getToken();
@@ -51,7 +59,7 @@ const ChatChannels = React.createClass({
 
   getInitialState() {
     return {
-      currentChannel: ChatChannelsStore.getCurrentChannel(),
+      currentChannel: this.getParams().roomSlug,
       channels: ChatChannelsStore.getChannels(),
       users: UsersStore.getUsers()
     };
@@ -84,10 +92,9 @@ const ChatChannels = React.createClass({
   renderChannels() {
     return this.state.channels.map((channel) => {
       let label = channel.slug;
-      let url = `/rooms/${label}`;
 
       return (
-        <a className="block white px3 h5 light-gray" href={url} key={url}>#{label}</a>
+        <Link to="chat" params={{roomSlug: label}} key={label} className="block white px3 h5 light-gray">#{label}</Link>
       );
     }).toJS();
   },
@@ -97,7 +104,7 @@ const ChatChannels = React.createClass({
       let style = {
         backgroundColor: '#33D6A6',
         borderRadius: '50%',
-        display: 'inline-block'
+        display: 'inline-block',
         height: 8,
         lineHeight: '.5',
         textAlign: 'center',
@@ -146,7 +153,7 @@ const ChatChannels = React.createClass({
 
   updateChannels() {
     this.setState({
-      currentChannel: ChatChannelsStore.getCurrentChannel(),
+      currentChannel: this.getParams().roomSlug,
       channels: ChatChannelsStore.getChannels()
     });
   },
