@@ -1,2 +1,10 @@
 language: node_js
-node_js: "0.10"
+node_js: '0.10'
+deploy:
+  provider: npm
+  email: cpletcher2@gmail.com
+  api_key:
+    secure: AC9F/pBm3pT6ChO0NXhvLaOIp5xrJquwTvy4sf+AqXSgVPFQSBPDev3kHCM5pZUUztmovggGhOquEYX9roGaoC4UYj/BelbzdHLyI6XVLZmQsiq3Nkm49uZI6hhH4KAKHEuCYz1vJ+uXeTpnpXTtVeAIAUZB6xYubx38EFKs6Wg=
+  on:
+    tags: true
+    repo: asm-products/landline-web
