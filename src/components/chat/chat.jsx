@@ -13,8 +13,8 @@ const Router = require('react-router'); // or var Router = ReactRouter; in brows
 
 const Chat = React.createClass({
   mixins: [Router.State],
-  componentWillReceiveProps(props) {
-    this.setState({currentRoom: props.currentRoom});
+  componentWillReceiveProps() {
+    this.setState({currentRoom: this.getParams().roomSlug});
   },
 
   getInitialState(){

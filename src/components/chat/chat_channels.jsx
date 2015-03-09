@@ -43,8 +43,8 @@ const ChatChannels = React.createClass({
     UsersStore.removeChangeListener(this.updateUsers);
   },
 
-  componentWillReceiveProps(props) {
-      this.setState({currentChannel: props.currentRoom});
+  componentWillReceiveProps() {
+      this.setState({currentChannel: this.getParams().roomSlug});
   },
 
   getChannels() {

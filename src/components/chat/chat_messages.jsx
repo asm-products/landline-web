@@ -42,8 +42,8 @@ const ChatMessages = React.createClass({
     ChatMessagesStore.removeChangeListener(this.updateMessages);
   },
 
-  componentWillReceiveProps(props) {
-      this.setState({channel: props.currentRoom});
+  componentWillReceiveProps() {
+      this.setState({channel: this.getParams().roomSlug});
   },
 
   getInitialState() {

@@ -34,8 +34,8 @@ const ChatInput = React.createClass({
     };
   },
 
-  componentWillReceiveProps(props) {
-      this.setState({channel: props.currentRoom})
+  componentWillReceiveProps() {
+      this.setState({channel: this.getParams().roomSlug})
   },
 
   handleChange(e) {
