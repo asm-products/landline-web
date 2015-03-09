@@ -74,7 +74,7 @@ const ChatChannels = React.createClass({
 
     return (
       <div className="white">
-        <h4 className="mt3 px3 light-gray">Landline</h4>
+        <h4 className="mt3 px3 light-gray">{AppStore.getTeamName()}</h4>
 
         <hr className="mt2 mb0" style={style.hr} />
 
@@ -108,7 +108,7 @@ const ChatChannels = React.createClass({
         height: 8,
         lineHeight: '.5',
         textAlign: 'center',
-        width: 8,
+        width: 8
       };
       return <span style={style} />;
     }
