@@ -1,6 +1,6 @@
 # Landline
 
-<a href="https://assembly.com/landline/bounties?utm_campaign=assemblage&utm_source=landline&utm_medium=repo_badge"><img src="https://asm-badger.herokuapp.com/landline/badges/tasks.svg" height="24px" alt="Open Tasks" /></a>
+[![Build Status](https://travis-ci.org/asm-products/landline-web.svg)](https://travis-ci.org/asm-products/landline-web) <a href="https://assembly.com/landline/bounties?utm_campaign=assemblage&utm_source=landline&utm_medium=repo_badge"><img src="https://asm-badger.herokuapp.com/landline/badges/tasks.svg" height="24px" alt="Open Tasks" /></a>
 
 ## Hosted, flexible chat
 
