@@ -92,9 +92,10 @@ const Typeahead = React.createClass({
   },
 
   selectCurrentUser() {
-    TypeaheadActions.selectUser(
-      this.state.users.toJS()[this.state.highlightIndex].username
-    );
+    let user = this.state.users.toJS()[this.state.highlightIndex];
+    if (user) {
+      TypeaheadActions.selectUser(user.username);
+    }
   },
 
   shouldShowUserPicker() {
