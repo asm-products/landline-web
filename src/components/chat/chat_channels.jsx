@@ -76,16 +76,15 @@ const ChatChannels = React.createClass({
 
     return (
       <div className="white">
-        <h4 className="mt3 px3 light-gray">{AppStore.getTeamName()}</h4>
+        {/*<h4 className="mt3 px3 light-gray">{AppStore.getTeamName()}</h4>
+        <hr className="mt2 mb0" style={style.hr} />*/}
 
-        <hr className="mt2 mb0" style={style.hr} />
-
-        <h5 className="px3 mt2 mb1 light-gray">Channels</h5>
+        <h4 className="px3 mt2 mb1 light-gray">Channels</h4>
         {this.renderChannels()}
 
         <hr className="mt2 mb0" style={style.hr} />
 
-        <h5 className="px3 mt2 mb1 light-gray">People</h5>
+        <h4 className="px3 mt2 mb1 light-gray">People</h4>
         {this.renderUsers()}
       </div>
     );
