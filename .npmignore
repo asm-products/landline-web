@@ -1,5 +1,4 @@
-config.json.sample
+.editorconfig
 index.html
-src
 __tests__
 webpack.config.dev.js

@@ -5,21 +5,18 @@ if (typeof __TEST__ === 'undefined') {
 }
 
 const $ = require('jquery');
-
-const Router = require('react-router'); // or var Router = ReactRouter; in browsers
-const DefaultRoute = Router.DefaultRoute;
-const Link = Router.Link;
-const Route = Router.Route;
-const RouteHandler = Router.RouteHandler;
-
-
 const AppActions = require('./actions/app_actions');
 const AppStore = require('./stores/app_store');
 const Home = require('./components/home/home.jsx')
 const React = require('react/addons');
+const Router = require('react-router');
 const UserActions = require('./actions/user_actions');
 const url = require('url');
 
+const DefaultRoute = Router.DefaultRoute;
+const Link = Router.Link;
+const Route = Router.Route;
+const RouteHandler = Router.RouteHandler;
 
 const App = React.createClass({
   render() {
@@ -28,10 +25,10 @@ const App = React.createClass({
 });
 
 const routes = (
-    <Route name="app" path="/" handler={App}>
-        <DefaultRoute handler={Home}/>
-    </Route>
-)
+  <Route name="app" path="/" handler={App}>
+    <DefaultRoute handler={Home}/>
+  </Route>
+);
 
 let Landline = (loc, apiUrl, element) => {
   let parsedUrl = url.parse(loc, true);
