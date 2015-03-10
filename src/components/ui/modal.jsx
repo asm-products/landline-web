@@ -1,3 +1,5 @@
+'use strict';
+
 // https://github.com/jxnblk/rebass/blob/master/src/modal.jsx
 const React = require('react');
 const ThemeMixin = require('./theme_mixin');
@@ -29,7 +31,7 @@ module.exports = React.createClass({
   render() {
     let isOpen = this.props.isOpen;
     let header = this.props.header;
-    let classes = this.getThemeClasses();
+    let classes = this.getThemeClasses() || {};
     classes.body = this.props.flush ? '' : 'p2';
     classes.header = 'flex flex-center ' + classes.main + (classes.border ? ' border-bottom' : '');
     classes.container = 'flex flex-center overflow-auto bg-darken-3 ' + (this.props.fullBleed ? '' : 'p2');

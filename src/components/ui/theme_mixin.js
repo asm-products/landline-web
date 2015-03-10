@@ -1,4 +1,4 @@
-
+'use strict';
 // Theme mixin
 // https://github.com/jxnblk/rebass/blob/master/src/theme-mixin.jsx
 

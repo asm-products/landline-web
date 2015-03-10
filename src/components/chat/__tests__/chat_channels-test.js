@@ -51,7 +51,7 @@ describe('ChatChannels', () => {
     it('iterates through the channels and returns an array of links', () => {
       let renderedChannels = TestUtils.scryRenderedDOMComponentsWithClass(
         chatChannels,
-        'block white px3 h5 light-gray'
+        'px3 h5 light-gray'
       );
       expect(renderedChannels.length).toEqual(1);
       expect(renderedChannels[0].tagName).toEqual('A');
