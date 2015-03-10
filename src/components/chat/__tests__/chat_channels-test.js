@@ -7,9 +7,12 @@ const React = require('react/addons');
 const TestUtils = React.addons.TestUtils;
 
 describe('ChatChannels', () => {
-  let channels, ChatChannels, chatChannels, ChatChannelsStore, users, UsersStore;
+  let channels, ChatChannels, chatChannels, ChatChannelsStore, el, users, UsersStore;
 
   beforeEach(() => {
+    let getCurrentParams = () => {
+      return {};
+    };
     channels = List([
       { label: 'test', url: '/test' }
     ]);
@@ -18,12 +21,14 @@ describe('ChatChannels', () => {
         username: 'Larry'
       }
     });
+    el = document.createElement('div');
     ChatChannelsStore = require('../../../stores/chat_channels_store');
     ChatChannelsStore.getChannels.mockReturnValue(channels);
     ChatChannels = require('../chat_channels.jsx');
     UsersStore = require('../../../stores/users_store');
     UsersStore.getUsers.mockReturnValue(users);
-    chatChannels = TestUtils.renderIntoDocument(<ChatChannels />);
+    StubbedChannels = stubRouterContext(ChatChannels, {}, { getCurrentParams: getCurrentParams });
+    chatChannels = React.render(<StubbedChannels />, el);
   });
 
   describe('componentDidMount()', () => {
@@ -35,7 +40,7 @@ describe('ChatChannels', () => {
 
   describe('componentWillUnmount()', () => {
     it('removes a listener from ChatChannelsStore', () => {
-      chatChannels.componentWillUnmount();
+      React.unmountComponentAtNode(el);
 
       expect(ChatChannelsStore.removeChangeListener).
         toBeCalledWith(chatChannels.updateChannels);
@@ -44,17 +49,12 @@ describe('ChatChannels', () => {
 
   describe('renderChannels()', () => {
     it('iterates through the channels and returns an array of links', () => {
-      let renderedChannels = chatChannels.renderChannels();
+      let renderedChannels = TestUtils.scryRenderedDOMComponentsWithClass(
+        chatChannels,
+        'block white px3 h5 light-gray'
+      );
       expect(renderedChannels.length).toEqual(1);
-      expect(TestUtils.isElement(renderedChannels[0])).toBe(true);
-    });
-  });
-
-  describe('updateChannels()', () => {
-    it('sets the state with channels', () => {
-      chatChannels.updateChannels();
-
-      expect(chatChannels.state.channels.size).toEqual(1);
+      expect(renderedChannels[0].tagName).toEqual('A');
     });
   });
 });

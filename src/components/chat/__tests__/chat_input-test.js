@@ -7,9 +7,13 @@ let React;
 let TestUtils;
 
 describe('ChatInput', () => {
-  let ChatActions, ChatInput, chatInput, CurrentUserStore, currentUser;
+  let ChatActions, ChatInput, chatInput, CurrentUserStore, currentUser, TypeaheadStore;
 
   beforeEach(() => {
+    let getCurrentParams = () => {
+      return {};
+    };
+
     React = require('react/addons');
     TestUtils = React.addons.TestUtils;
 
@@ -20,14 +24,31 @@ describe('ChatInput', () => {
     ChatInput = require('../chat_input.jsx');
     CurrentUserStore = require('../../../stores/current_user_store');
     CurrentUserStore.getUser.mockReturnValue(currentUser);
-    chatInput = TestUtils.renderIntoDocument(<ChatInput />);
+    TypeaheadStore = require('../../../stores/typeahead_store');
+    StubbedInput = stubRouterContext(ChatInput, {}, { getCurrentParams: getCurrentParams });
+    chatInput = React.render(<StubbedInput />, document.createElement('div'));
   });
 
-  describe('getInitialState()', () => {
-    it('returns empty states for the state props', () => {
-      let state = chatInput.getInitialState();
+  describe('componentDidMount()', () => {
+    it('listens to the TypeaheadStore', () => {
+      expect(TypeaheadStore.addChangeListener).toBeCalled();
+    });
+  });
 
-      expect(state.user).toEqual(currentUser);
+  describe('render()', () => {
+    let Typeahead, t;
+
+    beforeEach(() => {
+      Typeahead = require('../../typeahead/typeahead.jsx');
+      t = TestUtils.findRenderedComponentWithType(chatInput, Typeahead);
+    });
+
+    it('renders a Typeahead component', () => {
+      expect(t).toBeDefined();
+    });
+
+    it('passes a textarea as child to Typeahead', () => {
+      expect(t.props.children.type).toEqual('textarea');
     });
   });
 });
