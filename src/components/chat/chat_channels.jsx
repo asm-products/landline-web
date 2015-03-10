@@ -2,10 +2,12 @@
 
 const AppStore = require('../../stores/app_store');
 const ChatActions = require('../../actions/chat_actions');
+const ChatChannelMembershipsStore = require('../../stores/chat_channel_memberships_store');
 const ChatChannelsStore = require('../../stores/chat_channels_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const Icon = require('../ui/icon.jsx');
 const { is } = require('immutable');
+const Modal = require('../ui/modal.jsx');
 const React = require('react/addons');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
@@ -44,9 +46,9 @@ const ChatChannels = React.createClass({
   },
 
   componentWillReceiveProps() {
-      this.setState({
-          currentChannel: this.getParams().roomSlug
-      });
+    this.setState({
+      currentChannel: this.getParams().roomSlug
+    });
   },
 
   getChannels() {
@@ -63,14 +65,41 @@ const ChatChannels = React.createClass({
     return {
       currentChannel: this.getParams().roomSlug,
       channels: ChatChannelsStore.getChannels(),
+      isModalOpen: false,
       users: UsersStore.getUsers()
     };
+  },
+
+  handleJoinChannel(channel, e) {
+
+  },
+
+  handleLeaveChannel(channel, e) {
+    e.stopPropagation();
+
+  },
+
+  handleModalDismissed() {
+    this.setState({
+      isModalOpen: false
+    });
+  },
+
+  handleSeeAllChannels(e) {
+    e.preventDefault();
+
+    this.setState({
+      isModalOpen: true
+    });
   },
 
   render() {
     let style = {
       hr: {
         borderColor: 'rgba(0,0,0,0.1)'
+      },
+      span: {
+        cursor: 'pointer'
       }
     };
 
@@ -82,22 +111,84 @@ const ChatChannels = React.createClass({
         <h4 className="px3 mt2 mb1 light-gray">Channels</h4>
         {this.renderChannels()}
 
+        <h5 className="px3 mt1 mb1 light-gray">
+          <span onClick={this.handleSeeAllChannels} style={style.span}>See all</span>
+        </h5>
         <hr className="mt2 mb0" style={style.hr} />
 
         <h4 className="px3 mt2 mb1 light-gray">People</h4>
         {this.renderUsers()}
+        {this.renderModal()}
       </div>
     );
   },
 
-  renderChannels() {
+  renderAllChannels() {
+    let style = {
+      overflowY: 'scroll'
+    };
+
     return this.state.channels.map((channel) => {
       let label = channel.slug;
 
       return (
-        <Link to="chat" params={{roomSlug: label}} key={label} className="block white px3 h5 light-gray">#{label}</Link>
+        <div className="clearfix mb2" style={style} key={label}>
+          <div className="left h5 dark-gray mt1 ml2">
+            {label}
+          </div>
+
+          <div className="right h5">
+            <button className="button mr2"
+                onClick={this.handleJoinChannel.bind(this, label)}>
+              Join
+            </button>
+            <button className="button-outline blue"
+                onClick={this.handleLeaveChannel.bind(this, label)}>
+              Leave
+            </button>
+          </div>
+        </div>
       );
     }).toJS();
+  },
+
+  renderChannels() {
+    let style = {
+      cursor: 'pointer'
+    };
+
+    return this.state.channels.map((channel) => {
+      let label = channel.slug;
+
+      return (
+        <div className="clearfix">
+          <Link to="chat"
+              params={{roomSlug: label}}
+              key={label}
+              className="px3 h5 light-gray">
+            #{label}
+          </Link>
+          <span className="h5"
+              style={style}
+              onClick={this.handleLeaveChannel.bind(this, label)}>
+            <Icon icon="close" />
+          </span>
+        </div>
+      );
+    }).toJS();
+  },
+
+  renderModal() {
+    return (
+      <div className="dark-gray">
+        <Modal header="Channels"
+            isOpen={this.state.isModalOpen}
+            onDismiss={this.handleModalDismissed}
+            theme="dark-gray">
+          {this.renderAllChannels()}
+        </Modal>
+      </div>
+    );
   },
 
   renderOnlineIndicator(lastOnlineAt) {
@@ -146,6 +237,10 @@ const ChatChannels = React.createClass({
     }
 
     if (nextState.users.size !== this.state.users.size) {
+      return true;
+    }
+
+    if (nextState.isModalOpen !== this.state.isModalOpen) {
       return true;
     }
 

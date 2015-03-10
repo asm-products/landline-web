@@ -24,7 +24,7 @@
   "engines": "0.10.x",
   "dependencies": {
     "autosize": "^2.0.0",
-    "basscss": "^4.2.4",
+    "basscss": "^5.0.1",
     "classnames": "^1.1.4",
     "flux": "^2.0.1",
     "font-awesome": "^4.3.0",
