@@ -7,8 +7,7 @@ const ChatMessage = require('./chat_message.jsx');
 const ChatMessagesStore = require('../../stores/chat_messages_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
-const Router = require('react-router'); // or var Router = ReactRouter; in browsers
-
+const Router = require('react-router');
 
 const ChatMessages = React.createClass({
   mixins: [Router.State],
@@ -28,6 +27,21 @@ const ChatMessages = React.createClass({
     }
   },
 
+  componentWillReceiveProps() {
+    let previousChannel = this.state.channel;
+    this.setState({
+      channel: this.getParams().roomSlug
+    }, () => {
+      if (previousChannel !== this.state.channel) {
+        ChatActions.destroy();
+        ChatActions.init(
+          `${AppStore.getUrl()}/rooms/${this.state.channel}/messages`,
+          CurrentUserStore.getToken()
+        );
+      }
+    });
+  },
+
   componentWillUpdate() {
     let node = this.refs.messages.getDOMNode();
     // magic number :(
@@ -40,12 +54,6 @@ const ChatMessages = React.createClass({
   componentWillUnmount() {
     ChatActions.destroy();
     ChatMessagesStore.removeChangeListener(this.updateMessages);
-  },
-
-  componentWillReceiveProps() {
-      this.setState({
-          channel: this.getParams().roomSlug
-      });
   },
 
   getInitialState() {

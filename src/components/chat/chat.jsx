@@ -15,14 +15,14 @@ const Chat = React.createClass({
   mixins: [Router.State],
   componentWillReceiveProps() {
     this.setState({
-        currentRoom: this.getParams().roomSlug
+      currentRoom: this.getParams().roomSlug
     });
   },
 
   getInitialState(){
-      return {
-          currentRoom:this.getParams().roomSlug
-      };
+    return {
+      currentRoom:this.getParams().roomSlug
+    };
   },
 
   render() {

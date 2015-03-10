@@ -57,8 +57,8 @@ let Landline = (loc, apiUrl, element) => {
   });
 
   Router.run(routes, (Handler) => {
-      React.render(<Handler/>, element);
-  })
+    React.render(<Handler/>, element);
+  });
 };
 
 module.exports = Landline;
