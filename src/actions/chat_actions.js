@@ -44,7 +44,8 @@ class ChatActions {
       success(data) {
         Dispatcher.dispatch({
           actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
-          channels: data.rooms
+          channels: data.rooms,
+          memberships: data.memberships
         });
       },
       error() {
@@ -76,6 +77,48 @@ class ChatActions {
 
   init(url, token) {
     this.interval = setInterval(getMessages(url, token), 500);
+  }
+
+  joinChannel(url, token) {
+    $.ajax({
+      url: url,
+      method: 'PUT',
+      dataType: 'json',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      success(membershipObj) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.MEMBERSHIP_RECEIVED,
+          membership: membershipObj.membership.room_id
+        });
+      },
+      error() {
+        console.log(arguments);
+      }
+    });
+  }
+
+  leaveChannel(url, token) {
+    $.ajax({
+      url: url,
+      method: 'DELETE',
+      dataType: 'json',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      success(membershipObj) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.MEMBERSHIP_DESTROYED,
+          membership: membershipObj.deleted
+        });
+      },
+      error() {
+        console.log(arguments);
+      }
+    });
   }
 
   submitMessage(url, token, message) {

@@ -21,6 +21,7 @@ const ChatChannels = React.createClass({
   mixins: [Router.State],
   componentDidMount() {
     ChatChannelsStore.addChangeListener(this.updateChannels);
+    ChatChannelMembershipsStore.addChangeListener(this.updateChannels);
     UsersStore.addChangeListener(this.updateUsers);
 
     let url = AppStore.getUrl();
@@ -42,6 +43,7 @@ const ChatChannels = React.createClass({
 
   componentWillUnmount() {
     ChatChannelsStore.removeChangeListener(this.updateChannels);
+    ChatChannelMembershipsStore.removeChangeListener(this.updateChannels);
     UsersStore.removeChangeListener(this.updateUsers);
   },
 
@@ -66,17 +68,27 @@ const ChatChannels = React.createClass({
       currentChannel: this.getParams().roomSlug,
       channels: ChatChannelsStore.getChannels(),
       isModalOpen: false,
+      subscribedChannels: ChatChannelsStore.getSubscribedChannels(),
       users: UsersStore.getUsers()
     };
   },
 
   handleJoinChannel(channel, e) {
+    e.stopPropagation();
 
+    ChatActions.joinChannel(
+      `${AppStore.getUrl()}/rooms/${channel}/memberships`,
+      CurrentUserStore.getToken()
+    );
   },
 
   handleLeaveChannel(channel, e) {
     e.stopPropagation();
 
+    ChatActions.leaveChannel(
+      `${AppStore.getUrl()}/rooms/${channel}/memberships`,
+      CurrentUserStore.getToken()
+    );
   },
 
   handleModalDismissed() {
@@ -138,14 +150,7 @@ const ChatChannels = React.createClass({
           </div>
 
           <div className="right h5">
-            <button className="button mr2"
-                onClick={this.handleJoinChannel.bind(this, label)}>
-              Join
-            </button>
-            <button className="button-outline blue"
-                onClick={this.handleLeaveChannel.bind(this, label)}>
-              Leave
-            </button>
+            {this.renderJoinOrLeaveButton(channel)}
           </div>
         </div>
       );
@@ -157,25 +162,39 @@ const ChatChannels = React.createClass({
       cursor: 'pointer'
     };
 
-    return this.state.channels.map((channel) => {
+    return this.state.subscribedChannels.map((channel) => {
       let label = channel.slug;
 
       return (
-        <div className="clearfix">
-          <Link to="chat"
-              params={{roomSlug: label}}
-              key={label}
-              className="px3 h5 light-gray">
-            #{label}
-          </Link>
-          <span className="h5"
-              style={style}
-              onClick={this.handleLeaveChannel.bind(this, label)}>
-            <Icon icon="close" />
-          </span>
-        </div>
+        <Link to="chat"
+            params={{roomSlug: label}}
+            key={label}
+            className="block mb1 px3 h5 light-gray">
+          #{label}
+        </Link>
       );
     }).toJS();
+  },
+
+  renderJoinOrLeaveButton(channel) {
+    let label = channel.slug;
+    let subscribedChannels = this.state.subscribedChannels;
+
+    if (this.state.subscribedChannels.contains(channel)) {
+      return (
+        <button className="button-outline blue"
+            onClick={this.handleLeaveChannel.bind(this, label)}>
+          Leave
+        </button>
+      );
+    }
+
+    return (
+      <button className="button"
+          onClick={this.handleJoinChannel.bind(this, label)}>
+        Join
+      </button>
+    );
   },
 
   renderModal() {
@@ -236,6 +255,10 @@ const ChatChannels = React.createClass({
       return true;
     }
 
+    if (!is(nextState.subscribedChannels, this.state.subscribedChannels)) {
+      return true;
+    }
+
     if (nextState.users.size !== this.state.users.size) {
       return true;
     }
@@ -250,7 +273,8 @@ const ChatChannels = React.createClass({
   updateChannels() {
     this.setState({
       currentChannel: this.getParams().roomSlug,
-      channels: ChatChannelsStore.getChannels()
+      channels: ChatChannelsStore.getChannels(),
+      subscribedChannels: ChatChannelsStore.getSubscribedChannels()
     });
   },
 

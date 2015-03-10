@@ -1,12 +1,11 @@
 'use strict';
 
 const ActionTypes = require('../constants').ActionTypes;
-const ChatChannelsStore = require('./chat_channels_store');
 const Dispatcher = require('../dispatcher');
-const { List } = require('immutable');
+const { Set } = require('immutable');
 const Store = require('./store');
 
-let memberships = List();
+let memberships = Set();
 
 class ChatChannelMembershipsStore extends Store {
   constructor() {
@@ -15,8 +14,13 @@ class ChatChannelMembershipsStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.CHAT_CHANNELS_RECEIVED:
-          Dispatcher.waitFor([ChatChannelsStore.dispatchToken]);
-          memberships = List(action.memberships);
+          memberships = Set(action.memberships);
+          break;
+        case ActionTypes.MEMBERSHIP_RECEIVED:
+          memberships = memberships.add(action.membership);
+          break;
+        case ActionTypes.MEMBERSHIP_DESTROYED:
+          memberships = memberships.delete(action.membership);
           break;
         default:
           return;
@@ -26,7 +30,7 @@ class ChatChannelMembershipsStore extends Store {
     });
   }
 
-  getChannelMemberships() {
+  getMemberships() {
     return memberships;
   }
 };
