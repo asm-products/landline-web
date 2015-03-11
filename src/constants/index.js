@@ -14,6 +14,8 @@ module.exports = {
     CHAT_PIXEL_RECEIVED: null,
     CURRENT_USER_RECEIVED: null,
     LOGIN_FAILED: null,
+    MEMBERSHIP_DESTROYED: null,
+    MEMBERSHIP_RECEIVED: null,
     TYPEAHEAD_USERNAME_SELECTED: null,
     USER_RECEIVED: null,
     USERS_RECEIVED: null

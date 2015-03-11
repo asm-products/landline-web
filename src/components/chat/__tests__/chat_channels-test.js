@@ -24,6 +24,7 @@ describe('ChatChannels', () => {
     el = document.createElement('div');
     ChatChannelsStore = require('../../../stores/chat_channels_store');
     ChatChannelsStore.getChannels.mockReturnValue(channels);
+    ChatChannelsStore.getSubscribedChannels.mockReturnValue(channels);
     ChatChannels = require('../chat_channels.jsx');
     UsersStore = require('../../../stores/users_store');
     UsersStore.getUsers.mockReturnValue(users);

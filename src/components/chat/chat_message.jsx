@@ -1,6 +1,7 @@
 'use strict';
 
 const Avatar = require('../ui/avatar.jsx');
+const marked = require('marked');
 const React = require('react/addons');
 
 const ChatMessage = React.createClass({
@@ -22,7 +23,8 @@ const ChatMessage = React.createClass({
         </div>
         <div className="col col-11">
           <span className="bold block h5">{message.username}</span>
-          <span className="block h5">{message.body}</span>
+          <span className="block h5"
+              dangerouslySetInnerHTML={{__html: marked(message.body)}} />
         </div>
       </div>
     );
