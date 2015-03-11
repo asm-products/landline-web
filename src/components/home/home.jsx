@@ -2,6 +2,7 @@
 
 const Chat = require('../chat/chat.jsx');
 const CurrentUserStore = require('../../stores/current_user_store');
+const SocketStore = require('../../stores/socket_store');
 const Spinner = require('../spinner/spinner.jsx');
 const React = require('react/addons');
 
@@ -12,6 +13,7 @@ const Home = React.createClass({
 
   componentDidMount() {
     CurrentUserStore.addChangeListener(this.setLoggedIn);
+    SocketStore.addChangeListener(this.setSocketState);
   },
 
   componentWillUnmount() {
@@ -27,17 +29,27 @@ const Home = React.createClass({
   getInitialState() {
     return {
       isLoggedIn: CurrentUserStore.isUserAuthenticated(),
+      isSocketConnected: SocketStore.getConnected(),
+      isSocketAuthenticated: SocketStore.getAuthenticated(),
       currentRoom: this.getParams().roomSlug
     };
   },
 
   render() {
-    return this.state.isLoggedIn ? <Chat currentRoom={this.state.currentRoom} /> : <Spinner />;
+    var isReady = this.state.isLoggedIn && this.state.isSocketConnected && this.state.isSocketAuthenticated;
+    return isReady ? <Chat currentRoom={this.state.currentRoom} /> : <Spinner />;
   },
 
   setLoggedIn() {
-    this.replaceState({
+    this.setState({
       isLoggedIn: CurrentUserStore.isUserAuthenticated()
+    });
+  },
+
+  setSocketState(){
+    this.setState({
+      isSocketConnected: SocketStore.getConnected(),
+      isSocketAuthenticated: SocketStore.getAuthenticated()
     });
   }
 });

@@ -18,7 +18,12 @@ module.exports = {
     MEMBERSHIP_RECEIVED: null,
     TYPEAHEAD_USERNAME_SELECTED: null,
     USER_RECEIVED: null,
-    USERS_RECEIVED: null
+    USERS_RECEIVED: null,
+    SOCKET_INITIALIZED: null,
+    SOCKET_CONNECTED: null,
+    SOCKET_DISCONNECTED: null,
+    SOCKET_AUTHENTICATED: null,
+    SOCKET_AUTHENTICATION_FAILED: null
   }),
 
   PayloadSources: keyMirror({
