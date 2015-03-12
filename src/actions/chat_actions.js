@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
+const SocketStore = require('../stores/socket_store');
 const Dispatcher = require('../dispatcher');
 
 const ONE_HOUR = 60 * 60 * 1000;
@@ -121,30 +122,17 @@ class ChatActions {
     });
   }
 
-  submitMessage(url, token, message) {
-    $.ajax({
-      url: url,
-      method: 'POST',
-      dataType: 'json',
-      data: JSON.stringify({
-        body: message.get('body')
-      }),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      success(messageObj) {
-        Dispatcher.dispatch({
-          actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
-          message: message
-        });
-      },
-      error() {}
+  submitMessage(room, body) {
+    SocketStore.getSocket().emit("message", {Room: room, Body:body}, function(response){
+        if(response.Success){
+            Dispatcher.dispatch({
+                actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
+            });
+        }
     });
-
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
-      message: message
+      message: body
     });
   }
 };
