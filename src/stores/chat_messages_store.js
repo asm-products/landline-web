@@ -13,9 +13,7 @@ class ChatMessagesStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED:
-          messages = messages.set(action.channel, messages.get(action.channel).push(action.message));
-          console.log("message received:");
-          console.log(messages);
+          messages = messages.set(action.channel, messages.get(action.channel, List()).push(action.message));
           break;
         case ActionTypes.CHAT_MESSAGE_SUBMITTED:
           unconfirmedMessages = unconfirmedMessages.push(action.message);
