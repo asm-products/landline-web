@@ -16,7 +16,8 @@ module.exports = {
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      __PROD__: true
+      __PROD__: true,
+      __S3_BUCKET__: 'landline'
     })
   ],
 

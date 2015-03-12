@@ -4,9 +4,10 @@ const AppStore = require('../../stores/app_store');
 const autosize = require('autosize/src/autosize');
 const ChatActions = require('../../actions/chat_actions');
 const CurrentUserStore = require('../../stores/current_user_store');
+const DropzoneMixin = require('../../mixins/dropzone_mixin');
 const { Map } = require('immutable');
 const React = require('react/addons');
-const Router = require('react-router'); // or var Router = ReactRouter; in browsers
+const Router = require('react-router');
 const Typeahead = require('../typeahead/typeahead.jsx');
 const TypeaheadStore = require('../../stores/typeahead_store');
 
@@ -14,7 +15,11 @@ const ENTER_KEY = 13;
 const USERNAME_REGEX = /(^|\s)@(\w+)$/;
 
 const ChatInput = React.createClass({
-  mixins: [Router.State],
+  mixins: [DropzoneMixin, Router.State],
+
+  propTypes: {
+    commentId: React.PropTypes.string
+  },
 
   componentDidMount() {
     autosize(this.refs.textarea.getDOMNode());
@@ -25,6 +30,18 @@ const ChatInput = React.createClass({
     TypeaheadStore.removeChangeListener(this.replaceQueryWithUsername);
   },
 
+  componentWillReceiveProps() {
+    this.setState({
+      channel: this.getParams().roomSlug
+    });
+  },
+
+  getDefaultProps() {
+    return {
+      commentId: 'new-comment'
+    };
+  },
+
   getInitialState() {
     return {
       body: '',
@@ -32,12 +49,6 @@ const ChatInput = React.createClass({
       partialUsername: null,
       user: CurrentUserStore.getUser()
     };
-  },
-
-  componentWillReceiveProps() {
-    this.setState({
-      channel: this.getParams().roomSlug
-    });
   },
 
   handleChange(e) {
