@@ -16,10 +16,11 @@ describe('ChatMessagesStore', () => {
     callback = Dispatcher.register.mock.calls[0][0];
   });
 
-  describe('CHAT_MESSAGE_RECEIVED', () => {
+  describe('CHAT_SERVER_MESSAGE_RECEIVED', () => {
     beforeEach(() => {
       callback({
-        actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
+        actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
+        channel: "foo",
         message: {
           body: `Their very physical passing becomes rumor with a thousand faces
            before breath is out of them, lest paradoxical truth outrage itself.`,
@@ -31,12 +32,13 @@ describe('ChatMessagesStore', () => {
       });
     });
 
-    it('pushes a message into the list', () => {
-      expect(ChatMessagesStore.getMessages().size).toEqual(1);
+    it('pushes a message into the list of the right channel', () => {
+      expect(ChatMessagesStore.getMessages("foo").size).toEqual(1);
 
       callback({
         actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
         message: {
+          channel: "foo",
           body: `Nothing travels faster than the speed of light with the
             possible exception of bad news, which obeys its own special laws`,
           user: {
