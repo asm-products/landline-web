@@ -76,19 +76,13 @@ const ChatChannels = React.createClass({
   handleJoinChannel(channel, e) {
     e.stopPropagation();
 
-    ChatActions.joinChannel(
-      `${AppStore.getUrl()}/rooms/${channel}/memberships`,
-      CurrentUserStore.getToken()
-    );
+    ChatActions.joinChannel(channel);
   },
 
   handleLeaveChannel(channel, e) {
     e.stopPropagation();
 
-    ChatActions.leaveChannel(
-      `${AppStore.getUrl()}/rooms/${channel}/memberships`,
-      CurrentUserStore.getToken()
-    );
+    ChatActions.leaveChannel(channel);
   },
 
   handleModalDismissed() {

@@ -65,46 +65,30 @@ class ChatActions {
     });
   }
 
-  joinChannel(url, token) {
-    $.ajax({
-      url: url,
-      method: 'PUT',
-      dataType: 'json',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      success(membershipObj) {
+  joinChannel(room) {
+    SocketStore.getSocket().emit("join", room, (response) => {
+      if(response.Success){
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_RECEIVED,
-          membership: membershipObj.membership.room_id
+          membership: response.Result.room_id
         });
-      },
-      error() {
-        console.log(arguments);
+      }else{
+        console.log(response);
       }
-    });
+    })
   }
 
-  leaveChannel(url, token) {
-    $.ajax({
-      url: url,
-      method: 'DELETE',
-      dataType: 'json',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      success(membershipObj) {
+  leaveChannel(room) {
+    SocketStore.getSocket().emit("leave", room, (response) => {
+      if(response.Success){
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_DESTROYED,
-          membership: membershipObj.deleted
+          membership: response.Result
         });
-      },
-      error() {
-        console.log(arguments);
+      }else{
+        console.log(response);
       }
-    });
+    })
   }
 
   submitMessage(room, body) {
