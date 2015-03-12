@@ -48,7 +48,7 @@ describe('ChatMessagesStore', () => {
         key: 2222
       });
 
-      expect(ChatMessagesStore.getMessages().size).toEqual(2);
+      expect(ChatMessagesStore.getMessages("foo").size).toEqual(2);
     });
 
     it('emits a change event', () => {

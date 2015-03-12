@@ -3,6 +3,13 @@
 jest.dontMock('../chat_actions');
 jest.dontMock('react/lib/keyMirror');
 
+mockSocket = {
+  emit: jest.genMockFn(),
+  on: jest.genMockFn()
+};
+
+require('../../stores/socket_store').getSocket.mockReturnValue(mockSocket);
+
 describe('ChatActions', () => {
   describe('submitMessage()', () => {
     let ActionTypes, ChatActions, Dispatcher, Map;
