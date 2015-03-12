@@ -5,6 +5,9 @@ const keyMirror = require('react/lib/keyMirror');
 module.exports = {
   ActionTypes: keyMirror({
     APP_INITIALIZED: null,
+    ATTACHMENT_FAILED: null,
+    ATTACHMENT_UPLOADED: null,
+    ATTACHMENT_UPLOADING: null,
     CHAT_CHANNEL_RECEIVED: null,
     CHAT_CHANNELS_RECEIVED: null,
     CHANGE_EVENT: null,

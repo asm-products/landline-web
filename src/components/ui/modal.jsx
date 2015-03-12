@@ -2,7 +2,7 @@
 
 // https://github.com/jxnblk/rebass/blob/master/src/modal.jsx
 const React = require('react');
-const ThemeMixin = require('./theme_mixin');
+const ThemeMixin = require('../../mixins/theme_mixin');
 
 module.exports = React.createClass({
   mixins: [ThemeMixin],
