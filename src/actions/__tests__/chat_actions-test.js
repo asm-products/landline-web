@@ -15,16 +15,12 @@ describe('ChatActions', () => {
     });
 
     it('dispatches the message', () => {
-      let message = Map({
-        user: { Username: 'Bob' },
-        body: 'Yo!'
-      });
 
-      ChatActions.submitMessage(null, null, message);
+      ChatActions.submitMessage("foo", "OMGWTFBBQ!");
 
       expect(Dispatcher.dispatch).toBeCalledWith({
         actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
-        message: message
+        message: "OMGWTFBBQ!"
       });
     });
   });
