@@ -37,6 +37,7 @@ describe('ChatMessagesStore', () => {
 
       callback({
         actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
+        channel: "foo",
         message: {
           channel: "foo",
           body: `Nothing travels faster than the speed of light with the
@@ -48,7 +49,7 @@ describe('ChatMessagesStore', () => {
         key: 2222
       });
 
-      expect(ChatMessagesStore.getMessages("foo").size).toEqual(2);
+      expect(ChatMessagesStore.getMessages("foo@").size).toEqual(2);
     });
 
     it('emits a change event', () => {
