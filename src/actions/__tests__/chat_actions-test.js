@@ -3,7 +3,7 @@
 jest.dontMock('../chat_actions');
 jest.dontMock('react/lib/keyMirror');
 
-const mockSocket = {
+const <mockSocket = {
   emit: jest.genMockFn(),
   on: jest.genMockFn()
 };
