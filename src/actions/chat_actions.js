@@ -93,11 +93,11 @@ class ChatActions {
 
   submitMessage(room, body) {
     SocketStore.getSocket().emit("message", {Room: room, Body:body}, function(response){
-        if(response.Success){
-            Dispatcher.dispatch({
-                actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
-            });
-        }
+      if(response.Success){
+        Dispatcher.dispatch({
+          actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
+        });
+      }
     });
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
@@ -106,7 +106,7 @@ class ChatActions {
   }
 
   getMessages(channel){
-    const url = AppStore.getUrl() + `/rooms/${channel}/messages`;
+    const url = `${AppStore.getUrl()}/rooms/${channel}/messages`;
     $.ajax({
       url: url,
       dataType: 'json',

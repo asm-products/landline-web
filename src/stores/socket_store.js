@@ -10,41 +10,41 @@ var connected = false;
 var authenticated = false;
 
 class SocketStore extends Store {
-    constructor() {
-        super();
-        this.dispatchToken = Dispatcher.register((action) => {
-            switch (action.actionType) {
-                case ActionTypes.SOCKET_INITIALIZED:
-                    socket = action.socket;
-                    break;
-                case ActionTypes.SOCKET_CONNECTED:
-                    connected = true;
-                    break;
-                case ActionTypes.SOCKET_DISCONNECTED:
-                    connected = false;
-                    authenticated = false;
-                    break;
-                case ActionTypes.SOCKET_AUTHENTICATED:
-                    authenticated = true;
-                    break;
-                default:
-                    return
-            }
-            this.emitChange();
-        });
-    }
+  constructor() {
+    super();
+    this.dispatchToken = Dispatcher.register((action) => {
+      switch (action.actionType) {
+        case ActionTypes.SOCKET_INITIALIZED:
+          socket = action.socket;
+          break;
+        case ActionTypes.SOCKET_CONNECTED:
+          connected = true;
+          break;
+        case ActionTypes.SOCKET_DISCONNECTED:
+          connected = false;
+          authenticated = false;
+          break;
+        case ActionTypes.SOCKET_AUTHENTICATED:
+          authenticated = true;
+          break;
+        default:
+          return
+      }
+      this.emitChange();
+    });
+  }
 
-    getSocket(){
-        return socket;
-    }
+  getSocket(){
+    return socket;
+  }
 
-    getConnected(){
-        return connected;
-    }
+  getConnected(){
+    return connected;
+  }
 
-    getAuthenticated(){
-        return authenticated;
-    }
+  getAuthenticated(){
+    return authenticated;
+  }
 }
 
 module.exports = new SocketStore();
