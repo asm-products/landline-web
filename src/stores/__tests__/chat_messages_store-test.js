@@ -36,10 +36,9 @@ describe('ChatMessagesStore', () => {
       expect(ChatMessagesStore.getMessages("foo").size).toEqual(1);
 
       callback({
-        actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
+        actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
         channel: "foo",
         message: {
-          channel: "foo",
           body: `Nothing travels faster than the speed of light with the
             possible exception of bad news, which obeys its own special laws`,
           user: {
