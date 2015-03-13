@@ -8,13 +8,14 @@ const mockSocket = {
   on: jest.genMockFn()
 };
 
-require('../../stores/socket_store').getSocket.mockReturnValue(mockSocket);
-
 describe('ChatActions', () => {
   describe('submitMessage()', () => {
     let ActionTypes, ChatActions, Dispatcher, Map;
 
     beforeEach(() => {
+      SocketStore = require('../../stores/socket_store')
+      SocketStore.getSocket.mockReturnValue(mockSocket);
+
       ActionTypes = require('../../constants').ActionTypes;
       ChatActions = require('../chat_actions');
       Dispatcher = require('../../dispatcher');
