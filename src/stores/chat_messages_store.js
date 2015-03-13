@@ -12,6 +12,9 @@ class ChatMessagesStore extends Store {
   constructor() {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
+        case ActionTypes.CHAT_MESSAGES_RECEIVED:
+          messages = messages.set(action.channel, List(action.messages) );
+          break;
         case ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED:
           messages = messages.set(action.channel, messages.get(action.channel, List()).push(action.message));
           break;
