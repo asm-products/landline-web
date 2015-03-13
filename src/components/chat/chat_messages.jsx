@@ -31,6 +31,7 @@ const ChatMessages = React.createClass({
     this.setState({
       channel: this.getParams().roomSlug
     }, () => {
+      this.updateMessages();
       this.handleChannelChange()
     });
   },

@@ -272,7 +272,6 @@ const ChatChannels = React.createClass({
     });
     // Fetch the initial list of messages for all subscribed rooms.
     ChatChannelsStore.getSubscribedChannels().map((channel) => {
-      console.log(`fetching messages for ${channel.slug}`)
       ChatActions.getMessages(channel.slug);
     });
   },
