@@ -39,23 +39,26 @@ function _upload(commentId, file, done) {
       Authorization: `Bearer ${CurrentUserStore.getToken()}`,
       'Content-Type': 'application/json'
     },
-    success: function(attachment) {
+    success(attachment) {
       file.form = attachment.form;
       attachment.name = file.name;
-      console.log(attachment);
+
       Dispatcher.dispatch({
         actionType: ActionTypes.ATTACHMENT_UPLOADED,
         commentId: commentId,
         attachment: attachment
       });
+
+      done();
     },
-    error: function(jqXhr, textStatus, err) {
+    error(jqXhr, textStatus, err) {
       Dispatcher.dispatch({
         actionType: ActionTypes.ATTACHMENT_FAILED,
         commentId: commentId,
         error: err
       });
-    },
-    complete: done
+
+      done();
+    }
   });
 }

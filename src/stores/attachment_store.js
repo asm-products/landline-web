@@ -29,11 +29,11 @@ class AttachmentsStore extends Store {
     });
   }
 
-  getAttachment(commentId) {
-    var attachment = assign({}, attachments.get(commentId));
+  getAttachments(commentId) {
+    var a = assign({}, attachments.get(commentId));
     attachments = attachments.delete(commentId);
 
-    return attachment;
+    return a;
   }
 
   getError(commentId) {

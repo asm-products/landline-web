@@ -11,16 +11,18 @@ const Dispatcher = require('../dispatcher');
 const Dropzone = require('dropzone');
 const UploadingAttachmentsStore = require('../stores/uploading_attachments_store');
 
+Dropzone.autoDiscover = false;
+
 const DropzoneMixin = {
   componentDidMount() {
     this.dropzone = new Dropzone(this.getDOMNode(), {
       accept: this.onAccept(this.props.commentId),
-      createImageThumbnails: false,
+      clickable: false,
       sending: this.onSending,
-      url: 'https://s3.amazonaws.com/__S3_BUCKET__'
+      url: `https://s3.amazonaws.com/${__S3_BUCKET__}`
     });
 
-    AttachmentStore.addChangeListener(this.getAttachment);
+    AttachmentStore.addChangeListener(this.getAttachments);
     UploadingAttachmentsStore.addChangeListener(this.getUploadingAttachments);
   },
 
@@ -28,9 +30,9 @@ const DropzoneMixin = {
     this.dropzone = null;
   },
 
-  getAttachment() {
+  getAttachments() {
     let commentId = this.props.commentId;
-    let attachment = AttachmentStore.getAttachment(commentId);
+    let attachment = AttachmentStore.getAttachments(commentId);
 
     if (attachment) {
       let currentText = this.state.body || '';
@@ -64,10 +66,11 @@ const DropzoneMixin = {
   },
 
   onAccept: AttachmentActions.uploadAttachment,
+
   onSending(file, xhr, formData) {
-    _.each(file.form, function(v, k) {
-      formData.append(k, v);
-    });
+    for (let k in file.form) {
+      formData.append(k, file.form[k]);
+    }
   }
 };
 

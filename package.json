@@ -26,6 +26,7 @@
     "autosize": "^2.0.0",
     "basscss": "^5.0.1",
     "classnames": "^1.1.4",
+    "colorbass": "^1.0.0",
     "dropzone": "^4.0.1",
     "flux": "^2.0.1",
     "font-awesome": "^4.3.0",

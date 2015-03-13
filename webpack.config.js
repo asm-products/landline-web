@@ -17,7 +17,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __PROD__: true,
-      __S3_BUCKET__: 'landline'
+      __S3_BUCKET__: JSON.stringify('landline')
     })
   ],
 
