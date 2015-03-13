@@ -13,7 +13,6 @@ class SocketActions{
             actionType: ActionTypes.SOCKET_INITIALIZED,
             socket: socket
         });
-        console.log("socket initialized");
     }
 
     onConnected(){

@@ -59,7 +59,6 @@ const ChatMessages = React.createClass({
       channel: this.getParams().roomSlug,
       messages: ChatMessagesStore.getMessages(this.getParams().roomSlug)
     };
-    console.log(state);
     return state;
   },
 
@@ -96,8 +95,6 @@ const ChatMessages = React.createClass({
 
   updateMessages() {
     this.setState(this.getMessages());
-    console.log("updated state");
-    console.log(this.state);
   }
 });
 
