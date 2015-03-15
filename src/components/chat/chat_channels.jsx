@@ -265,6 +265,7 @@ const ChatChannels = React.createClass({
   },
 
   updateChannels() {
+    const prevSubscribedChannels = this.state.subscribedChannels;
     this.setState({
       currentChannel: this.getParams().roomSlug,
       channels: ChatChannelsStore.getChannels(),
@@ -272,7 +273,9 @@ const ChatChannels = React.createClass({
     });
     // Fetch the initial list of messages for all subscribed rooms.
     ChatChannelsStore.getSubscribedChannels().map((channel) => {
-      ChatActions.getMessages(channel.slug);
+      if(!prevSubscribedChannels.contains(channel)){
+        ChatActions.getMessages(channel.slug);
+      }
     });
   },
 
