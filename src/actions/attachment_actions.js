@@ -27,7 +27,7 @@ function _upload(commentId, file, done) {
   });
 
   $.ajax({
-    url: `${AppStore.getUrl()}/upload`,
+    url: `${__API_URL__}/upload`,
     method: 'POST',
     dataType: 'json',
     data: JSON.stringify({

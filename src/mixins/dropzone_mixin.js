@@ -33,22 +33,19 @@ const DropzoneMixin = {
   getAttachments() {
     let commentId = this.props.commentId;
     let attachment = AttachmentStore.getAttachments(commentId);
+    let currentText = this.state.body || '';
+    let attachmentName = attachment.name;
+    let newText = '[' + attachmentName + '](' + attachment.href + ')\n';
 
-    if (attachment) {
-      let currentText = this.state.body || '';
-      let attachmentName = attachment.name;
-      let newText = '[' + attachmentName + '](' + attachment.href + ')\n';
-
-      if (/\.(gif|jpg|jpeg|png|psd)$/.test(attachmentName)) {
-        newText = '!' + newText;
-      }
-
-      let replaceText = '![Uploading... ' + attachmentName + ']()';
-
-      this.setState({
-        body: currentText.replace(replaceText, newText)
-      });
+    if (/\.(gif|jpg|jpeg|png|psd)$/.test(attachmentName)) {
+      newText = '!' + newText;
     }
+
+    let replaceText = '![Uploading... ' + attachmentName + ']()';
+
+    this.setState({
+      body: currentText.replace(replaceText, newText)
+    });
   },
 
   getUploadingAttachments() {
@@ -67,6 +64,11 @@ const DropzoneMixin = {
 
   onAccept: AttachmentActions.uploadAttachment,
 
+  // Sign the upload with data from the server
+  // The server signs the payload for AWS S3 using the private key (which we
+  // can't expose in the client), setting up the ACL, expiration, etc. We then
+  // need to attach this information to the uploading file so that S3 accepts
+  // it.
   onSending(file, xhr, formData) {
     for (let k in file.form) {
       formData.append(k, file.form[k]);

@@ -42,10 +42,10 @@ const Typeahead = React.createClass({
 
   handleKeyDown(e) {
     if (!this.shouldShowUserPicker()) {
-      return
+      return;
     }
 
-    var charCode = e.charCode || e.keyCode || e.which;
+    let charCode = e.charCode || e.keyCode || e.which;
 
     if (charCode == KEYS.up) {
       e.preventDefault();
@@ -99,7 +99,7 @@ const Typeahead = React.createClass({
   },
 
   shouldShowUserPicker() {
-    return !!this.props.partialUsername;
+    return !!this.props.partialUsername && this.state.users.size > 0;
   }
 });
 
