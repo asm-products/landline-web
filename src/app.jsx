@@ -32,17 +32,17 @@ const routes = (
   </Route>
 );
 
-let Landline = (loc, apiUrl, element) => {
+let Landline = (loc, element) => {
   let parsedUrl = url.parse(loc, true);
   let team = parsedUrl.query.team;
 
-  AppActions.init(apiUrl);
+  AppActions.init();
 
-  $.get(`${apiUrl}/sessions/new?team=${team}`, (result) => {
+  $.get(`${__API_URL__}/sessions/new?team=${team}`, (result) => {
     let token = result.token;
 
     $.ajax({
-      url: `${apiUrl}/users/find`,
+      url: `${__API_URL__}/users/find`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`

@@ -24,7 +24,7 @@ const ChatChannels = React.createClass({
     ChatChannelMembershipsStore.addChangeListener(this.updateChannels);
     UsersStore.addChangeListener(this.updateUsers);
 
-    let url = AppStore.getUrl();
+    let url = __API_URL__;
     let token = CurrentUserStore.getToken();
 
     this.getChannels();
@@ -36,7 +36,7 @@ const ChatChannels = React.createClass({
 
   componentDidUpdate() {
     ChatActions.getPixel(
-      `${AppStore.getUrl()}/rooms/${this.state.currentChannel}`,
+      `${__API_URL__}/rooms/${this.state.currentChannel}`,
       CurrentUserStore.getToken()
     );
   },
@@ -54,7 +54,7 @@ const ChatChannels = React.createClass({
   },
 
   getChannels() {
-    let url = AppStore.getUrl();
+    let url = __API_URL__;
     let token = CurrentUserStore.getToken();
 
     ChatActions.getChannels(
@@ -77,7 +77,7 @@ const ChatChannels = React.createClass({
     e.stopPropagation();
 
     ChatActions.joinChannel(
-      `${AppStore.getUrl()}/rooms/${channel}/memberships`,
+      `${__API_URL__}/rooms/${channel}/memberships`,
       CurrentUserStore.getToken()
     );
   },
@@ -86,7 +86,7 @@ const ChatChannels = React.createClass({
     e.stopPropagation();
 
     ChatActions.leaveChannel(
-      `${AppStore.getUrl()}/rooms/${channel}/memberships`,
+      `${__API_URL__}/rooms/${channel}/memberships`,
       CurrentUserStore.getToken()
     );
   },
@@ -245,7 +245,7 @@ const ChatChannels = React.createClass({
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.currentChannel !== this.state.currentChannel) {
       ChatActions.getPixel(
-        `${AppStore.getUrl()}/rooms/${this.state.currentChannel}`,
+        `${__API_URL__}/rooms/${this.state.currentChannel}`,
         CurrentUserStore.getToken()
       );
       return true;

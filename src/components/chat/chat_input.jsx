@@ -88,7 +88,7 @@ const ChatInput = React.createClass({
         <div className="full-width shadow px3 py1" style={style.div}>
           <Typeahead partialUsername={this.state.partialUsername}>
             <textarea autofocus={true}
-                className="full-width field-light mb0"
+                className="full-width field-light mb0 dropzone"
                 style={style.textarea}
                 onKeyPress={this.submitMessage}
                 onChange={this.handleChange}
@@ -130,7 +130,7 @@ const ChatInput = React.createClass({
       });
 
       ChatActions.submitMessage(
-        `${AppStore.getUrl()}/rooms/${this.state.channel}/messages`,
+        `${__API_URL__}/rooms/${this.state.channel}/messages`,
         CurrentUserStore.getToken(),
         Map({
           user: this.state.user,

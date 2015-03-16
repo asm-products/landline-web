@@ -7,7 +7,6 @@ class AppActions {
   init(url) {
     Dispatcher.dispatch({
       actionType: ActionTypes.APP_INITIALIZED,
-      url: url
     });
   }
 };

@@ -15,7 +15,7 @@ const ChatMessages = React.createClass({
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
     ChatActions.init(
-      `${AppStore.getUrl()}/rooms/${this.state.channel}/messages`,
+      `${__API_URL__}/rooms/${this.state.channel}/messages`,
       CurrentUserStore.getToken()
     );
     this.scrollToBottom();
@@ -35,7 +35,7 @@ const ChatMessages = React.createClass({
       if (previousChannel !== this.state.channel) {
         ChatActions.destroy();
         ChatActions.init(
-          `${AppStore.getUrl()}/rooms/${this.state.channel}/messages`,
+          `${__API_URL__}/rooms/${this.state.channel}/messages`,
           CurrentUserStore.getToken()
         );
       }

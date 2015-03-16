@@ -24,9 +24,7 @@ class TypeaheadStore extends Store {
   }
 
   getCurrentUsername() {
-    let name = currentUsername;
-    currentUsername = '';
-    return name;
+    return currentUsername;
   }
 }
 

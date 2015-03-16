@@ -5,7 +5,6 @@ const Dispatcher = require('../dispatcher');
 const Store = require('./store');
 
 let teamName = 'Landline';
-let url = '';
 
 class AppStore extends Store {
   constructor() {
@@ -14,7 +13,6 @@ class AppStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.APP_INITIALIZED:
-          url = action.url;
           break;
         default:
           return;
@@ -26,10 +24,6 @@ class AppStore extends Store {
 
   getTeamName() {
     return teamName;
-  }
-
-  getUrl() {
-    return url;
   }
 };
 
