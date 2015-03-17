@@ -106,7 +106,7 @@ class ChatActions {
   }
 
   getMessages(channel){
-    const url = `${AppStore.getUrl()}/rooms/${channel}/messages`;
+    const url = `${__API_URL__}/rooms/${channel}/messages`;
     $.ajax({
       url: url,
       dataType: 'json',

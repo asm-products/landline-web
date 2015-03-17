@@ -114,8 +114,8 @@ const ChatChannels = React.createClass({
         {/*<h4 className="mt3 px3 light-gray">{AppStore.getTeamName()}</h4>
         <hr className="mt2 mb0" style={style.hr} />*/}
 
-        <h4 className="px3 mt2 mb1 light-gray">Channels</h4>
-        {this.renderChannels()}
+        <h4 className="px3 mt2 mb1 light-gray">Rooms</h4>
+        {this.renderRooms()}
 
         <h5 className="px3 mt1 mb1 light-gray">
           <span onClick={this.handleSeeAllChannels} style={style.span}>See all</span>
@@ -151,7 +151,7 @@ const ChatChannels = React.createClass({
     }).toJS();
   },
 
-  renderChannels() {
+  renderRooms() {
     let style = {
       cursor: 'pointer'
     };
@@ -194,7 +194,7 @@ const ChatChannels = React.createClass({
   renderModal() {
     return (
       <div className="dark-gray">
-        <Modal header="Channels"
+        <Modal header="Rooms"
             isOpen={this.state.isModalOpen}
             onDismiss={this.handleModalDismissed}
             theme="dark-gray">

@@ -16,7 +16,6 @@ const ChatMessages = React.createClass({
     ChatMessagesStore.addChangeListener(this.updateMessages);
     ChatActions.init();
 
-    this.handleChannelChange();
     this.scrollToBottom();
   },
 

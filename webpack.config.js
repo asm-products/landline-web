@@ -10,7 +10,7 @@ module.exports = {
     path: __dirname + '/dist',
     filename: 'landline.js',
     library: 'Landline',
-    target: 'umd'
+    libraryTarget: 'umd'
   },
 
   plugins: [

@@ -7,10 +7,10 @@ if (typeof __TEST__ === 'undefined') {
 const $ = require('jquery');
 const AppActions = require('./actions/app_actions');
 const AppStore = require('./stores/app_store');
-const SocketActions = require('./actions/socket_actions');
 const Home = require('./components/home/home.jsx')
 const React = require('react/addons');
 const Router = require('react-router');
+const SocketActions = require('./actions/socket_actions');
 const UserActions = require('./actions/user_actions');
 const url = require('url');
 
@@ -28,39 +28,49 @@ const App = React.createClass({
 
 const routes = (
   <Route name="app" path="/" handler={App}>
-    <Route name="chat" path="/rooms/:roomSlug" handler={Home}/>
+    <Route name="chat" path="/rooms/:roomSlug" handler={Home} />
     <Redirect from="/" to="chat" params={{roomSlug: "general"}} />
   </Route>
 );
 
 let Landline = (loc, element) => {
   let parsedUrl = url.parse(loc, true);
+  let room = parsedUrl.query.room || 'general';
   let team = parsedUrl.query.team;
+  let uid = parsedUrl.query.uid || '';
 
-  AppActions.init(apiUrl);
-  SocketActions.init(apiUrl);
+  AppActions.init(__API_URL__);
+  SocketActions.init(__API_URL__);
 
-  $.get(`${__API_URL__}/sessions/new?team=${team}`, (result) => {
-    let token = result.token;
+  $.ajax({
+    url: `${__API_URL__}/sessions/new?team=${team}&uid=${uid}`,
+    method: 'GET',
+    success(result) {
+      let token = result.token;
 
-    $.ajax({
-      url: `${__API_URL__}/users/find`,
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      success(userObj) {
-        let user = userObj.user;
+      $.ajax({
+        url: `${__API_URL__}/users/find`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        success(userObj) {
+          let user = userObj.user;
 
-        UserActions.logIn(user, token);
-        SocketActions.auth(token);
-      },
-      error(err) {}
-    });
+          window.location.hash = `rooms/${room}`;
+          UserActions.logIn(user, token);
+          SocketActions.auth(token);
+        },
+        error(err) {}
+      });
+    },
+    error(err) {
+      console.log(arguments);
+    }
   });
 
   Router.run(routes, (Handler) => {
-    React.render(<Handler/>, element);
+    React.render(<Handler />, element);
   });
 };
 
