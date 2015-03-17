@@ -129,14 +129,7 @@ const ChatInput = React.createClass({
         body: ''
       });
 
-      ChatActions.submitMessage(
-        `${__API_URL__}/rooms/${this.state.channel}/messages`,
-        CurrentUserStore.getToken(),
-        Map({
-          user: this.state.user,
-          body: body
-        })
-      );
+      ChatActions.submitMessage(this.state.channel, body);
     }
   }
 });

@@ -76,19 +76,13 @@ const ChatChannels = React.createClass({
   handleJoinChannel(channel, e) {
     e.stopPropagation();
 
-    ChatActions.joinChannel(
-      `${__API_URL__}/rooms/${channel}/memberships`,
-      CurrentUserStore.getToken()
-    );
+    ChatActions.joinChannel(channel);
   },
 
   handleLeaveChannel(channel, e) {
     e.stopPropagation();
 
-    ChatActions.leaveChannel(
-      `${__API_URL__}/rooms/${channel}/memberships`,
-      CurrentUserStore.getToken()
-    );
+    ChatActions.leaveChannel(channel);
   },
 
   handleModalDismissed() {
@@ -271,10 +265,17 @@ const ChatChannels = React.createClass({
   },
 
   updateChannels() {
+    const prevSubscribedChannels = this.state.subscribedChannels;
     this.setState({
       currentChannel: this.getParams().roomSlug,
       channels: ChatChannelsStore.getChannels(),
       subscribedChannels: ChatChannelsStore.getSubscribedChannels()
+    });
+    // Fetch the initial list of messages for all subscribed rooms.
+    ChatChannelsStore.getSubscribedChannels().map((channel) => {
+      if(!prevSubscribedChannels.contains(channel)){
+        ChatActions.getMessages(channel.slug);
+      }
     });
   },
 

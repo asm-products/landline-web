@@ -7,6 +7,7 @@ if (typeof __TEST__ === 'undefined') {
 const $ = require('jquery');
 const AppActions = require('./actions/app_actions');
 const AppStore = require('./stores/app_store');
+const SocketActions = require('./actions/socket_actions');
 const Home = require('./components/home/home.jsx')
 const React = require('react/addons');
 const Router = require('react-router');
@@ -36,7 +37,8 @@ let Landline = (loc, element) => {
   let parsedUrl = url.parse(loc, true);
   let team = parsedUrl.query.team;
 
-  AppActions.init();
+  AppActions.init(apiUrl);
+  SocketActions.init(apiUrl);
 
   $.get(`${__API_URL__}/sessions/new?team=${team}`, (result) => {
     let token = result.token;
@@ -51,6 +53,7 @@ let Landline = (loc, element) => {
         let user = userObj.user;
 
         UserActions.logIn(user, token);
+        SocketActions.auth(token);
       },
       error(err) {}
     });

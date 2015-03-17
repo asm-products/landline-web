@@ -2,36 +2,26 @@
 
 const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
+const SocketStore = require('../stores/socket_store');
+const AppStore = require('../stores/app_store');
+const CurrentUserStore = require('../stores/current_user_store');
+
 const Dispatcher = require('../dispatcher');
 
 const ONE_HOUR = 60 * 60 * 1000;
 
-let getMessages = (url, token) => {
-  let func = () => {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      success(data) {
-        Dispatcher.dispatch({
-          actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
-          messages: data.messages
-        });
-      },
-      error() {}
-    });
-  };
-
-  return func;
-};
 
 class ChatActions {
-  destroy() {
-    clearInterval(this.interval);
+  init(){
+    SocketStore.getSocket().on("message", this.onMessage)
   }
-
+  onMessage(message, channel){
+    Dispatcher.dispatch({
+      actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
+      message: message,
+      channel: channel
+    });
+  }
   getChannels(url, token) {
     $.ajax({
       url: url,
@@ -75,76 +65,62 @@ class ChatActions {
     });
   }
 
-  init(url, token) {
-    this.interval = setInterval(getMessages(url, token), 500);
-  }
-
-  joinChannel(url, token) {
-    $.ajax({
-      url: url,
-      method: 'PUT',
-      dataType: 'json',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      success(membershipObj) {
+  joinChannel(room) {
+    SocketStore.getSocket().emit("join", room, (response) => {
+      if(response.Success){
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_RECEIVED,
-          membership: membershipObj.membership.room_id
+          membership: response.Result.room_id
         });
-      },
-      error() {
-        console.log(arguments);
+      }else{
+        console.log(response);
       }
-    });
+    })
   }
 
-  leaveChannel(url, token) {
-    $.ajax({
-      url: url,
-      method: 'DELETE',
-      dataType: 'json',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      success(membershipObj) {
+  leaveChannel(room) {
+    SocketStore.getSocket().emit("leave", room, (response) => {
+      if(response.Success){
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_DESTROYED,
-          membership: membershipObj.deleted
+          membership: response.Result
         });
-      },
-      error() {
-        console.log(arguments);
+      }else{
+        console.log(response);
       }
+    })
+  }
+
+  submitMessage(room, body) {
+    SocketStore.getSocket().emit("message", {Room: room, Body:body}, function(response){
+      if(response.Success){
+        Dispatcher.dispatch({
+          actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
+        });
+      }
+    });
+    Dispatcher.dispatch({
+      actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
+      message: body
     });
   }
 
-  submitMessage(url, token, message) {
+  getMessages(channel){
+    const url = `${AppStore.getUrl()}/rooms/${channel}/messages`;
     $.ajax({
       url: url,
-      method: 'POST',
       dataType: 'json',
-      data: JSON.stringify({
-        body: message.get('body')
-      }),
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${CurrentUserStore.getToken()}`
       },
-      success(messageObj) {
+      success(data) {
         Dispatcher.dispatch({
-          actionType: ActionTypes.CHAT_MESSAGE_RECEIVED,
-          message: message
+          actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
+          messages: data.messages,
+          channel: channel
         });
       },
       error() {}
-    });
-
-    Dispatcher.dispatch({
-      actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
-      message: message
     });
   }
 };

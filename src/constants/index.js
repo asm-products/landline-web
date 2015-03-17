@@ -14,6 +14,7 @@ module.exports = {
     CHAT_MESSAGE_RECEIVED: null,
     CHAT_MESSAGE_SUBMITTED: null,
     CHAT_MESSAGES_RECEIVED: null,
+    CHAT_SERVER_MESSAGE_RECEIVED: null,
     CHAT_PIXEL_RECEIVED: null,
     CURRENT_USER_RECEIVED: null,
     LOGIN_FAILED: null,
@@ -21,7 +22,12 @@ module.exports = {
     MEMBERSHIP_RECEIVED: null,
     TYPEAHEAD_USERNAME_SELECTED: null,
     USER_RECEIVED: null,
-    USERS_RECEIVED: null
+    USERS_RECEIVED: null,
+    SOCKET_INITIALIZED: null,
+    SOCKET_CONNECTED: null,
+    SOCKET_DISCONNECTED: null,
+    SOCKET_AUTHENTICATED: null,
+    SOCKET_AUTHENTICATION_FAILED: null
   }),
 
   PayloadSources: keyMirror({

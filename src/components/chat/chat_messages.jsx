@@ -14,10 +14,9 @@ const ChatMessages = React.createClass({
 
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
-    ChatActions.init(
-      `${__API_URL__}/rooms/${this.state.channel}/messages`,
-      CurrentUserStore.getToken()
-    );
+    ChatActions.init();
+
+    this.handleChannelChange();
     this.scrollToBottom();
   },
 
@@ -27,19 +26,21 @@ const ChatMessages = React.createClass({
     }
   },
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(p) {
     let previousChannel = this.state.channel;
+
     this.setState({
       channel: this.getParams().roomSlug
     }, () => {
-      if (previousChannel !== this.state.channel) {
-        ChatActions.destroy();
-        ChatActions.init(
-          `${__API_URL__}/rooms/${this.state.channel}/messages`,
-          CurrentUserStore.getToken()
-        );
-      }
+      this.updateMessages();
+      this.handleChannelChange()
     });
+  },
+
+  handleChannelChange(){
+    if (ChatMessagesStore.getMessages(this.state.channel).size === 0) {
+      ChatActions.getMessages(this.state.channel);
+    }
   },
 
   componentWillUpdate() {
@@ -51,20 +52,16 @@ const ChatMessages = React.createClass({
       node.scrollHeight - (node.scrollTop + node.offsetHeight) === 1;
   },
 
-  componentWillUnmount() {
-    ChatActions.destroy();
-    ChatMessagesStore.removeChangeListener(this.updateMessages);
-  },
-
   getInitialState() {
     return this.getMessages();
   },
 
   getMessages() {
-    return {
+    var state = {
       channel: this.getParams().roomSlug,
-      messages: ChatMessagesStore.getMessages()
+      messages: ChatMessagesStore.getMessages(this.getParams().roomSlug)
     };
+    return state;
   },
 
   render() {
