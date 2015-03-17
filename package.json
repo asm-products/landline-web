@@ -1,6 +1,6 @@
 {
   "name": "landline",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "ASM chat, without the ASM (hosted chat for anyone)",
   "main": "dist/landline.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "socket.io-client": "^1.3.5",
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
-    "webpack": "^1.6.0",
+    "webpack": "^1.6.0"
   },
   "devDependencies": {
     "babel-core": "^4.1.1",
