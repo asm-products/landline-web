@@ -11,8 +11,8 @@ let messages = Map();
 
 //transform a message before saving it.
 let transformMessage = function(msg){
-  msg.created_at = moment(new Date(msg.created_at));
-  msg.last_online_at = moment(new Date(msg.last_online_at));
+  msg.created_at = moment(msg.created_at);
+  msg.last_online_at = moment(msg.last_online_at);
   return msg
 }
 
