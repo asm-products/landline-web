@@ -16,7 +16,7 @@ module.exports = {
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      __API_URL: JSON.stringify('https://api.landline.io'),
+      __API_URL__: JSON.stringify('https://api.landline.io'),
       __PROD__: true,
       __S3_BUCKET__: JSON.stringify('landline')
     })
