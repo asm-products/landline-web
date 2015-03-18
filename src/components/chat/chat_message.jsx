@@ -9,7 +9,9 @@ const ChatMessage = React.createClass({
     message: React.PropTypes.shape({
       avatar_url: React.PropTypes.string.isRequired,
       body: React.PropTypes.string.isRequired,
-      username: React.PropTypes.string.isRequired
+      username: React.PropTypes.string.isRequired,
+      created_at: React.PropTypes.string.isRequired,
+      last_online_at: React.PropTypes.string.isRequired
     }).isRequired
   },
 
