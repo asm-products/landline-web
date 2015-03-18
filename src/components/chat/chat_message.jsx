@@ -17,14 +17,13 @@ const ChatMessage = React.createClass({
     let message = this.props.message;
 
     return (
-      <div className="mb1 clearfix">
-        <div className="col col-1">
+      <div className="clearfix">
+        <div className="left mr2">
           <Avatar url={message.avatar_url} />
         </div>
-        <div className="col col-11">
-          <span className="bold block h5">{message.username}</span>
-          <span className="block h5"
-              dangerouslySetInnerHTML={{__html: marked(message.body)}} />
+        <div className="overflow-hidden">
+          <h5 className="mt0 mb0">{message.username}</h5>
+          <div dangerouslySetInnerHTML={{__html: marked(message.body)}} />
         </div>
       </div>
     );

@@ -15,7 +15,7 @@ const UsersStore = require('../../stores/users_store');
 const Router = require('react-router'); // or var Router = ReactRouter; in browsers
 const Link = Router.Link
 
-const THIRTY_MINUTES = 30 * 60 * 60 * 1000;
+const ONE_HOUR = 60 * 60 * 60 * 1000;
 
 const ChatChannels = React.createClass({
   mixins: [Router.State],
@@ -124,6 +124,7 @@ const ChatChannels = React.createClass({
 
         <h4 className="px3 mt2 mb1 light-gray">People</h4>
         {this.renderUsers()}
+        {this.renderJoinModal()}
         {this.renderModal()}
       </div>
     );
@@ -191,6 +192,24 @@ const ChatChannels = React.createClass({
     );
   },
 
+  renderJoinModal() {
+    let currentChannel = this.state.currentChannel;
+    let condition = (value, key, iterable) => {
+      return value.slug === currentChannel
+    };
+
+    return (
+      <div className="dark-gray">
+        <Modal header={`Join ${currentChannel}?`}
+            isOpen={!this.state.subscribedChannels.find(condition) && !this.state.isModalOpen}
+            onDismiss={this.handleJoinChannel.bind(this, currentChannel)}
+            theme="dark-gray">
+          {this.renderNotSubscribedWarning()}
+        </Modal>
+      </div>
+    );
+  },
+
   renderModal() {
     return (
       <div className="dark-gray">
@@ -204,8 +223,23 @@ const ChatChannels = React.createClass({
     );
   },
 
+  renderNotSubscribedWarning() {
+    let currentChannel = this.state.currentChannel;
+    return (
+      <div className="clearfix mb2 center">
+        You're about to join <span className="bold">#{currentChannel}</span>.
+        <div>
+          <button className="button"
+              onClick={this.handleJoinChannel.bind(this, currentChannel)}>
+            OK
+          </button>
+        </div>
+      </div>
+    );
+  },
+
   renderOnlineIndicator(lastOnlineAt) {
-    if (Date.now() - new Date(lastOnlineAt) < THIRTY_MINUTES) {
+    if (Date.now() - new Date(lastOnlineAt) < ONE_HOUR) {
       let style = {
         backgroundColor: '#33D6A6',
         borderRadius: '50%',

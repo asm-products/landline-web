@@ -7,7 +7,6 @@ const { List } = require('immutable');
 const Store = require('./store');
 
 let channels = List();
-let currentChannel = 'general';
 
 class ChatChannelsStore extends Store {
   constructor() {
