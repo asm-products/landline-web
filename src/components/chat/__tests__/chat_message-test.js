@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment')
 
 jest.dontMock('../chat_message.jsx');
 
@@ -12,7 +13,9 @@ describe('ChatMessage', () => {
       body: 'landline',
       user: {
         username: 'Hemingway'
-      }
+      },
+      created_at: moment("2015-03-16T18:25:55.446622Z"),
+      last_online_at: moment("2015-03-16T18:25:55.446622Z"),
     };
     ChatMessage = require('../chat_message.jsx');
     chatMessage= TestUtils.renderIntoDocument(
