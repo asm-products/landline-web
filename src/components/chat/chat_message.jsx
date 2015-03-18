@@ -22,7 +22,7 @@ const ChatMessage = React.createClass({
           <Avatar url={message.avatar_url} />
         </div>
         <div className="col col-11">
-          <span className="bold block h5">{message.username}</span>
+          <span className="bold block h5">{message.username} <span className="regular silver ml2">{message.created_at.fromNow()}</span></span>
           <span className="block h5"
               dangerouslySetInnerHTML={{__html: marked(message.body)}} />
         </div>
