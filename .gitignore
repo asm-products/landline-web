@@ -32,7 +32,5 @@ node_modules
 config.json
 config.dev.json
 
-dist
-
 #ignore IntellIJ IDE files
 .idea
