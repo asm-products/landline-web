@@ -5,7 +5,6 @@
   "main": "dist/landline.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.dev.js",
-    "push": "webpack && git commit -av",
     "start": "npm run dev",
     "test": "jest"
   },

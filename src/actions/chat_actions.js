@@ -5,7 +5,6 @@ const ActionTypes = require('../constants').ActionTypes;
 const SocketStore = require('../stores/socket_store');
 const AppStore = require('../stores/app_store');
 const CurrentUserStore = require('../stores/current_user_store');
-
 const Dispatcher = require('../dispatcher');
 
 const ONE_HOUR = 60 * 60 * 1000;
@@ -92,13 +91,19 @@ class ChatActions {
   }
 
   submitMessage(room, body) {
-    SocketStore.getSocket().emit("message", {Room: room, Body:body}, function(response){
-      if(response.Success){
+    let message = {
+      room: room,
+      body: body
+    };
+
+    SocketStore.getSocket().emit("message", message, function(response){
+      if (response.Success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
         });
       }
     });
+
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
       message: body

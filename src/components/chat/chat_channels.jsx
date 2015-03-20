@@ -132,6 +132,7 @@ const ChatChannels = React.createClass({
 
   renderAllChannels() {
     let style = {
+      maxHeight: 300,
       overflowY: 'scroll'
     };
 
