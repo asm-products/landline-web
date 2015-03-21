@@ -25,7 +25,7 @@ const ChatPixel = React.createClass({
   },
 
   render() {
-    return <img src={this.state.src} />;
+    return <img src={this.state.src} className="hidden" />;
   }
 });
 

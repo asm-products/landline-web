@@ -228,7 +228,7 @@ const ChatChannels = React.createClass({
     let currentChannel = this.state.currentChannel;
     return (
       <div className="clearfix mb2 center">
-        You're about to join <span className="bold">#{currentChannel}</span>.
+        You&#39;re about to join <span className="bold">#{currentChannel}</span>.
         <div>
           <button className="button"
               onClick={this.handleJoinChannel.bind(this, currentChannel)}>
