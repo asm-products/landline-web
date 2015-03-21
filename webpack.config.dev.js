@@ -1,10 +1,13 @@
 var webpack = require('webpack');
+var dotenv = require('dotenv').load();
 
-module.exports = exports = Object.create(require('./webpack.config'));
+module.exports = exports = require('./webpack.config');
+
 exports.plugins[1] = new webpack.DefinePlugin({
-  __API_URL__: JSON.stringify('https://landline-dev.herokuapp.com'),
+  __API_URL__: JSON.stringify(process.env.LANDLINE_API_URL || 'https://landline-dev.herokuapp.com'),
   __PROD__: false,
   __S3_BUCKET__: JSON.stringify('landline-dev')
 });
 exports.output = Object.create(exports.output);
 exports.output.filename = exports.output.filename.replace(/\.js$/, ".dev.js");
+exports.devtool = 'source-map'
