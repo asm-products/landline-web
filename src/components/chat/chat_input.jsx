@@ -85,7 +85,7 @@ const ChatInput = React.createClass({
 
     if (user.get('Username') || user.get('username')) {
       return (
-        <div className="full-width shadow px3 py1" style={style.div}>
+        <div className="full-width shadow px2 py1" style={style.div}>
           <Typeahead partialUsername={this.state.partialUsername}>
             <textarea autofocus={true}
                 className="full-width field-light mb2 dropzone"

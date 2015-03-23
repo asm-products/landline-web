@@ -1,7 +1,8 @@
 'use strict';
 
 if (typeof __TEST__ === 'undefined') {
-  require('basscss/css/basscss.min.css');
+  require('basscss/css/basscss.css');
+  require('./styles/typography.css');
 }
 
 const $ = require('jquery');

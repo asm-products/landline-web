@@ -1,0 +1,8 @@
+/* We should use a subset of markdown in the future to control the chat message layout better */
+
+.chat-message {
+  color: #333;
+}
+.chat-message p:last-child {
+  margin-bottom: 0;
+}
