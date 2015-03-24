@@ -96,7 +96,7 @@ class ChatActions {
       body: body
     };
 
-    SocketStore.getSocket().emit("message", message, function(response){
+    SocketStore.getSocket().emit("message", message, (response) => {
       if (response.Success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
