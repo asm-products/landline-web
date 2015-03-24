@@ -67,7 +67,7 @@ const ChatMessages = React.createClass({
 
     return (
       <div className="flex flex-stretch flex-column" style={style.chatMessages}>
-        <div className="flex-auto left-align p2" style={style.chatMessages} ref="messages">
+        <div className="flex-auto left-align p2 mb2" style={style.chatMessages} ref="messages">
           {this.renderMessages()}
         </div>
         <ChatInput currentRoom={this.state.channel} />

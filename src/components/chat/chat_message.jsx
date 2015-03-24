@@ -7,6 +7,7 @@ if (typeof __TEST__ === 'undefined') {
 
 const Avatar = require('../ui/avatar.jsx');
 const boldize = require('../../lib/boldize');
+const emoji = require('emojione');
 const italicize = require('../../lib/italicize');
 const React = require('react/addons');
 const urlize = require('../../lib/urlize');
@@ -24,7 +25,7 @@ const ChatMessage = React.createClass({
 
   statics: {
     parse(body) {
-      return italicize(boldize(urlize(body)));
+      return emoji.shortnameToImage(italicize(boldize(urlize(body))));
     }
   },
 
