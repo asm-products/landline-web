@@ -5,10 +5,9 @@ if (typeof __TEST__ === 'undefined') {
   require('../../styles/chat_markdown.css');
 }
 
-
 const Avatar = require('../ui/avatar.jsx');
-const marked = require('marked');
 const React = require('react/addons');
+const urlize = require('../../lib/urlize');
 
 const ChatMessage = React.createClass({
   propTypes: {
@@ -21,6 +20,10 @@ const ChatMessage = React.createClass({
     }).isRequired
   },
 
+  statics: {
+    parse: urlize
+  },
+
   render() {
     let message = this.props.message;
 
@@ -31,7 +34,7 @@ const ChatMessage = React.createClass({
         </div>
         <div className="overflow-hidden">
           <h5 className="mt0 mb0">{message.username}</h5>
-          <div className="chat-message" dangerouslySetInnerHTML={{__html: marked(message.body)}} />
+          <div className="chat-message" dangerouslySetInnerHTML={{__html: ChatMessage.parse(message.html_body)}} />
         </div>
       </div>
     );

@@ -34,17 +34,10 @@ const DropzoneMixin = {
     let commentId = this.props.commentId;
     let attachment = AttachmentStore.getAttachments(commentId);
     let currentText = this.state.body || '';
-    let attachmentName = attachment.name;
-    let newText = '[' + attachmentName + '](' + attachment.href + ')\n';
-
-    if (/\.(gif|jpg|jpeg|png|psd)$/.test(attachmentName)) {
-      newText = '!' + newText;
-    }
-
-    let replaceText = '![Uploading... ' + attachmentName + ']()';
+    let replaceText = `![Uploading... ${attachment.name}]()`;
 
     this.setState({
-      body: currentText.replace(replaceText, newText)
+      body: currentText.replace(replaceText, `${attachment.href}\n`)
     });
   },
 

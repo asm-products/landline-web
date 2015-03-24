@@ -34,7 +34,7 @@ class UserActions {
 
   init(url, token) {
     getUsers(url, token)();
-    this.interval = setInterval(getUsers(url, token), 1000);
+    this.interval = setInterval(getUsers(url, token), 60 * 1000);
   }
 
   logIn(user, token) {

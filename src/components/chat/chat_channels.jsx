@@ -9,11 +9,11 @@ const Icon = require('../ui/icon.jsx');
 const { is } = require('immutable');
 const Modal = require('../ui/modal.jsx');
 const React = require('react/addons');
+const Router = require('react-router');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
 
-const Router = require('react-router'); // or var Router = ReactRouter; in browsers
-const Link = Router.Link
+const { Link } = Router;
 
 const ONE_HOUR = 60 * 60 * 60 * 1000;
 
@@ -153,25 +153,6 @@ const ChatChannels = React.createClass({
     }).toJS();
   },
 
-  renderRooms() {
-    let style = {
-      cursor: 'pointer'
-    };
-
-    return this.state.subscribedChannels.map((channel) => {
-      let label = channel.slug;
-
-      return (
-        <Link to="chat"
-            params={{roomSlug: label}}
-            key={label}
-            className="block mb1 px3 h5 light-gray">
-          #{label}
-        </Link>
-      );
-    }).toJS();
-  },
-
   renderJoinOrLeaveButton(channel) {
     let label = channel.slug;
     let subscribedChannels = this.state.subscribedChannels;
@@ -252,6 +233,25 @@ const ChatChannels = React.createClass({
       };
       return <span style={style} />;
     }
+  },
+
+  renderRooms() {
+    let style = {
+      cursor: 'pointer'
+    };
+
+    return this.state.subscribedChannels.map((channel) => {
+      let label = channel.slug;
+
+      return (
+        <Link to="chat"
+            params={{roomSlug: label}}
+            key={label}
+            className="block mb1 px3 h5 light-gray">
+          #{label}
+        </Link>
+      );
+    }).toJS();
   },
 
   renderUsers() {
