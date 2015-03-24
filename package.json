@@ -4,6 +4,7 @@
   "description": "ASM chat, without the ASM (hosted chat for anyone)",
   "main": "dist/landline.js",
   "scripts": {
+    "build": "webpack",
     "dev": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.dev.js",
     "start": "npm run dev",
     "test": "jest"
