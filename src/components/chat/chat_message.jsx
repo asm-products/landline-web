@@ -25,13 +25,12 @@ const ChatMessage = React.createClass({
 
   statics: {
     parse(body) {
-      return emoji.shortnameToImage(italicize(boldize(urlize(body))));
+      return emoji.shortnameToImage(italicize(boldize(urlize(body))) || '');
     }
   },
 
   render() {
     let message = this.props.message;
-
     return (
       <div className="clearfix mt1">
         <div className="left mr1">

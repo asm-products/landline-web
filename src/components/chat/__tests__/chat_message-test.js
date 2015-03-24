@@ -11,6 +11,7 @@ describe('ChatMessage', () => {
     TestUtils = React.addons.TestUtils;
     message = {
       body: 'landline',
+      html_body: '<p>landline :smile:</p>',
       user: {
         username: 'Hemingway'
       },
