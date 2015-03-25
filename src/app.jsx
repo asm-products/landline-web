@@ -6,9 +6,9 @@ if (typeof __TEST__ === 'undefined') {
 }
 
 const $ = require('jquery');
-const AppActions = require('./actions/app_actions');
 const AppStore = require('./stores/app_store');
-const Home = require('./components/home/home.jsx')
+const Home = require('./components/home/home.jsx');
+const LocalStorage = require('./lib/local_storage');
 const React = require('react/addons');
 const Router = require('react-router');
 const SocketActions = require('./actions/socket_actions');
@@ -34,41 +34,55 @@ const routes = (
   </Route>
 );
 
-let Landline = (loc, element) => {
-  let parsedUrl = url.parse(loc, true);
-  let room = parsedUrl.query.room || 'general';
-  let team = parsedUrl.query.team;
-  let uid = parsedUrl.query.uid || '';
+let logIn = (token, room) => {
+  $.ajax({
+    url: `${__API_URL__}/users/find`,
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    success(userObj) {
+      let user = userObj.user;
 
-  AppActions.init(__API_URL__);
-  SocketActions.init(__API_URL__);
+      window.location.hash = `rooms/${room}`;
+      UserActions.logIn(user, token);
+      SocketActions.auth(token);
+    },
+    error(err) {}
+  });
+}
 
+let handshake = (team, uid, room) => {
   $.ajax({
     url: `${__API_URL__}/sessions/new?team=${team}&uid=${uid}`,
     method: 'GET',
     success(result) {
+      let expiration = result.expiration;
       let token = result.token;
 
-      $.ajax({
-        url: `${__API_URL__}/users/find`,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        success(userObj) {
-          let user = userObj.user;
-
-          window.location.hash = `rooms/${room}`;
-          UserActions.logIn(user, token);
-          SocketActions.auth(token);
-        },
-        error(err) {}
-      });
+      logIn(token, room);
+      LocalStorage.setTokenAndExpiration(token, expiration);
     },
     error(err) {
       console.log(arguments);
     }
   });
+};
+
+let Landline = (loc, element) => {
+  let parsedUrl = url.parse(loc, true);
+  let room = parsedUrl.query.room || 'general';
+  let team = parsedUrl.query.team;
+  let token = LocalStorage.retrieveToken();
+  let uid = parsedUrl.query.uid || '';
+
+  SocketActions.init(__API_URL__);
+
+  if (token) {
+    logIn(token, room);
+  } else {
+    handshake(team, uid, room);
+  }
 
   Router.run(routes, (Handler) => {
     React.render(<Handler />, element);

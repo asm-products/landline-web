@@ -20,7 +20,7 @@ describe('ChatChannelsStore', () => {
     beforeEach(() => {
       callback({
         actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
-        channels: [
+        rooms: [
           { url: '/test', label: 'test' }
         ]
       });
@@ -41,7 +41,7 @@ describe('ChatChannelsStore', () => {
     beforeEach(() => {
       callback({
         actionType: ActionTypes.FOO,
-        channels: [
+        rooms: [
           { url: '/test', label: 'test' }
         ]
       });
