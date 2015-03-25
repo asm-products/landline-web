@@ -16,6 +16,8 @@ const ChatMessages = React.createClass({
     ChatMessagesStore.addChangeListener(this.updateMessages);
     ChatActions.init();
 
+    this.refs.messages.getDOMNode().addEventListener('scroll', this.handleScroll);
+
     this.scrollToBottom();
   },
 
@@ -26,10 +28,8 @@ const ChatMessages = React.createClass({
   },
 
   componentWillReceiveProps(p) {
-    let previousChannel = this.state.channel;
-
     this.setState({
-      channel: this.getParams().roomSlug
+      room: this.getParams().roomSlug
     }, () => {
       this.updateMessages();
     });
@@ -44,16 +44,31 @@ const ChatMessages = React.createClass({
       node.scrollHeight - (node.scrollTop + node.offsetHeight) === 1;
   },
 
+  fetchOlderChatMessages() {
+    let lastMessage = this.state.messages.last();
+    let timestamp = lastMessage.created_at && lastMessage.created_at.format();
+
+    ChatActions.fetchMessagesBeforeTimestamp(this.state.room, timestamp);
+  },
+
   getInitialState() {
-    return this.getMessages();
+    return {
+      room: this.getParams().roomSlug,
+      messages: ChatMessagesStore.getMessages(this.getParams().roomSlug)
+    };
   },
 
   getMessages() {
-    var state = {
-      channel: this.getParams().roomSlug,
+    return {
+      room: this.getParams().roomSlug,
       messages: ChatMessagesStore.getMessages(this.getParams().roomSlug)
     };
-    return state;
+  },
+
+  handleScroll(e) {
+    if (e.currentTarget.scrollTop < 150) {
+      this.fetchOlderChatMessages();
+    }
   },
 
   render() {
@@ -70,13 +85,13 @@ const ChatMessages = React.createClass({
         <div className="flex-auto left-align p2 mb2" style={style.chatMessages} ref="messages">
           {this.renderMessages()}
         </div>
-        <ChatInput currentRoom={this.state.channel} />
+        <ChatInput currentRoom={this.state.room} />
       </div>
     );
   },
 
   renderMessages() {
-    return this.state.messages.map((message, i) => {
+    return this.state.messages.reverse().map((message, i) => {
       return <ChatMessage message={message.toJS ? message.toJS() : message}
           key={`message-${i}`} />
     }).toJS();

@@ -6,7 +6,7 @@ const Dispatcher = require('../dispatcher');
 const { List } = require('immutable');
 const Store = require('./store');
 
-let channels = List();
+let rooms = List();
 
 class ChatChannelsStore extends Store {
   constructor() {
@@ -16,7 +16,7 @@ class ChatChannelsStore extends Store {
       switch (action.actionType) {
         case ActionTypes.CHAT_CHANNELS_RECEIVED:
           Dispatcher.waitFor([ChatChannelMembershipsStore.dispatchToken]);
-          channels = List(action.channels);
+          rooms = List(action.rooms);
           break;
         default:
           return;
@@ -27,13 +27,13 @@ class ChatChannelsStore extends Store {
   }
 
   getChannels() {
-    return channels;
+    return rooms;
   }
 
   getSubscribedChannels() {
     let memberships = ChatChannelMembershipsStore.getMemberships();
-    return channels.filter((channel) => {
-      return memberships.has(channel.id);
+    return rooms.filter((room) => {
+      return memberships.has(room.id);
     });
   }
 };

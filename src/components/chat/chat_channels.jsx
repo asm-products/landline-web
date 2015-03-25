@@ -263,9 +263,9 @@ const ChatChannels = React.createClass({
         };
 
         return (
-          <span className="block clearfix light-gray h5 px3" key={`${i}`} style={style}>
+          <a href={user.profile_url} className="block clearfix light-gray h5 px3" key={`${i}`} style={style}>
             @{username} {this.renderOnlineIndicator(user.last_online_at)}
-          </span>
+          </a>
         );
       }
     }).toJS();

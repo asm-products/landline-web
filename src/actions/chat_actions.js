@@ -14,13 +14,7 @@ class ChatActions {
   init(){
     SocketStore.getSocket().on("message", this.onMessage)
   }
-  onMessage(message, channel){
-    Dispatcher.dispatch({
-      actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
-      message: message,
-      channel: channel
-    });
-  }
+
   getChannels(url, token) {
     $.ajax({
       url: url,
@@ -33,13 +27,51 @@ class ChatActions {
       success(data) {
         Dispatcher.dispatch({
           actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
-          channels: data.rooms,
+          rooms: data.rooms,
           memberships: data.memberships
         });
       },
       error() {
         console.log(arguments);
       }
+    });
+  }
+
+  fetchMessagesBeforeTimestamp(room, timestamp) {
+    let url = `${__API_URL__}/rooms/${room}/messages?t=${timestamp}`;
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      headers: {
+        Authorization: `Bearer ${CurrentUserStore.getToken()}`
+      },
+      success(data) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
+          messages: data.messages,
+          room: room
+        });
+      },
+      error() {}
+    });
+  }
+
+  getMessages(room){
+    let url = `${__API_URL__}/rooms/${room}/messages`;
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      headers: {
+        Authorization: `Bearer ${CurrentUserStore.getToken()}`
+      },
+      success(data) {
+        Dispatcher.dispatch({
+          actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
+          messages: data.messages,
+          room: room
+        });
+      },
+      error() {}
     });
   }
 
@@ -90,6 +122,14 @@ class ChatActions {
     })
   }
 
+  onMessage(message, room){
+    Dispatcher.dispatch({
+      actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
+      message: message,
+      room: room
+    });
+  }
+
   submitMessage(room, body) {
     let message = {
       room: room,
@@ -107,25 +147,6 @@ class ChatActions {
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_MESSAGE_SUBMITTED,
       message: body
-    });
-  }
-
-  getMessages(channel){
-    const url = `${__API_URL__}/rooms/${channel}/messages`;
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      headers: {
-        Authorization: `Bearer ${CurrentUserStore.getToken()}`
-      },
-      success(data) {
-        Dispatcher.dispatch({
-          actionType: ActionTypes.CHAT_MESSAGES_RECEIVED,
-          messages: data.messages,
-          channel: channel
-        });
-      },
-      error() {}
     });
   }
 };
