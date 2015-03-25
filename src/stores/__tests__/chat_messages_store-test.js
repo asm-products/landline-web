@@ -20,7 +20,7 @@ describe('ChatMessagesStore', () => {
     beforeEach(() => {
       callback({
         actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
-        channel: "foo",
+        room: "foo",
         message: {
           body: `Their very physical passing becomes rumor with a thousand faces
            before breath is out of them, lest paradoxical truth outrage itself.`,
@@ -32,12 +32,12 @@ describe('ChatMessagesStore', () => {
       });
     });
 
-    it('pushes a message into the list of the right channel', () => {
+    it('pushes a message into the list of the right room', () => {
       expect(ChatMessagesStore.getMessages("foo").size).toEqual(1);
 
       callback({
         actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
-        channel: "foo",
+        room: "foo",
         message: {
           body: `Nothing travels faster than the speed of light with the
             possible exception of bad news, which obeys its own special laws`,
