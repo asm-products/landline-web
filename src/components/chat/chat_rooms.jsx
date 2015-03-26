@@ -2,8 +2,8 @@
 
 const AppStore = require('../../stores/app_store');
 const ChatActions = require('../../actions/chat_actions');
-const ChatChannelMembershipsStore = require('../../stores/chat_channel_memberships_store');
-const ChatChannelsStore = require('../../stores/chat_channels_store');
+const ChatRoomMembershipsStore = require('../../stores/chat_room_memberships_store');
+const ChatRoomsStore = require('../../stores/chat_rooms_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const Icon = require('../ui/icon.jsx');
 const { is } = require('immutable');
@@ -17,17 +17,17 @@ const { Link } = Router;
 
 const ONE_HOUR = 60 * 60 * 60 * 1000;
 
-const ChatChannels = React.createClass({
+const ChatRooms = React.createClass({
   mixins: [Router.State],
   componentDidMount() {
-    ChatChannelsStore.addChangeListener(this.updateChannels);
-    ChatChannelMembershipsStore.addChangeListener(this.updateChannels);
+    ChatRoomsStore.addChangeListener(this.updateRooms);
+    ChatRoomMembershipsStore.addChangeListener(this.updateRooms);
     UsersStore.addChangeListener(this.updateUsers);
 
     let url = __API_URL__;
     let token = CurrentUserStore.getToken();
 
-    this.getChannels();
+    this.getRooms();
     UserActions.init(
       `${url}/users?t=1`,
       token
@@ -36,28 +36,28 @@ const ChatChannels = React.createClass({
 
   componentDidUpdate() {
     ChatActions.getPixel(
-      `${__API_URL__}/rooms/${this.state.currentChannel}`,
+      `${__API_URL__}/rooms/${this.state.currentRoom}`,
       CurrentUserStore.getToken()
     );
   },
 
   componentWillUnmount() {
-    ChatChannelsStore.removeChangeListener(this.updateChannels);
-    ChatChannelMembershipsStore.removeChangeListener(this.updateChannels);
+    ChatRoomsStore.removeChangeListener(this.updateRooms);
+    ChatRoomMembershipsStore.removeChangeListener(this.updateRooms);
     UsersStore.removeChangeListener(this.updateUsers);
   },
 
   componentWillReceiveProps() {
     this.setState({
-      currentChannel: this.getParams().roomSlug
+      currentRoom: this.getParams().roomSlug
     });
   },
 
-  getChannels() {
+  getRooms() {
     let url = __API_URL__;
     let token = CurrentUserStore.getToken();
 
-    ChatActions.getChannels(
+    ChatActions.getRooms(
       `${url}/rooms?r=1&t=1`,
       token
     );
@@ -65,24 +65,24 @@ const ChatChannels = React.createClass({
 
   getInitialState() {
     return {
-      currentChannel: this.getParams().roomSlug,
-      channels: ChatChannelsStore.getChannels(),
+      currentRoom: this.getParams().roomSlug,
+      rooms: ChatRoomsStore.getRooms(),
       isModalOpen: false,
-      subscribedChannels: ChatChannelsStore.getSubscribedChannels(),
+      subscribedRooms: ChatRoomsStore.getSubscribedRooms(),
       users: UsersStore.getUsers()
     };
   },
 
-  handleJoinChannel(channel, e) {
+  handleJoinRoom(room, e) {
     e.stopPropagation();
 
-    ChatActions.joinChannel(channel);
+    ChatActions.joinRoom(room);
   },
 
-  handleLeaveChannel(channel, e) {
+  handleLeaveChannel(room, e) {
     e.stopPropagation();
 
-    ChatActions.leaveChannel(channel);
+    ChatActions.leaveRoom(room);
   },
 
   handleModalDismissed() {
@@ -91,7 +91,7 @@ const ChatChannels = React.createClass({
     });
   },
 
-  handleSeeAllChannels(e) {
+  handleSeeAllRooms(e) {
     e.preventDefault();
 
     this.setState({
@@ -105,24 +105,24 @@ const ChatChannels = React.createClass({
         borderColor: 'rgba(0,0,0,0.1)'
       },
       span: {
-        cursor: 'pointer'
+        cursor: 'pointer',
+        letterSpacing: 1
       }
     };
 
     return (
-      <div className="white">
-        {/*<h4 className="mt3 px3 light-gray">{AppStore.getTeamName()}</h4>
-        <hr className="mt2 mb0" style={style.hr} />*/}
-
-        <h4 className="px3 mt2 mb1 light-gray">Rooms</h4>
+      <div className="white" style={style.div}>
+        <h5 className="px3 mt2 mb2 light-gray">Rooms</h5>
         {this.renderRooms()}
 
-        <h5 className="px3 mt1 mb1 light-gray">
-          <span onClick={this.handleSeeAllChannels} style={style.span}>See all</span>
+        <h5 className="px3 mt1 mb1 caps gray">
+          <small onClick={this.handleSeeAllRooms} style={style.span}>
+            See all
+          </small>
         </h5>
         <hr className="mt2 mb0" style={style.hr} />
 
-        <h4 className="px3 mt2 mb1 light-gray">People</h4>
+        <h5 className="px3 mt2 mb2 light-gray">People</h5>
         {this.renderUsers()}
         {this.renderJoinModal()}
         {this.renderModal()}
@@ -130,34 +130,29 @@ const ChatChannels = React.createClass({
     );
   },
 
-  renderAllChannels() {
-    let style = {
-      maxHeight: 300,
-      overflowY: 'scroll'
-    };
-
-    return this.state.channels.map((channel) => {
-      let label = channel.slug;
+  renderAllRooms() {
+    return this.state.rooms.map((room) => {
+      let label = room.slug;
 
       return (
-        <div className="clearfix mb2" style={style} key={label}>
+        <div className="clearfix mb2" key={label}>
           <div className="left h5 dark-gray mt1 ml2">
             {label}
           </div>
 
           <div className="right h5">
-            {this.renderJoinOrLeaveButton(channel)}
+            {this.renderJoinOrLeaveButton(room)}
           </div>
         </div>
       );
     }).toJS();
   },
 
-  renderJoinOrLeaveButton(channel) {
-    let label = channel.slug;
-    let subscribedChannels = this.state.subscribedChannels;
+  renderJoinOrLeaveButton(room) {
+    let label = room.slug;
+    let subscribedRooms = this.state.subscribedRooms;
 
-    if (this.state.subscribedChannels.contains(channel)) {
+    if (this.state.subscribedRooms.contains(room)) {
       return (
         <button className="button-outline blue"
             onClick={this.handleLeaveChannel.bind(this, label)}>
@@ -168,23 +163,23 @@ const ChatChannels = React.createClass({
 
     return (
       <button className="button"
-          onClick={this.handleJoinChannel.bind(this, label)}>
+          onClick={this.handleJoinRoom.bind(this, label)}>
         Join
       </button>
     );
   },
 
   renderJoinModal() {
-    let currentChannel = this.state.currentChannel;
+    let currentRoom = this.state.currentRoom;
     let condition = (value, key, iterable) => {
-      return value.slug === currentChannel
+      return value.slug === currentRoom
     };
 
     return (
       <div className="dark-gray">
-        <Modal header={`Join ${currentChannel}?`}
-            isOpen={!this.state.subscribedChannels.find(condition) && !this.state.isModalOpen}
-            onDismiss={this.handleJoinChannel.bind(this, currentChannel)}
+        <Modal header={`Join ${currentRoom}?`}
+            isOpen={!this.state.subscribedRooms.find(condition) && !this.state.isModalOpen}
+            onDismiss={this.handleJoinRoom.bind(this, currentRoom)}
             theme="dark-gray">
           {this.renderNotSubscribedWarning()}
         </Modal>
@@ -193,26 +188,30 @@ const ChatChannels = React.createClass({
   },
 
   renderModal() {
+    let style = {
+      maxHeight: 300,
+      overflowY: 'scroll'
+    };
     return (
-      <div className="dark-gray">
+      <div className="dark-gray" style={style}>
         <Modal header="Rooms"
             isOpen={this.state.isModalOpen}
             onDismiss={this.handleModalDismissed}
             theme="dark-gray">
-          {this.renderAllChannels()}
+          {this.renderAllRooms()}
         </Modal>
       </div>
     );
   },
 
   renderNotSubscribedWarning() {
-    let currentChannel = this.state.currentChannel;
+    let currentRoom = this.state.currentRoom;
     return (
       <div className="clearfix mb2 center">
-        You&#39;re about to join <span className="bold">#{currentChannel}</span>.
+        You&#39;re about to join <span className="bold">#{currentRoom}</span>.
         <div>
           <button className="button"
-              onClick={this.handleJoinChannel.bind(this, currentChannel)}>
+              onClick={this.handleJoinRoom.bind(this, currentRoom)}>
             OK
           </button>
         </div>
@@ -240,14 +239,14 @@ const ChatChannels = React.createClass({
       cursor: 'pointer'
     };
 
-    return this.state.subscribedChannels.map((channel) => {
-      let label = channel.slug;
+    return this.state.subscribedRooms.map((room) => {
+      let label = room.slug;
 
       return (
         <Link to="chat"
             params={{roomSlug: label}}
             key={label}
-            className="block mb1 px3 h5 light-gray">
+            className="block px3 h5 white">
           #{label}
         </Link>
       );
@@ -272,19 +271,19 @@ const ChatChannels = React.createClass({
   },
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.currentChannel !== this.state.currentChannel) {
+    if (nextState.currentRoom !== this.state.currentRoom) {
       ChatActions.getPixel(
-        `${__API_URL__}/rooms/${this.state.currentChannel}`,
+        `${__API_URL__}/rooms/${this.state.currentRoom}`,
         CurrentUserStore.getToken()
       );
       return true;
     }
 
-    if (!is(nextState.channels, this.state.channels)) {
+    if (!is(nextState.rooms, this.state.rooms)) {
       return true;
     }
 
-    if (!is(nextState.subscribedChannels, this.state.subscribedChannels)) {
+    if (!is(nextState.subscribedRooms, this.state.subscribedRooms)) {
       return true;
     }
 
@@ -299,17 +298,17 @@ const ChatChannels = React.createClass({
     return false;
   },
 
-  updateChannels() {
-    const prevSubscribedChannels = this.state.subscribedChannels;
+  updateRooms() {
+    const prevSubscribedRooms = this.state.subscribedRooms;
     this.setState({
-      currentChannel: this.getParams().roomSlug,
-      channels: ChatChannelsStore.getChannels(),
-      subscribedChannels: ChatChannelsStore.getSubscribedChannels()
+      currentRoom: this.getParams().roomSlug,
+      rooms: ChatRoomsStore.getRooms(),
+      subscribedRooms: ChatRoomsStore.getSubscribedRooms()
     });
     // Fetch the initial list of messages for all subscribed rooms.
-    ChatChannelsStore.getSubscribedChannels().map((channel) => {
-      if(!prevSubscribedChannels.contains(channel)){
-        ChatActions.getMessages(channel.slug);
+    ChatRoomsStore.getSubscribedRooms().map((room) => {
+      if(!prevSubscribedRooms.contains(room)){
+        ChatActions.getMessages(room.slug);
       }
     });
   },
@@ -321,4 +320,4 @@ const ChatChannels = React.createClass({
   }
 });
 
-module.exports = ChatChannels;
+module.exports = ChatRooms;

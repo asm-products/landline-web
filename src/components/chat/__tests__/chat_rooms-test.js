@@ -1,0 +1,61 @@
+'use strict';
+
+jest.dontMock('../chat_rooms.jsx');
+
+const { List, Map } = require('immutable');
+const React = require('react/addons');
+const TestUtils = React.addons.TestUtils;
+
+describe('ChatRooms', () => {
+  let rooms, ChatRooms, chatRooms, ChatRoomsStore, el, users, UsersStore;
+
+  beforeEach(() => {
+    let getCurrentParams = () => {
+      return {};
+    };
+    rooms = List([
+      { label: 'test', url: '/test' }
+    ]);
+    users = Map({
+      user: {
+        username: 'Larry'
+      }
+    });
+    el = document.createElement('div');
+    ChatRoomsStore = require('../../../stores/chat_rooms_store');
+    ChatRoomsStore.getRooms.mockReturnValue(rooms);
+    ChatRoomsStore.getSubscribedRooms.mockReturnValue(rooms);
+    ChatRooms = require('../chat_rooms.jsx');
+    UsersStore = require('../../../stores/users_store');
+    UsersStore.getUsers.mockReturnValue(users);
+    StubbedRooms = stubRouterContext(ChatRooms, {}, { getCurrentParams: getCurrentParams });
+    chatRooms = React.render(<StubbedRooms />, el);
+  });
+
+  describe('componentDidMount()', () => {
+    it('adds a listener to ChatRoomsStore', () => {
+      expect(ChatRoomsStore.addChangeListener).
+        toBeCalledWith(chatRooms.updateRooms);
+    });
+  });
+
+  describe('componentWillUnmount()', () => {
+    it('removes a listener from ChatRoomsStore', () => {
+      React.unmountComponentAtNode(el);
+
+      expect(ChatRoomsStore.removeChangeListener).
+        toBeCalledWith(chatRooms.updateRooms);
+    });
+  });
+
+  describe('renderChannels()', () => {
+    it('iterates through the rooms and returns an array of links', () => {
+      let renderedChannels = TestUtils.scryRenderedDOMComponentsWithClass(
+        chatRooms,
+        'px3 h5 white'
+      );
+      expect(renderedChannels.length).toEqual(1);
+      expect(renderedChannels[0].tagName).toEqual('A');
+    });
+  });
+});

@@ -4,12 +4,11 @@ if (typeof __TEST__ === 'undefined') {
   require('basscss/node_modules/flex-object/css/flex-object.min.css');
 }
 
-const ChatChannels = require('./chat_channels.jsx');
+const ChatRooms = require('./chat_rooms.jsx');
 const ChatMessages = require('./chat_messages.jsx');
 const ChatPixel = require('./chat_pixel.jsx');
 const React = require('react/addons');
-const Router = require('react-router'); // or var Router = ReactRouter; in browsers
-
+const Router = require('react-router');
 
 const Chat = React.createClass({
   mixins: [Router.State],
@@ -32,6 +31,7 @@ const Chat = React.createClass({
       },
 
       chatChannels: {
+        backgroundColor: '#353941',
         maxWidth: 220,
         minWidth: 220,
         overflowX: 'hidden',
@@ -52,7 +52,7 @@ const Chat = React.createClass({
       <div style={style.chatWrapper}>
         <div className="flex flex-stretch" style={style.chat}>
           <div className="sm-show md-show lg-show bg-dark-gray white" style={style.chatChannels}>
-            <ChatChannels currentRoom={this.state.currentRoom} />
+            <ChatRooms currentRoom={this.state.currentRoom} />
           </div>
 
           <div className="flex-auto" ref="messages">

@@ -7,13 +7,13 @@ const Store = require('./store');
 
 let memberships = Set();
 
-class ChatChannelMembershipsStore extends Store {
+class ChatRoomMembershipsStore extends Store {
   constructor() {
     super();
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
-        case ActionTypes.CHAT_CHANNELS_RECEIVED:
+        case ActionTypes.CHAT_ROOMS_RECEIVED:
           memberships = Set(action.memberships);
           break;
         case ActionTypes.MEMBERSHIP_RECEIVED:
@@ -35,4 +35,4 @@ class ChatChannelMembershipsStore extends Store {
   }
 };
 
-module.exports = new ChatChannelMembershipsStore();
+module.exports = new ChatRoomMembershipsStore();

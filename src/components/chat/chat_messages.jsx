@@ -8,6 +8,7 @@ const ChatMessagesStore = require('../../stores/chat_messages_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
 const Router = require('react-router');
+const Timestamp = require('../ui/timestamp.jsx');
 
 const ChatMessages = React.createClass({
   mixins: [Router.State],
@@ -91,7 +92,18 @@ const ChatMessages = React.createClass({
   },
 
   renderMessages() {
+    let numberOfMessages = this.state.messages.size;
+
     return this.state.messages.reverse().map((message, i) => {
+      if (i + 1 === numberOfMessages) {
+        return [
+          <Timestamp time={message.get ? message.get('created_at') : message.created_at} />,
+
+          <ChatMessage message={message.toJS ? message.toJS() : message}
+              key={`message-${i}`} />
+        ];
+      }
+
       return <ChatMessage message={message.toJS ? message.toJS() : message}
           key={`message-${i}`} />
     }).toJS();

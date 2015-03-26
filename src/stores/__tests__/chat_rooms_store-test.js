@@ -1,25 +1,25 @@
 'use strict';
 
-jest.dontMock('../chat_channels_store');
+jest.dontMock('../chat_rooms_store');
 jest.dontMock('immutable');
 jest.dontMock('react/lib/keyMirror');
 
 const { List } = require('immutable');
 
-describe('ChatChannelsStore', () => {
-  let ActionTypes, ChatChannelsStore, callback, Dispatcher;
+describe('ChatRoomsStore', () => {
+  let ActionTypes, ChatRoomsStore, callback, Dispatcher;
 
   beforeEach(() => {
     ActionTypes = require('../../constants').ActionTypes;
     Dispatcher = require('../../dispatcher');
-    ChatChannelsStore = require('../chat_channels_store');
+    ChatRoomsStore = require('../chat_rooms_store');
     callback = Dispatcher.register.mock.calls[0][0];
   });
 
-  describe('CHAT_CHANNELS_RECEIVED', () => {
+  describe('CHAT_ROOMS_RECEIVED', () => {
     beforeEach(() => {
       callback({
-        actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
+        actionType: ActionTypes.CHAT_ROOMS_RECEIVED,
         rooms: [
           { url: '/test', label: 'test' }
         ]
@@ -27,13 +27,13 @@ describe('ChatChannelsStore', () => {
     });
 
     it('sets the channels as an immutable list', () => {
-      let channels = ChatChannelsStore.getChannels();
+      let channels = ChatRoomsStore.getRooms();
       expect(List.isList(channels)).toBe(true);
       expect(channels.size).toEqual(1);
     });
 
     it('emits a change event', () => {
-      expect(ChatChannelsStore.emitChange).toBeCalled();
+      expect(ChatRoomsStore.emitChange).toBeCalled();
     });
   });
 
@@ -48,7 +48,7 @@ describe('ChatChannelsStore', () => {
     });
 
     it('does not emit a change event', () => {
-      expect(ChatChannelsStore.emitChange).not.toBeCalled();
+      expect(ChatRoomsStore.emitChange).not.toBeCalled();
     });
   });
 });

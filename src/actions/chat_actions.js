@@ -15,7 +15,7 @@ class ChatActions {
     SocketStore.getSocket().on("message", this.onMessage)
   }
 
-  getChannels(url, token) {
+  getRooms(url, token) {
     $.ajax({
       url: url,
       method: 'GET',
@@ -26,7 +26,7 @@ class ChatActions {
       },
       success(data) {
         Dispatcher.dispatch({
-          actionType: ActionTypes.CHAT_CHANNELS_RECEIVED,
+          actionType: ActionTypes.CHAT_ROOMS_RECEIVED,
           rooms: data.rooms,
           memberships: data.memberships
         });
@@ -96,7 +96,7 @@ class ChatActions {
     });
   }
 
-  joinChannel(room) {
+  joinRoom(room) {
     SocketStore.getSocket().emit("join", room, (response) => {
       if(response.Success){
         Dispatcher.dispatch({
@@ -109,7 +109,7 @@ class ChatActions {
     })
   }
 
-  leaveChannel(room) {
+  leaveRoom(room) {
     SocketStore.getSocket().emit("leave", room, (response) => {
       if(response.Success){
         Dispatcher.dispatch({
