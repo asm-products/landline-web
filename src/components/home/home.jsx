@@ -5,7 +5,7 @@ const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
 const Router = require('react-router');
 const SocketStore = require('../../stores/socket_store');
-const Spinner = require('../spinner/spinner.jsx');
+const Spinner = require('../ui/spinner.jsx');
 
 const Home = React.createClass({
   mixins: [Router.State],
