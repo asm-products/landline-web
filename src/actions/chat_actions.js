@@ -1,7 +1,7 @@
 'use strict';
 
-const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
+const ajax = require('../lib/ajax');
 const SocketStore = require('../stores/socket_store');
 const AppStore = require('../stores/app_store');
 const CurrentUserStore = require('../stores/current_user_store');
@@ -15,10 +15,9 @@ class ChatActions {
   }
 
   getRooms(url, token) {
-    $.ajax({
+    ajax({
       url: url,
       method: 'GET',
-      dataType: 'json',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -39,9 +38,9 @@ class ChatActions {
 
   fetchMessagesBeforeTimestamp(room, timestamp) {
     let url = `${__API_URL__}/rooms/${room}/messages?t=${timestamp}`;
-    $.ajax({
+    ajax({
       url: url,
-      dataType: 'json',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${CurrentUserStore.getToken()}`
       },
@@ -58,9 +57,9 @@ class ChatActions {
 
   getMessages(room) {
     let url = `${__API_URL__}/rooms/${room}/messages`;
-    $.ajax({
+    ajax({
       url: url,
-      dataType: 'json',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${CurrentUserStore.getToken()}`
       },
@@ -76,10 +75,9 @@ class ChatActions {
   }
 
   getPixel(url, token) {
-    $.ajax({
+    ajax({
       url: url,
       method: 'GET',
-      dataType: 'json',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'

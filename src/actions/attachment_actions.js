@@ -1,7 +1,7 @@
 'use strict';
 
-const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
+const ajax = require('../lib/ajax');
 const AppStore = require('../stores/app_store');
 const CurrentUserStore = require('../stores/current_user_store');
 const Dispatcher = require('../dispatcher');
@@ -26,10 +26,9 @@ function _upload(commentId, file, done) {
     text: '![Uploading... ' + file.name + ']()'
   });
 
-  $.ajax({
+  ajax({
     url: `${__API_URL__}/upload`,
     method: 'POST',
-    dataType: 'json',
     data: JSON.stringify({
       name: file.name,
       content_type: file.type,
@@ -51,7 +50,7 @@ function _upload(commentId, file, done) {
 
       done();
     },
-    error(jqXhr, textStatus, err) {
+    error(textStatus, err) {
       Dispatcher.dispatch({
         actionType: ActionTypes.ATTACHMENT_FAILED,
         commentId: commentId,

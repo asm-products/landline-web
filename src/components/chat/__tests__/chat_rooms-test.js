@@ -7,7 +7,15 @@ const React = require('react/addons');
 const TestUtils = React.addons.TestUtils;
 
 describe('ChatRooms', () => {
-  let rooms, ChatRooms, chatRooms, ChatRoomsStore, el, users, UsersStore;
+  let ChatRooms,
+    chatRooms,
+    ChatRoomsStore,
+    el,
+    rooms,
+    UnreadChatRoomsStore,
+    unreadRooms,
+    users,
+    UsersStore;
 
   beforeEach(() => {
     let getCurrentParams = () => {
@@ -16,6 +24,7 @@ describe('ChatRooms', () => {
     rooms = List([
       { label: 'test', url: '/test' }
     ]);
+    unreadRooms = List(['id']);
     users = Map({
       user: {
         username: 'Larry'
@@ -23,8 +32,10 @@ describe('ChatRooms', () => {
     });
     el = document.createElement('div');
     ChatRoomsStore = require('../../../stores/chat_rooms_store');
+    UnreadChatRoomsStore = require('../../../stores/unread_chat_rooms_store');
     ChatRoomsStore.getRooms.mockReturnValue(rooms);
     ChatRoomsStore.getSubscribedRooms.mockReturnValue(rooms);
+    UnreadChatRoomsStore.getUnreadRooms.mockReturnValue(unreadRooms);
     ChatRooms = require('../chat_rooms.jsx');
     UsersStore = require('../../../stores/users_store');
     UsersStore.getUsers.mockReturnValue(users);
@@ -52,7 +63,7 @@ describe('ChatRooms', () => {
     it('iterates through the rooms and returns an array of links', () => {
       let renderedChannels = TestUtils.scryRenderedDOMComponentsWithClass(
         chatRooms,
-        'px3 h5 white'
+        'block h5 px3 white'
       );
       expect(renderedChannels.length).toEqual(1);
       expect(renderedChannels[0].tagName).toEqual('A');

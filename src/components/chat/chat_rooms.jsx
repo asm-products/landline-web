@@ -248,7 +248,7 @@ const ChatRooms = React.createClass({
       let label = room.slug;
       let classes = classnames({
         block: true,
-        bold: unreadRooms.contains(room.id),
+        bold: unreadRooms && unreadRooms.contains(room.id),
         h5: true,
         px3: true,
         white: true

@@ -5,7 +5,7 @@ if (typeof __TEST__ === 'undefined') {
   require('./styles/typography.css');
 }
 
-const $ = require('jquery');
+const ajax = require('./lib/ajax');
 const AppStore = require('./stores/app_store');
 const Home = require('./components/home/home.jsx');
 const LocalStorage = require('./lib/local_storage');
@@ -35,7 +35,7 @@ const routes = (
 );
 
 let logIn = (token, room) => {
-  $.ajax({
+  ajax({
     url: `${__API_URL__}/users/find`,
     method: 'GET',
     headers: {
@@ -53,7 +53,7 @@ let logIn = (token, room) => {
 }
 
 let handshake = (team, uid, room) => {
-  $.ajax({
+  ajax({
     url: `${__API_URL__}/sessions/new?team=${team}&uid=${uid}`,
     method: 'GET',
     success(result) {

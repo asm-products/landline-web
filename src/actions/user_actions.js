@@ -1,14 +1,14 @@
 'use strict';
 
-const $ = require('jquery');
 const ActionTypes = require('../constants').ActionTypes;
+const ajax = require('../lib/ajax');
 const Dispatcher = require('../dispatcher');
 
 const ONE_HOUR = 60 * 60 * 1000;
 
 let getUsers = (url, token) => {
   let func = () => {
-    $.ajax({
+    ajax({
       method: 'GET',
       url: url,
       headers: {
