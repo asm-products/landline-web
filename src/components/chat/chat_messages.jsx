@@ -7,17 +7,18 @@ const ChatMessage = require('./chat_message.jsx');
 const ChatMessagesStore = require('../../stores/chat_messages_store');
 const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
-const Router = require('react-router');
+const { State } = require('react-router');
 const Timestamp = require('../ui/timestamp.jsx');
 
 const ChatMessages = React.createClass({
-  mixins: [Router.State],
+  mixins: [State],
 
   componentDidMount() {
     ChatMessagesStore.addChangeListener(this.updateMessages);
     ChatActions.init();
 
-    this.refs.messages.getDOMNode().addEventListener('scroll', this.handleScroll);
+    this.refs.messages.getDOMNode()
+    .addEventListener('scroll', this.handleScroll);
 
     this.scrollToBottom();
   },
@@ -92,13 +93,14 @@ const ChatMessages = React.createClass({
   },
 
   renderMessages() {
-    let numberOfMessages = this.state.messages.size;
+    let { messages } = this.state;
+    let numberOfMessages = messages.size;
 
     return this.state.messages.reverse().map((message, i) => {
       if (i + 1 === numberOfMessages) {
+        let timestamp = message.created_at;
         return [
-          <Timestamp time={message.get ? message.get('created_at') : message.created_at} />,
-
+          <Timestamp time={timestamp} />,
           <ChatMessage message={message.toJS ? message.toJS() : message}
               key={`message-${i}`} />
         ];

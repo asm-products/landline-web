@@ -5,6 +5,7 @@ const ChatRoomMembershipsStore = require('./chat_room_memberships_store');
 const Dispatcher = require('../dispatcher');
 const { List } = require('immutable');
 const Store = require('./store');
+const UnreadChatRoomsStore = require('./unread_chat_rooms_store');
 
 let rooms = List();
 
@@ -15,7 +16,10 @@ class ChatRoomsStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.CHAT_ROOMS_RECEIVED:
-          Dispatcher.waitFor([ChatRoomMembershipsStore.dispatchToken]);
+          Dispatcher.waitFor([
+            ChatRoomMembershipsStore.dispatchToken,
+            UnreadChatRoomsStore.dispatchToken
+          ]);
           rooms = List(action.rooms);
           break;
         default:
@@ -28,6 +32,12 @@ class ChatRoomsStore extends Store {
 
   getRooms() {
     return rooms;
+  }
+
+  getRoomBySlug(slug) {
+    return rooms.find((room) => {
+      return room.slug === slug;
+    });
   }
 
   getSubscribedRooms() {

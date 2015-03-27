@@ -9,10 +9,9 @@ const Dispatcher = require('../dispatcher');
 
 const ONE_HOUR = 60 * 60 * 1000;
 
-
 class ChatActions {
-  init(){
-    SocketStore.getSocket().on("message", this.onMessage)
+  init() {
+    SocketStore.getSocket().on('message', this.onMessage)
   }
 
   getRooms(url, token) {
@@ -28,7 +27,8 @@ class ChatActions {
         Dispatcher.dispatch({
           actionType: ActionTypes.CHAT_ROOMS_RECEIVED,
           rooms: data.rooms,
-          memberships: data.memberships
+          memberships: data.memberships,
+          unreadRooms: data.unread_rooms
         });
       },
       error() {
@@ -56,7 +56,7 @@ class ChatActions {
     });
   }
 
-  getMessages(room){
+  getMessages(room) {
     let url = `${__API_URL__}/rooms/${room}/messages`;
     $.ajax({
       url: url,
@@ -96,33 +96,44 @@ class ChatActions {
     });
   }
 
+  handleFailure(response) {
+    console.log(response);
+  }
+
   joinRoom(room) {
-    SocketStore.getSocket().emit("join", room, (response) => {
-      if(response.Success){
+    SocketStore.getSocket().emit('join', room, (response) => {
+      if (response.Success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_RECEIVED,
           membership: response.Result.room_id
         });
-      }else{
-        console.log(response);
+      } else {
+        this.handleFailure(response);
       }
-    })
+    });
   }
 
   leaveRoom(room) {
-    SocketStore.getSocket().emit("leave", room, (response) => {
-      if(response.Success){
+    SocketStore.getSocket().emit('leave', room, (response) => {
+      if (response.Success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_DESTROYED,
           membership: response.Result
         });
-      }else{
-        console.log(response);
+      } else {
+        this.handleFailure(response);
       }
-    })
+    });
   }
 
-  onMessage(message, room){
+  markRoomAsRead(roomSlug) {
+    Dispatcher.dispatch({
+      actionType: ActionTypes.CHAT_ROOM_READ,
+      room: roomSlug
+    });
+  }
+
+  onMessage(message, room) {
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
       message: message,

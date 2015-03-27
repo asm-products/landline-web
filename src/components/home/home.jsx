@@ -31,7 +31,6 @@ const Home = React.createClass({
     let isReady = this.state.isLoggedIn &&
       this.state.isSocketConnected &&
       this.state.isSocketAuthenticated;
-
     return isReady ?
       <Chat currentRoom={this.getParams().room} /> :
       <Spinner />;

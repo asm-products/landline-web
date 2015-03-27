@@ -4,24 +4,27 @@ const AppStore = require('../../stores/app_store');
 const ChatActions = require('../../actions/chat_actions');
 const ChatRoomMembershipsStore = require('../../stores/chat_room_memberships_store');
 const ChatRoomsStore = require('../../stores/chat_rooms_store');
+const classnames = require('classnames');
 const CurrentUserStore = require('../../stores/current_user_store');
 const Icon = require('../ui/icon.jsx');
 const { is } = require('immutable');
 const Modal = require('../ui/modal.jsx');
 const React = require('react/addons');
 const Router = require('react-router');
+const UnreadChatRoomsStore = require('../../stores/unread_chat_rooms_store');
 const UserActions = require('../../actions/user_actions');
 const UsersStore = require('../../stores/users_store');
 
-const { Link } = Router;
+const { Link, State } = Router;
 
 const ONE_HOUR = 60 * 60 * 60 * 1000;
 
 const ChatRooms = React.createClass({
-  mixins: [Router.State],
+  mixins: [State],
   componentDidMount() {
     ChatRoomsStore.addChangeListener(this.updateRooms);
     ChatRoomMembershipsStore.addChangeListener(this.updateRooms);
+    UnreadChatRoomsStore.addChangeListener(this.updateRooms);
     UsersStore.addChangeListener(this.updateUsers);
 
     let url = __API_URL__;
@@ -47,10 +50,15 @@ const ChatRooms = React.createClass({
     UsersStore.removeChangeListener(this.updateUsers);
   },
 
-  componentWillReceiveProps() {
-    this.setState({
-      currentRoom: this.getParams().roomSlug
-    });
+  componentWillReceiveProps(nextProps) {
+    let newSlug = this.getParams().roomSlug;
+    if (newSlug !== this.state.currentRoom) {
+      this.setState({
+        currentRoom: newSlug
+      });
+
+      ChatActions.markRoomAsRead(ChatRoomsStore.getRoomBySlug(newSlug).id);
+    }
   },
 
   getRooms() {
@@ -235,18 +243,22 @@ const ChatRooms = React.createClass({
   },
 
   renderRooms() {
-    let style = {
-      cursor: 'pointer'
-    };
-
+    let unreadRooms = this.state.unreadRooms;
     return this.state.subscribedRooms.map((room) => {
       let label = room.slug;
+      let classes = classnames({
+        block: true,
+        bold: unreadRooms.contains(room.id),
+        h5: true,
+        px3: true,
+        white: true
+      });
 
       return (
         <Link to="chat"
             params={{roomSlug: label}}
             key={label}
-            className="block px3 h5 white">
+            className={classes}>
           #{label}
         </Link>
       );
@@ -303,11 +315,13 @@ const ChatRooms = React.createClass({
     this.setState({
       currentRoom: this.getParams().roomSlug,
       rooms: ChatRoomsStore.getRooms(),
-      subscribedRooms: ChatRoomsStore.getSubscribedRooms()
+      subscribedRooms: ChatRoomsStore.getSubscribedRooms(),
+      unreadRooms: UnreadChatRoomsStore.getUnreadRooms()
     });
+
     // Fetch the initial list of messages for all subscribed rooms.
     ChatRoomsStore.getSubscribedRooms().map((room) => {
-      if(!prevSubscribedRooms.contains(room)){
+      if (!prevSubscribedRooms.contains(room)) {
         ChatActions.getMessages(room.slug);
       }
     });

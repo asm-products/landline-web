@@ -5,9 +5,9 @@ const Dispatcher = require('../dispatcher');
 const SocketStore = require('../stores/socket_store');
 
 class SocketActions{
-  init(url){
-    var socket = sio(url);
-    socket.on("connect", this.onConnected);
+  init(url) {
+    let socket = sio(url);
+    socket.on('connect', this.onConnected);
 
     Dispatcher.dispatch({
       actionType: ActionTypes.SOCKET_INITIALIZED,
@@ -15,20 +15,19 @@ class SocketActions{
     });
   }
 
-  onConnected(){
+  onConnected() {
     Dispatcher.dispatch({
       actionType: ActionTypes.SOCKET_CONNECTED
     });
   }
 
-  auth(token){
-    var socket = SocketStore.getSocket()
-    socket.emit('auth', token, function(response){
-      if(response.Success){
+  auth(token) {
+    SocketStore.getSocket().emit('auth', token, (response) => {
+      if (response.Success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.SOCKET_AUTHENTICATED
         });
-      }else{
+      } else {
         Dispatcher.dispatch({
           actionType: ActionTypes.SOCKET_AUTHENTICATION_FAILED
         });
