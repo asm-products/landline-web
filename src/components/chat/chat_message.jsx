@@ -6,17 +6,15 @@ if (typeof __TEST__ === 'undefined') {
 }
 
 const Avatar = require('../ui/avatar.jsx');
-const boldize = require('../../lib/boldize');
 const emoji = require('emojione');
-const italicize = require('../../lib/italicize');
 const React = require('react/addons');
-const urlize = require('../../lib/urlize');
 
 const ChatMessage = React.createClass({
   propTypes: {
     message: React.PropTypes.shape({
       avatar_url: React.PropTypes.string.isRequired,
       body: React.PropTypes.string.isRequired,
+      html_body: React.PropTypes.string.isRequired,
       username: React.PropTypes.string.isRequired,
       created_at: React.PropTypes.object.isRequired,
       last_online_at: React.PropTypes.object.isRequired
@@ -25,7 +23,7 @@ const ChatMessage = React.createClass({
 
   statics: {
     parse(body) {
-      return emoji.shortnameToImage(italicize(boldize(urlize(body))) || '');
+      return emoji.shortnameToImage(body || '');
     }
   },
 

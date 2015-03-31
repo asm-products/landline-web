@@ -6,6 +6,7 @@ const ChatRoomMembershipsStore = require('../../stores/chat_room_memberships_sto
 const ChatRoomsStore = require('../../stores/chat_rooms_store');
 const classnames = require('classnames');
 const CurrentUserStore = require('../../stores/current_user_store');
+const { dot } = require('../../lib/functional');
 const Icon = require('../ui/icon.jsx');
 const { is } = require('immutable');
 const Modal = require('../ui/modal.jsx');
@@ -248,7 +249,7 @@ const ChatRooms = React.createClass({
       let label = room.slug;
       let classes = classnames({
         block: true,
-        bold: unreadRooms && unreadRooms.contains(room.id),
+        bold: unreadRooms && unreadRooms.map(dot('key')).contains(room.id),
         h5: true,
         px3: true,
         white: true

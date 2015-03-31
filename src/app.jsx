@@ -63,8 +63,8 @@ let handshake = (team, uid, room) => {
       logIn(token, room);
       LocalStorage.setTokenAndExpiration(token, expiration);
     },
-    error(err) {
-      console.log(arguments);
+    error(explanation, err) {
+      console.error(err.message);
     }
   });
 };

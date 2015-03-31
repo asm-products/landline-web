@@ -30,8 +30,8 @@ class ChatActions {
           unreadRooms: data.unread_rooms
         });
       },
-      error() {
-        console.log(arguments);
+      error(jqXhr, error) {
+        console.error(error.message);
       }
     });
   }
