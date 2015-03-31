@@ -23,15 +23,15 @@ class SocketActions{
 
   auth(token) {
     SocketStore.getSocket().emit('auth', token, (response) => {
-      if (response.Success) {
-        Dispatcher.dispatch({
+      if (response.success) {
+        return Dispatcher.dispatch({
           actionType: ActionTypes.SOCKET_AUTHENTICATED
         });
-      } else {
-        Dispatcher.dispatch({
-          actionType: ActionTypes.SOCKET_AUTHENTICATION_FAILED
-        });
       }
+
+      Dispatcher.dispatch({
+        actionType: ActionTypes.SOCKET_AUTHENTICATION_FAILED
+      });
     });
   }
 }

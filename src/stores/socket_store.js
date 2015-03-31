@@ -28,7 +28,7 @@ class SocketStore extends Store {
           authenticated = true;
           break;
         default:
-          return
+          return;
       }
       this.emitChange();
     });

@@ -100,10 +100,10 @@ class ChatActions {
 
   joinRoom(room) {
     SocketStore.getSocket().emit('join', room, (response) => {
-      if (response.Success) {
+      if (response.success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_RECEIVED,
-          membership: response.Result.room_id
+          membership: response.result.room_id
         });
       } else {
         this.handleFailure(response);
@@ -113,10 +113,10 @@ class ChatActions {
 
   leaveRoom(room) {
     SocketStore.getSocket().emit('leave', room, (response) => {
-      if (response.Success) {
+      if (response.success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.MEMBERSHIP_DESTROYED,
-          membership: response.Result
+          membership: response.result
         });
       } else {
         this.handleFailure(response);
@@ -146,7 +146,7 @@ class ChatActions {
     };
 
     SocketStore.getSocket().emit("message", message, (response) => {
-      if (response.Success) {
+      if (response.success) {
         Dispatcher.dispatch({
           actionType: ActionTypes.CHAT_MESSAGE_RECEIVED
         });
