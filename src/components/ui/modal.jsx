@@ -92,7 +92,7 @@ module.exports = React.createClass({
               &times;
             </button>
           </div>
-          <div className={classes.body}>
+          <div className={classes.body} style={{maxHeight: 300, overflowY: 'scroll'}}>
             {this.props.children}
           </div>
         </div>

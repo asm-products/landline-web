@@ -197,12 +197,8 @@ const ChatRooms = React.createClass({
   },
 
   renderModal() {
-    let style = {
-      maxHeight: 300,
-      overflowY: 'scroll'
-    };
     return (
-      <div className="dark-gray" style={style}>
+      <div className="dark-gray">
         <Modal header="Rooms"
             isOpen={this.state.isModalOpen}
             onDismiss={this.handleModalDismissed}
@@ -267,7 +263,7 @@ const ChatRooms = React.createClass({
   },
 
   renderUsers() {
-    return this.state.users.map((user, i) => {
+    return this.state.users.sortBy(user => user.username.toLowerCase()).map((user, i) => {
       let username = user.username;
       if (username) {
         let style = {
