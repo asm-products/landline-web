@@ -48,6 +48,9 @@ const ChatMessages = React.createClass({
 
   fetchOlderChatMessages() {
     let lastMessage = this.state.messages.last();
+
+    if (!lastMessage) return;
+
     let timestamp = lastMessage.created_at && lastMessage.created_at.format();
 
     ChatActions.fetchMessagesBeforeTimestamp(this.state.room, timestamp);

@@ -43,6 +43,7 @@ const ChatRooms = React.createClass({
       `${__API_URL__}/rooms/${this.state.currentRoom}`,
       CurrentUserStore.getToken()
     );
+    this.joinRoomIfNotMember();
   },
 
   componentWillUnmount() {
@@ -108,6 +109,17 @@ const ChatRooms = React.createClass({
     });
   },
 
+  joinRoomIfNotMember() {
+    let currentRoom = this.state.currentRoom;
+    let condition = (value, key, iterable) => {
+      return value.slug === currentRoom;
+    };
+
+    if (!this.state.subscribedRooms.find(condition)) {
+      ChatActions.joinRoom(currentRoom);
+    }
+  },
+
   render() {
     let style = {
       hr: {
@@ -133,7 +145,6 @@ const ChatRooms = React.createClass({
 
         <h5 className="px3 mt2 mb2 light-gray">People</h5>
         {this.renderUsers()}
-        {this.renderJoinModal()}
         {this.renderModal()}
       </div>
     );
@@ -178,24 +189,6 @@ const ChatRooms = React.createClass({
     );
   },
 
-  renderJoinModal() {
-    let currentRoom = this.state.currentRoom;
-    let condition = (value, key, iterable) => {
-      return value.slug === currentRoom
-    };
-
-    return (
-      <div className="dark-gray">
-        <Modal header={`Join ${currentRoom}?`}
-            isOpen={!this.state.subscribedRooms.find(condition) && !this.state.isModalOpen}
-            onDismiss={this.handleJoinRoom.bind(this, currentRoom)}
-            theme="dark-gray">
-          {this.renderNotSubscribedWarning()}
-        </Modal>
-      </div>
-    );
-  },
-
   renderModal() {
     return (
       <div className="dark-gray">
@@ -205,21 +198,6 @@ const ChatRooms = React.createClass({
             theme="dark-gray">
           {this.renderAllRooms()}
         </Modal>
-      </div>
-    );
-  },
-
-  renderNotSubscribedWarning() {
-    let currentRoom = this.state.currentRoom;
-    return (
-      <div className="clearfix mb2 center">
-        You&#39;re about to join <span className="bold">#{currentRoom}</span>.
-        <div>
-          <button className="button"
-              onClick={this.handleJoinRoom.bind(this, currentRoom)}>
-            OK
-          </button>
-        </div>
       </div>
     );
   },
