@@ -52,9 +52,9 @@ let logIn = (token, room) => {
   });
 }
 
-let handshake = (team, uid, room) => {
+let handshake = (loc, room) => {
   ajax({
-    url: `${__API_URL__}/sessions/new?team=${team}&uid=${uid}`,
+    url: `${__API_URL__}/sessions/new${loc}`,
     method: 'GET',
     success(result) {
       let expiration = result.expiration;
@@ -72,16 +72,14 @@ let handshake = (team, uid, room) => {
 let Landline = (loc, element) => {
   let parsedUrl = url.parse(loc, true);
   let room = parsedUrl.query.room || 'general';
-  let team = parsedUrl.query.team;
   let token = LocalStorage.retrieveToken();
-  let uid = parsedUrl.query.uid || '';
 
   SocketActions.init(__API_URL__);
 
   if (token) {
     logIn(token, room);
   } else {
-    handshake(team, uid, room);
+    handshake(loc, room);
   }
 
   Router.run(routes, (Handler) => {
