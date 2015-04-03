@@ -63,6 +63,10 @@ const ChatRooms = React.createClass({
     }
   },
 
+  filterSubscriptions(room) {
+    return this.state.subscribedRooms.contains(room);
+  },
+
   getRooms() {
     let url = __API_URL__;
     let token = CurrentUserStore.getToken();
@@ -151,41 +155,18 @@ const ChatRooms = React.createClass({
   },
 
   renderAllRooms() {
-    return this.state.rooms.map((room) => {
-      let label = room.slug;
+    let subscribedRooms = this.state.subscribedRooms.
+      map(this.renderSubscribedRoom).toJS();
 
-      return (
-        <div className="clearfix mb2" key={label}>
-          <div className="left h5 dark-gray mt1 ml2">
-            {label}
-          </div>
-
-          <div className="right h5">
-            {this.renderJoinOrLeaveButton(room)}
-          </div>
-        </div>
-      );
-    }).toJS();
-  },
-
-  renderJoinOrLeaveButton(room) {
-    let label = room.slug;
-    let subscribedRooms = this.state.subscribedRooms;
-
-    if (this.state.subscribedRooms.contains(room)) {
-      return (
-        <button className="button-outline blue"
-            onClick={this.handleLeaveChannel.bind(this, label)}>
-          Leave
-        </button>
-      );
-    }
+    let notSubscribedRooms = this.state.rooms.
+      filterNot(this.filterSubscriptions).
+      map(this.renderNotSubscribedRoom).toJS();
 
     return (
-      <button className="button"
-          onClick={this.handleJoinRoom.bind(this, label)}>
-        Join
-      </button>
+      <div>
+        {subscribedRooms}
+        {notSubscribedRooms}
+      </div>
     );
   },
 
@@ -198,6 +179,25 @@ const ChatRooms = React.createClass({
             theme="dark-gray">
           {this.renderAllRooms()}
         </Modal>
+      </div>
+    );
+  },
+
+  renderNotSubscribedRoom(room) {
+    let label = room.slug;
+
+    return (
+      <div className="clearfix mb2" key={label}>
+        <div className="left h5 dark-gray mt1 ml2">
+          {label}
+        </div>
+
+        <div className="right h5">
+          <button className="button"
+              onClick={this.handleJoinRoom.bind(this, label)}>
+            Join
+          </button>
+        </div>
       </div>
     );
   },
@@ -238,6 +238,25 @@ const ChatRooms = React.createClass({
         </Link>
       );
     }).toJS();
+  },
+
+  renderSubscribedRoom(room) {
+    let label = room.slug;
+
+    return (
+      <div className="clearfix mb2" key={label}>
+        <div className="left h5 dark-gray mt1 ml2">
+          {label}
+        </div>
+
+        <div className="right h5">
+          <button className="button-outline blue"
+              onClick={this.handleLeaveChannel.bind(this, label)}>
+            Leave
+          </button>
+        </div>
+      </div>
+    );
   },
 
   renderUsers() {
