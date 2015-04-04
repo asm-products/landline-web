@@ -33,7 +33,5 @@ node_modules
 config.json
 config.dev.json
 
-dist/landline.dev*
-
 #ignore IntellIJ IDE files
 .idea

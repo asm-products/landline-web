@@ -29,6 +29,18 @@ const ChatMessage = React.createClass({
     }
   },
 
+  componentDidMount() {
+    // FIXME (pletcher): This is super gross, but we want to ensure that links
+    // can escape the iframe. It would be better to move this kind of
+    // processing to the server.
+
+    let anchorTags = this.getDOMNode().getElementsByTagName('A');
+
+    for (let i = 0, l = anchorTags.length; i < l; i++) {
+      anchorTags[i].target = '_top';
+    }
+  },
+
   render() {
     let message = this.props.message;
     return (
