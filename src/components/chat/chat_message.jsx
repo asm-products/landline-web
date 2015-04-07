@@ -24,7 +24,7 @@ const ChatMessage = React.createClass({
 
   statics: {
     parse(body) {
-      return emoji.shortnameToImage(boldize(italicize(body)) || '');
+      return emoji.shortnameToImage(body);
     }
   },
 

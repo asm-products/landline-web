@@ -3,7 +3,7 @@
 const ActionTypes = require('../constants').ActionTypes;
 const ChatMessagesStore = require('./chat_messages_store');
 const Dispatcher = require('../dispatcher');
-const { fromJS, List } = require('immutable');
+const { List } = require('immutable');
 const Store = require('./store');
 
 const ONE_HOUR = 60 * 60 * 1000;
@@ -32,12 +32,6 @@ class UsersStore extends Store {
 
   getUsers() {
     return users;
-  }
-
-  filterUsersByPartialUsername(partial) {
-    return users.filter((user) => {
-      return user.username.toLowerCase().indexOf((partial || '').toLowerCase()) > -1;
-    }).slice(0, 10);
   }
 }
 

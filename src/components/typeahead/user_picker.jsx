@@ -21,7 +21,7 @@ const UserPicker = React.createClass({
 
   getInitialState() {
     return {
-      top: -200
+      top: -50
     };
   },
 

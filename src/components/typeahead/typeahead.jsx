@@ -1,10 +1,11 @@
 'use strict';
 
+const CurrentUserStore = require('../../stores/current_user_store');
 const React = require('react/addons');
 const { Set } = require('immutable');
 const TypeaheadActions = require('../../actions/typeahead_actions');
+const TypeaheadUsersStore = require('../../stores/typeahead_users_store');
 const UserPicker = require('./user_picker.jsx');
-const UsersStore = require('../../stores/users_store');
 
 const KEYS = {
   enter: 13,
@@ -19,12 +20,21 @@ const Typeahead = React.createClass({
     partialUsername: React.PropTypes.string
   },
 
+  componentDidMount() {
+    TypeaheadUsersStore.addChangeListener(this.getPotentialUsers);
+  },
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.partialUsername !== this.props.partialUsername) {
-      this.setState({
-        users: UsersStore.filterUsersByPartialUsername(nextProps.partialUsername)
-      });
+      TypeaheadActions.getUsersByPartialUsername(
+        nextProps.partialUsername,
+        CurrentUserStore.getToken()
+      );
     }
+  },
+
+  componentWillUnmount() {
+    TypeaheadUsersStore.removeChangeListener(this.getPotentialUsers);
   },
 
   constrainHighlight(index, length) {
@@ -38,6 +48,12 @@ const Typeahead = React.createClass({
       highlightIndex: 0,
       users: Set()
     };
+  },
+
+  getPotentialUsers() {
+    this.setState({
+      users: TypeaheadUsersStore.getPotentialUsers()
+    });
   },
 
   handleKeyDown(e) {
@@ -92,7 +108,7 @@ const Typeahead = React.createClass({
   },
 
   selectCurrentUser() {
-    let user = this.state.users.toJS()[this.state.highlightIndex];
+    let user = this.state.users.get(this.state.highlightIndex, false);
     if (user) {
       TypeaheadActions.selectUser(user.username);
     }

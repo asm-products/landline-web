@@ -83,7 +83,7 @@ const ChatInput = React.createClass({
       }
     };
 
-    if (user.get('Username') || user.get('username')) {
+    if (user.get('username')) {
       return (
         <div className="full-width shadow px2 py1" style={style.div}>
           <Typeahead partialUsername={this.state.partialUsername}>
