@@ -28,7 +28,8 @@ class UnreadChatRoomsStore extends Store {
           );
           break;
         case ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED:
-          let room = action.room;
+          // can't use `let` here
+          var room = action.room;
           room.key = room.id;
           unreadRooms = unreadRooms.add(room);
           break;

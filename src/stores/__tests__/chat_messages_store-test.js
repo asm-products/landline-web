@@ -20,7 +20,7 @@ describe('ChatMessagesStore', () => {
     beforeEach(() => {
       callback({
         actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
-        room: "foo",
+        room: { slug: "foo" },
         message: {
           body: `Their very physical passing becomes rumor with a thousand faces
            before breath is out of them, lest paradoxical truth outrage itself.`,
@@ -37,7 +37,7 @@ describe('ChatMessagesStore', () => {
 
       callback({
         actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
-        room: "foo",
+        room: { slug: "foo" },
         message: {
           body: `Nothing travels faster than the speed of light with the
             possible exception of bad news, which obeys its own special laws`,
