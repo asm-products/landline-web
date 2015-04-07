@@ -1,7 +1,6 @@
 'use strict';
 
 if (typeof __TEST__ === 'undefined') {
-  require('basscss/css/basscss.min.css');
   require('../../styles/chat_markdown.css');
 }
 

@@ -1,5 +1,9 @@
 'use strict';
 
+if (typeof __TEST__ === 'undefined') {
+  require('../../styles/chat_rooms.css');
+}
+
 const AppStore = require('../../stores/app_store');
 const ChatActions = require('../../actions/chat_actions');
 const ChatRoomMembershipsStore = require('../../stores/chat_room_memberships_store');
@@ -218,6 +222,7 @@ const ChatRooms = React.createClass({
   },
 
   renderRooms() {
+    let currentRoom = this.state.currentRoom;
     let unreadRooms = this.state.unreadRooms;
     return this.state.subscribedRooms.map((room) => {
       let label = room.slug;
@@ -225,6 +230,7 @@ const ChatRooms = React.createClass({
         block: true,
         bold: unreadRooms && unreadRooms.map(dot('key')).contains(room.id),
         h5: true,
+        'bg-highlight': currentRoom === label,
         px3: true,
         white: true
       });
