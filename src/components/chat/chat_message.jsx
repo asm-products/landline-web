@@ -48,7 +48,11 @@ const ChatMessage = React.createClass({
           <Avatar url={message.avatar_url} />
         </div>
         <div className="overflow-hidden">
-          <h5 className="mt0 mb0">{message.username}</h5>
+          <h5 className="mt0 mb0">
+            <a href={message.profile_url} className="black">
+              {message.username}
+            </a>
+          </h5>
           <div className="chat-message" dangerouslySetInnerHTML={{__html: ChatMessage.parse(message.html_body)}} />
         </div>
       </div>

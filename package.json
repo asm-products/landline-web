@@ -4,7 +4,8 @@
   "description": "ASM chat, without the ASM (hosted chat for anyone)",
   "main": "dist/landline.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && npm run build-dev",
+    "build-dev": "LANDLINE_API_URL=http://landline-dev.herokuapp.com webpack --config webpack.config.dev.js",
     "dev": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.dev.js",
     "start": "npm run dev",
     "test": "jest"

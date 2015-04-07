@@ -31,9 +31,9 @@ class ChatMessagesStore extends Store {
           break;
         case ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED:
           messages = messages.set(
-            action.room,
+            action.room.slug,
             messages.get(
-              action.room,
+              action.room.slug,
               List()
             ).unshift(transformMessage(action.message))
           );

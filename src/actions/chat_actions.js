@@ -2,10 +2,12 @@
 
 const ActionTypes = require('../constants').ActionTypes;
 const ajax = require('../lib/ajax');
-const SocketStore = require('../stores/socket_store');
 const AppStore = require('../stores/app_store');
+const ChatRoomsStore = require('../stores/chat_rooms_store');
 const CurrentUserStore = require('../stores/current_user_store');
 const Dispatcher = require('../dispatcher');
+const SocketStore = require('../stores/socket_store');
+
 
 const ONE_HOUR = 60 * 60 * 1000;
 
@@ -124,24 +126,24 @@ class ChatActions {
     });
   }
 
-  markRoomAsRead(roomSlug) {
+  markRoomAsRead(roomId) {
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_ROOM_READ,
-      room: roomSlug
+      room: roomId
     });
   }
 
-  onMessage(message, room) {
+  onMessage(message, roomSlug) {
     Dispatcher.dispatch({
       actionType: ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED,
       message: message,
-      room: room
+      room: ChatRoomsStore.getRoomBySlug(roomSlug)
     });
   }
 
-  submitMessage(room, body) {
+  submitMessage(roomSlug, body) {
     let message = {
-      room: room,
+      room: roomSlug,
       body: body
     };
 

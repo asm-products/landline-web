@@ -2,14 +2,14 @@
 
 const ActionTypes = require('../constants').ActionTypes;
 const Dispatcher = require('../dispatcher');
-const { List } = require('immutable');
+const { Set } = require('immutable');
 const Store = require('./store');
 
-let unreadRooms = List();
+let unreadRooms = Set();
 
-let filterPredicate = (roomId) => {
+let roomMatches = (roomId) => {
   return (value) => {
-    return value === roomId;
+    return value.key === roomId;
   };
 };
 
@@ -20,12 +20,17 @@ class UnreadChatRoomsStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ActionTypes.CHAT_ROOMS_RECEIVED:
-          unreadRooms = List(action.unreadRooms);
+          unreadRooms = Set(action.unreadRooms);
           break;
         case ActionTypes.CHAT_ROOM_READ:
           unreadRooms = unreadRooms.filterNot(
-            filterPredicate(action.room)
+            roomMatches(action.room)
           );
+          break;
+        case ActionTypes.CHAT_SERVER_MESSAGE_RECEIVED:
+          let room = action.room;
+          room.key = room.id;
+          unreadRooms = unreadRooms.add(room);
           break;
         default:
           return;
