@@ -63,7 +63,7 @@ describe('ChatRooms', () => {
     it('iterates through the rooms and returns an array of links', () => {
       let renderedChannels = TestUtils.scryRenderedDOMComponentsWithClass(
         chatRooms,
-        'block h5 px3 white'
+        'bg-highlight block h5 px3 white'
       );
       expect(renderedChannels.length).toEqual(1);
       expect(renderedChannels[0].tagName).toEqual('A');

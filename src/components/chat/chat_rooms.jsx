@@ -227,10 +227,10 @@ const ChatRooms = React.createClass({
     return this.state.subscribedRooms.map((room) => {
       let label = room.slug;
       let classes = classnames({
+        'bg-highlight': currentRoom === label,
         block: true,
         bold: unreadRooms && unreadRooms.map(dot('key')).contains(room.id),
         h5: true,
-        'bg-highlight': currentRoom === label,
         px3: true,
         white: true
       });
