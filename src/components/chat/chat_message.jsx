@@ -1,7 +1,7 @@
 'use strict';
 
 if (typeof __TEST__ === 'undefined') {
-  require('../../styles/chat_markdown.css');
+  require('../../styles/chat_message.css');
 }
 
 const Avatar = require('../ui/avatar.jsx');

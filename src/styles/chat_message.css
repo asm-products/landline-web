@@ -1,4 +1,6 @@
-/* We should use a subset of markdown to control the chat message layout better */
+a {
+  color: #338eda;
+}
 
 .chat-message {
   color: #333;

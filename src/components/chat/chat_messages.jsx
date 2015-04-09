@@ -115,8 +115,7 @@ const ChatMessages = React.createClass({
   },
 
   scrollToBottom() {
-    let node = this.refs.messages.getDOMNode();
-    node.scrollTop = node.scrollHeight;
+    this.refs.messages.getDOMNode().scrollTop = 10e6;
   },
 
   updateMessages() {

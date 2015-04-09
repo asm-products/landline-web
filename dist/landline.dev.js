@@ -4767,8 +4767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  scrollToBottom: function scrollToBottom() {
-	    var node = this.refs.messages.getDOMNode();
-	    node.scrollTop = node.scrollHeight;
+	    this.refs.messages.getDOMNode().scrollTop = 10000000;
 	  },
 	
 	  updateMessages: function updateMessages() {
@@ -25287,8 +25286,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/pletcher/Projects/landline-web/node_modules/css-loader/index.js!/Users/pletcher/Projects/landline-web/src/styles/chat_markdown.css", function() {
-			var newContent = require("!!/Users/pletcher/Projects/landline-web/node_modules/css-loader/index.js!/Users/pletcher/Projects/landline-web/src/styles/chat_markdown.css");
+		module.hot.accept("!!/Users/pletcher/Projects/landline-web/node_modules/css-loader/index.js!/Users/pletcher/Projects/landline-web/src/styles/chat_message.css", function() {
+			var newContent = require("!!/Users/pletcher/Projects/landline-web/node_modules/css-loader/index.js!/Users/pletcher/Projects/landline-web/src/styles/chat_message.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25301,7 +25300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(25)();
-	exports.push([module.id, "/* We should use a subset of markdown to control the chat message layout better */\n\n.chat-message {\n  color: #333;\n}\n\n.chat-message p:last-child {\n  margin-bottom: 0;\n}\n\n.emojione {\n  position: relative;\n  margin-bottom: 1px;\n  top: 2px;\n  width: 18px;\n}\n", ""]);
+	exports.push([module.id, "a {\n  color: #338eda;\n}\n\n.chat-message {\n  color: #333;\n}\n\n.chat-message p:last-child {\n  margin-bottom: 0;\n}\n\n.emojione {\n  position: relative;\n  margin-bottom: 1px;\n  top: 2px;\n  width: 18px;\n}\n", ""]);
 
 /***/ },
 /* 162 */
