@@ -2,9 +2,38 @@
 
 const React = require('react');
 
+const ONE_MINUTE = 60 * 1000;
+
 const Timestamp = React.createClass({
   propTypes: {
-    time: React.PropTypes.object
+    time: React.PropTypes.shape({
+      format: React.PropTypes.func.isRequired,
+      fromNow: React.PropTypes.func.isRequired
+    }).isRequired
+  },
+
+  componentDidMount() {
+    let { time } = this.props;
+
+    this.timeRefreshInterval = window.setInterval(() => {
+      this.setState({
+        format: time.format(),
+        fromNow: time.fromNow()
+      });
+    }, ONE_MINUTE);
+  },
+
+  componentWillUnmount() {
+    window.clearInterval(this.timeRefreshInterval);
+  },
+
+  getInitialState() {
+    let { time } = this.props;
+
+    return {
+      format: time.format(),
+      fromNow: time.fromNow()
+    };
   },
 
   render() {
@@ -19,11 +48,14 @@ const Timestamp = React.createClass({
       padding: '2px 10px',
       position: 'relative'
     };
-    let { time } = this.props;
+    let {
+      format,
+      fromNow
+    } = this.state;
 
     return (
-      <time className="gray" style={style} dateTime={time.format()}>
-        about {time.fromNow()}
+      <time className="gray" style={style} dateTime={format}>
+        about {fromNow}
       </time>
     );
   }
