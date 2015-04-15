@@ -4697,8 +4697,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, (function () {
 	      this.updateMessages();
 	    }).bind(this));
-	
-	    this.shouldScrollToBottom = true;
 	  },
 	
 	  componentWillUpdate: function componentWillUpdate() {
@@ -23613,9 +23611,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	var url = __webpack_require__(150);
-	var eio = __webpack_require__(227);
+	var eio = __webpack_require__(228);
 	var Socket = __webpack_require__(152);
-	var Emitter = __webpack_require__(228);
+	var Emitter = __webpack_require__(227);
 	var parser = __webpack_require__(155);
 	var on = __webpack_require__(225);
 	var bind = __webpack_require__(229);
@@ -24122,7 +24120,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	var parser = __webpack_require__(155);
-	var Emitter = __webpack_require__(228);
+	var Emitter = __webpack_require__(227);
 	var toArray = __webpack_require__(233);
 	var on = __webpack_require__(225);
 	var bind = __webpack_require__(229);
@@ -24574,7 +24572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var debug = __webpack_require__(224)('socket.io-parser');
 	var json = __webpack_require__(286);
 	var isArray = __webpack_require__(283);
-	var Emitter = __webpack_require__(228);
+	var Emitter = __webpack_require__(227);
 	var binary = __webpack_require__(239);
 	var isBuf = __webpack_require__(240);
 	
@@ -31478,14 +31476,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	module.exports =  __webpack_require__(287);
-
-
-/***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
 	/**
 	 * Expose `Emitter`.
 	 */
@@ -31649,6 +31639,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	Emitter.prototype.hasListeners = function(event){
 	  return !! this.listeners(event).length;
 	};
+
+
+/***/ },
+/* 228 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports =  __webpack_require__(287);
 
 
 /***/ },
@@ -50126,7 +50124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	var transports = __webpack_require__(393);
-	var Emitter = __webpack_require__(228);
+	var Emitter = __webpack_require__(227);
 	var debug = __webpack_require__(399)('engine.io-client:socket');
 	var index = __webpack_require__(231);
 	var parser = __webpack_require__(392);
@@ -51106,7 +51104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	var parser = __webpack_require__(392);
-	var Emitter = __webpack_require__(228);
+	var Emitter = __webpack_require__(227);
 	
 	/**
 	 * Module exports.
@@ -52492,7 +52490,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var XMLHttpRequest = __webpack_require__(401);
 	var Polling = __webpack_require__(413);
-	var Emitter = __webpack_require__(228);
+	var Emitter = __webpack_require__(227);
 	var inherit = __webpack_require__(416);
 	var debug = __webpack_require__(399)('engine.io-client:polling-xhr');
 	

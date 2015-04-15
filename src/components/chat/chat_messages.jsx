@@ -35,8 +35,6 @@ const ChatMessages = React.createClass({
     }, () => {
       this.updateMessages();
     });
-
-    this.shouldScrollToBottom = true;
   },
 
   componentWillUpdate() {
