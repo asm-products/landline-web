@@ -5,9 +5,7 @@ module.exports = {
     let token = localStorage.getItem('ll_token');
     let expiration = localStorage.getItem('ll_expiration');
 
-    if ((Date.now() / 1000) < expiration) {
-      return token;
-    }
+    return (Date.now() / 1000) < expiration ? token : null;
   },
 
   setTokenAndExpiration(token, expiration) {

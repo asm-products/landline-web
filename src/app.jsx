@@ -34,7 +34,27 @@ const routes = (
   </Route>
 );
 
-let logIn = (token, room) => {
+let Landline = (loc, element) => {
+  let parsedUrl = url.parse(loc, true);
+  let room = parsedUrl.query.room || 'general';
+  let token = LocalStorage.retrieveToken();
+
+  SocketActions.init(__API_URL__);
+
+  if (token) {
+    logIn(token, room, loc);
+  } else {
+    handshake(loc, room);
+  }
+
+  Router.run(routes, (Handler) => {
+    React.render(<Handler />, element);
+  });
+};
+
+module.exports = Landline;
+
+function logIn(token, room, loc) {
   ajax({
     url: `${__API_URL__}/users/find`,
     method: 'GET',
@@ -48,11 +68,14 @@ let logIn = (token, room) => {
       UserActions.logIn(user, token);
       SocketActions.auth(token);
     },
-    error(err) {}
+    error(err) {
+      // on error, try to perform the handshake once
+      handshake(loc, room);
+    }
   });
 }
 
-let handshake = (loc, room) => {
+function handshake(loc, room) {
   ajax({
     url: `${__API_URL__}/sessions/new${loc}`,
     method: 'GET',
@@ -68,23 +91,3 @@ let handshake = (loc, room) => {
     }
   });
 };
-
-let Landline = (loc, element) => {
-  let parsedUrl = url.parse(loc, true);
-  let room = parsedUrl.query.room || 'general';
-  let token = LocalStorage.retrieveToken();
-
-  SocketActions.init(__API_URL__);
-
-  if (token) {
-    logIn(token, room);
-  } else {
-    handshake(loc, room);
-  }
-
-  Router.run(routes, (Handler) => {
-    React.render(<Handler />, element);
-  });
-};
-
-module.exports = Landline;
